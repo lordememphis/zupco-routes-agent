@@ -1,6 +1,34 @@
-@import 'tailwindcss/base';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
-@import 'tailwindcss/components';
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
-@import 'tailwindcss/utilities';
-/* You can add global styles to this file, and also import other style files */
+html {
+  scroll-behavior: smooth;
+
+  body {
+    font-family: "Roboto Mono", -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+    @apply text-gray-900;
+
+    .ng-invalid.ng-dirty {
+      &:focus {
+        @apply shadow-outline-red border-red-300;
+      }
+    }
+
+    .btn {
+      @apply relative w-full flex justify-center px-6 border border-transparent text-sm font-medium rounded-sm text-white bg-cool-gray-900;
+
+      &:hover {
+        @apply bg-cool-gray-800;
+      }
+
+      &:focus {
+        @apply outline-none;
+      }
+    }
+  }
+}
