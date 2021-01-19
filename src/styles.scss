@@ -20,14 +20,34 @@ html {
     }
 
     .btn {
-      @apply relative w-full flex justify-center px-6 border border-transparent text-sm font-medium rounded-sm text-white bg-cool-gray-900;
-
-      &:hover {
-        @apply bg-cool-gray-800;
-      }
+      @apply relative w-full flex justify-center px-6 border border-transparent text-sm font-medium rounded-sm;
 
       &:focus {
         @apply outline-none;
+      }
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="number"],
+    input[type="url"],
+    input[type="date"],
+    input[type="datetime-local"],
+    input[type="month"],
+    input[type="week"],
+    input[type="time"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="checkbox"],
+    input[type="radio"],
+    select,
+    select[multiple],
+    textarea {
+      @apply appearance-none rounded-sm relative block w-full px-3 text-sm border border-gray-300 text-gray-900;
+
+      &:focus {
+        @apply outline-none border-gray-700 z-10;
       }
     }
   }

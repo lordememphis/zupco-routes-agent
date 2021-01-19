@@ -28,8 +28,7 @@
       </div>
       <div class="mt-4 flex flex-col">
         <div class="flex flex-col space-y-4">
-          <a [routerLink]="['/dashboard']" routerLinkActive="active-route"
-            class="flex items-center px-3 py-3 -mr-2 rounded-l-sm text-sm font-medium text-white hover:text-white hover:bg-remit-blue-900 focus:outline-none focus:text-white focus:bg-remit-blue-900">
+          <a [routerLink]="['dashboard']" routerLinkActive="active-route" class="route">
             <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
               <path
                 d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
@@ -37,92 +36,13 @@
             <span class="ml-2">Dashboard</span>
           </a>
           <div class="space-y-1">
-            <h6 class="text-xs text-cool-gray-500 font-bold uppercase tracking-wider">Transactions</h6>
-            <a
-              class="flex items-center px-3 py-3 rounded-md text-sm font-medium text-white hover:text-white hover:bg-remit-blue-900 focus:outline-none focus:text-white focus:bg-remit-blue-900">
-              <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-              </svg>
-              <span class="ml-2">Receive Money</span>
-            </a>
-            <div class="group relative">
-              <a
-                class="flex justify-between items-center px-3 py-3 rounded-md text-sm font-medium text-white hover:text-white hover:bg-remit-blue-900 focus:outline-none focus:text-white focus:bg-remit-blue-900">
-                <div class="flex items-center">
-                  <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
-                  <span class="ml-2">Send Money</span>
-                </div>
-                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                  stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </a>
-              <div class="origin-top-right z-20 absolute w-full hidden rounded-md shadow-lg group-hover:block">
-                <div class="rounded-md bg-white shadow-xs">
-                  <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                    <a class="block px-4 py-3 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                      role="menuitem">Registered client</a>
-                    <a class="block px-4 py-3 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                      role="menuitem">New client</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <a
-              class="flex items-center px-3 py-3 rounded-md text-sm font-medium text-white hover:text-white hover:bg-remit-blue-900 focus:outline-none focus:text-white focus:bg-remit-blue-900">
-              <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-              </svg>
-              <span class="ml-2">Approve Transactions</span>
-            </a>
-          </div>
-          <div class="space-y-1">
             <h6 class="text-xs text-cool-gray-500 font-bold uppercase tracking-wider">Manage</h6>
-            <a
-              class="flex items-center px-3 py-3 rounded-md text-sm font-medium text-white hover:text-white hover:bg-remit-blue-900 focus:outline-none focus:text-white focus:bg-remit-blue-900">
+            <a [routerLink]="['users']" routerLinkActive="active-route" class="route">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path
                   d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
               </svg>
-              <span class="ml-2">Users</span>
-            </a>
-            <a
-              class="flex items-center px-3 py-3 rounded-md text-sm font-medium text-white hover:text-white hover:bg-remit-blue-900 focus:outline-none focus:text-white focus:bg-remit-blue-900">
-              <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-              </svg>
-              <span class="ml-2">Register Client</span>
-            </a>
-            <a
-              class="flex items-center px-3 py-3 rounded-md text-sm font-medium text-white hover:text-white hover:bg-remit-blue-900 focus:outline-none focus:text-white focus:bg-remit-blue-900">
-              <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span class="ml-2">Client Approval</span>
-            </a>
-          </div>
-          <div class="space-y-1">
-            <h6 class="text-xs text-cool-gray-500 font-bold uppercase tracking-wider">Reports</h6>
-            <a
-              class="flex items-center px-3 py-3 rounded-md text-sm font-medium text-white hover:text-white hover:bg-remit-blue-900 focus:outline-none focus:text-white focus:bg-remit-blue-900">
-              <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-              </svg>
-              <span class="ml-2">Transactions</span>
+              <span class="ml-2">Operators</span>
             </a>
           </div>
         </div>

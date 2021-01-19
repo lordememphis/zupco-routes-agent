@@ -1,3 +1,45 @@
+<div *ngIf="alert" class="fixed z-10 inset-0 overflow-y-auto">
+  <div class="flex min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div
+      class="inline-block align-bottom bg-white rounded-sm text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+      role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+      <div class="bg-white p-6">
+        <div class="sm:flex sm:items-start">
+          <div
+            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+            <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+              Login failed
+            </h3>
+            <div class="mt-2">
+              <p class="text-sm text-gray-500">
+                {{alert}}
+              </p>
+            </div>
+          </div>
+          <div>
+            <button type="button" (click)="alert = null">
+              <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
   <div class="max-w-md w-full space-y-8">
     <div>
@@ -31,14 +73,12 @@
       <div class="rounded-md shadow-sm space-y-1">
         <div>
           <label for="username" class="sr-only"></label>
-          <input id="username" name="username" type="text" autocomplete="username"
-            class="appearance-none rounded-sm relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:border-gray-700 focus:z-10 sm:text-sm"
-            placeholder="Username" formControlName="username">
+          <input id="username" name="username" type="text" autocomplete="username" class="py-3" placeholder="Username"
+            formControlName="username">
         </div>
         <div>
           <label for="password" class="sr-only">Password</label>
-          <input id="password" name="password" type="password" autocomplete="current-password"
-            class="appearance-none rounded-sm relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:border-gray-700 focus:z-10 sm:text-sm"
+          <input id="password" name="password" type="password" autocomplete="current-password" class="py-3"
             placeholder="Password" formControlName="password">
         </div>
       </div>
@@ -50,7 +90,8 @@
         </div>
       </div>
       <div>
-        <button type="submit" class="btn py-4">
+        <button type="submit" [disabled]="!form.valid" [class]="{'cursor-not-allowed': !form.valid}"
+          class="btn py-4 text-white bg-cool-gray-900 shadow hover:shadow-md">
           Sign in
         </button>
       </div>

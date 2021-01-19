@@ -3,7 +3,14 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  BASE_URL: 'https://api-akupay.jugaad.co.zw/',
+  AGENT_SERVICE: function () {
+    return `${this.BASE_URL}akupay-agent-service/api/v1/`;
+  },
+  USER_SERVICE: function () {
+    return `${this.BASE_URL}akupay-user-manager/api/v1/user`;
+  },
 };
 
 /*
