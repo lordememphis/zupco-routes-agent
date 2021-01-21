@@ -8,11 +8,17 @@ import { AppComponent } from './app.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './routes/home/home.component';
-import { UsersComponent } from './routes/users/users.component';
+import { OperatorsComponent } from './routes/operators/operators.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, UsersComponent, DashboardComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    OperatorsComponent,
+    DashboardComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

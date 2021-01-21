@@ -17,7 +17,7 @@ export class AuthService {
   }
 
   public login(username: string, password: string): Observable<Object> {
-    return this._http.post(`${this._env.BASE_URL}login`, {
+    return this._http.post(`${this._env.OAUTH_SERVICE()}login`, {
       username: username,
       password: password,
     });
