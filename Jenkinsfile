@@ -8,15 +8,24 @@ node{
         sh 'docker-compose build'
     }
 
-    stage('Github Packages Login'){
+    /*stage('Github Packages Login'){
            sh "cat /var/lib/jenkins/INVENICO_TOKEN.txt | docker login docker.pkg.github.com -u invenico-repo --password-stdin"
-    }
+    }*/
     stage('tagging image'){
-    sh 'docker tag wallet-agent-frontend:latest docker.pkg.github.com/invenico-zw/wallet-agent-frontend/wallet-agent-frontend:v1'
+    sh 'docker tag wallet-agent-frontend:latest cap10/myrepository:wallet-agent-frontend'
     }
-    stage('Push new image'){
+    /*stage('Push new image'){
         sh 'docker push docker.pkg.github.com/invenico-zw/wallet-agent-frontend/wallet-agent-frontend:v1'
+    }*/
+
+    stage('Push new image'){
+     withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
+        // some block
+        sh "docker login -u cap10 -p ${dockerHubPwd}"
+        }
+        sh 'docker push cap10/myrepository:wallet-agent-frontend'
     }
+
     /*stage('Pull new image'){
         def dockerRun ='docker pull docker.pkg.github.com/invenico-zw/remit-agent-frontend/remit-frontend-agent:v1'
         sshagent(['remit']) {
