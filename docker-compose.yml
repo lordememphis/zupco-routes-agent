@@ -1,0 +1,13 @@
+version: "3.3"
+services:
+
+  wallet-agent-frontend:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      image: wallet-agent-frontend
+      container_name: wallet-agent-frontend
+      ports:
+        - 4300:80
+  
+      
