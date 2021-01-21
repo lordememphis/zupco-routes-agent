@@ -12,7 +12,7 @@ node{
            sh "cat /var/lib/jenkins/INVENICO_TOKEN.txt | docker login docker.pkg.github.com -u invenico-repo --password-stdin"
     }
     stage('tagging image'){
-    sh 'docker tag wallet-agent-frontend docker.pkg.github.com/invenico-zw/wallet-agent-frontend/wallet-agent-frontend:v1'
+    sh 'docker tag wallet-agent-frontend:latest docker.pkg.github.com/invenico-zw/wallet-agent-frontend/wallet-agent-frontend:v1'
     }
     stage('Push new image'){
         sh 'docker push docker.pkg.github.com/invenico-zw/wallet-agent-frontend/wallet-agent-frontend:v1'
