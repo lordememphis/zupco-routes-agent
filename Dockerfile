@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build --prod
+RUN npm run build
 
 # Step 2: Use build output from 'builder'
 FROM nginx:stable-alpine
