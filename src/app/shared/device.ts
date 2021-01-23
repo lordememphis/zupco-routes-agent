@@ -3,5 +3,5 @@ export interface Device {
   imei: string;
   type: string;
   status: string;
-  agent: string;
+  agent: string | number;
 }

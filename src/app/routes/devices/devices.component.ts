@@ -18,6 +18,8 @@ export class DevicesComponent implements OnInit, OnDestroy {
 
   devices: Device[] = [];
   device: Device;
+  hasDevices: boolean;
+  totalDevices: number;
 
   alert = null;
   viewingDevices = true;
@@ -29,26 +31,11 @@ export class DevicesComponent implements OnInit, OnDestroy {
   constructor(private _deviceService: DeviceService) {}
 
   ngOnInit(): void {
-    this.devices = [
-      {
-        id: 1,
-        imei: 'IMEI1',
-        type: 'APP',
-        status: 'ACTIVE',
-        agent: 'Memphis',
-      },
-      {
-        id: 2,
-        imei: 'IMEI2',
-        type: 'APP',
-        status: 'INACTIVE',
-        agent: 'Memphis',
-      },
-    ];
-
-    this._deviceService.getDevices().subscribe(
-      (data) => {
-        console.log(data);
+    this._deviceService.devices$.subscribe(
+      (res) => {
+        this.devices = res.devices;
+        this.hasDevices = !res.empty;
+        this.totalDevices = res.total;
       },
       (e) => {
         this.alert = 'Something has gone wrong. Try again.';
@@ -74,8 +61,8 @@ export class DevicesComponent implements OnInit, OnDestroy {
       id: null,
       imei: this.registerDeviceForm.get('imei').value,
       type: this.registerDeviceForm.get('type').value,
-      status: 'INACTIVE',
-      agent: 'Memphis',
+      status: 'ACTIVE',
+      agent: 7,
     };
 
     this._deviceService.registerDevice(device).subscribe(
