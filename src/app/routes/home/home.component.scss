@@ -1,14 +1,14 @@
 .route {
-  @apply flex items-center px-3 py-3 -mr-2 rounded-l-sm text-sm font-medium text-white;
+  @apply flex items-center px-3 py-3 -mr-2 rounded-l-sm text-sm font-medium text-cool-gray-300;
 
   &:hover {
     @apply bg-gray-800;
   }
 
   &:focus {
-    @apply outline-none bg-white;
+    @apply outline-none bg-cool-gray-700;
   }
 }
 .active-route {
-  @apply bg-white text-gray-900;
+  @apply bg-cool-gray-700 text-white;
 }
