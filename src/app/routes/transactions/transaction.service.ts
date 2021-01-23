@@ -16,4 +16,11 @@ export class TransactionService {
       transaction
     );
   }
+
+  cashOut(transaction: Transaction): Observable<Object> {
+    return this._http.post(
+      `${environment.TRANSACTION_SERVICE()}transactions/cash-out`,
+      transaction
+    );
+  }
 }
