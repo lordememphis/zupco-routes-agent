@@ -3,27 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-
-interface GetResponse {
-  content: Operator[];
-  empty: boolean;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
-  totalElements: number;
-  totalPages: number;
-}
-
-export interface Operator {
-  id: number;
-  firstname: string;
-  lastname: string;
-  email: string;
-  mobile: string;
-  status: string;
-  agent: string | number;
-}
+import { Operator } from '../shared/operator';
+import { GetResponse } from '../shared/response';
 
 @Injectable({
   providedIn: 'root',

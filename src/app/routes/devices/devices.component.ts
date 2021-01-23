@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-
-import { Device, DeviceService } from '../device.service';
+import { Device } from 'src/app/shared/device';
+import { DeviceService } from '../device.service';
 
 @Component({
   selector: 'app-devices',

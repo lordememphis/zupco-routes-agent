@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-
-import { Operator, OperatorService } from '../operator.service';
+import { Operator } from 'src/app/shared/operator';
+import { OperatorService } from '../operator.service';
 
 @Component({
   selector: 'app-operators',
