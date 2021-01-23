@@ -5,6 +5,7 @@ import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { DevicesComponent } from './routes/devices/devices.component';
 import { HomeComponent } from './routes/home/home.component';
 import { OperatorsComponent } from './routes/operators/operators.component';
+import { CashInComponent } from './routes/transactions/cash-in/cash-in.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'operators', component: OperatorsComponent },
       { path: 'devices', component: DevicesComponent },
+      { path: 'transactions/cash-in', component: CashInComponent },
     ],
   },
   { path: 'login', component: LoginComponent },

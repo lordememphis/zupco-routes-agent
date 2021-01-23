@@ -44,7 +44,7 @@ html {
     select,
     select[multiple],
     textarea {
-      @apply appearance-none rounded-sm relative block w-full px-3 text-sm border border-gray-300 text-gray-900;
+      @apply appearance-none rounded-sm relative block w-full px-3 text-sm bg-transparent border border-gray-300 text-gray-900;
 
       &:focus {
         @apply outline-none border-gray-700 z-10;

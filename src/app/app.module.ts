@@ -11,6 +11,7 @@ import { HomeComponent } from './routes/home/home.component';
 import { OperatorsComponent } from './routes/operators/operators.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { DevicesComponent } from './routes/devices/devices.component';
+import { CashInComponent } from './routes/transactions/cash-in/cash-in.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { DevicesComponent } from './routes/devices/devices.component';
     OperatorsComponent,
     DashboardComponent,
     DevicesComponent,
+    CashInComponent,
   ],
   imports: [
     BrowserModule,
