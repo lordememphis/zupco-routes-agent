@@ -19,6 +19,8 @@ export class OperatorsComponent implements OnInit, OnDestroy {
 
   operators: Operator[] = [];
   operator: Operator;
+  hasOperators: boolean;
+  totalOperators: number;
 
   alert = null;
   viewingOperators = true;
@@ -30,30 +32,11 @@ export class OperatorsComponent implements OnInit, OnDestroy {
   constructor(private _operatorService: OperatorService) {}
 
   ngOnInit(): void {
-    this.operators = [
-      {
-        id: 1,
-        firstname: 'Keanu',
-        lastname: 'Reeves',
-        email: 'keanu@reeves.com',
-        mobile: 'string',
-        status: 'ACTIVE',
-        agent: 'Memphis',
-      },
-      {
-        id: 2,
-        firstname: 'Jackie',
-        lastname: 'Chan',
-        email: 'jchan@medallion.com',
-        mobile: '+898329832',
-        status: 'ACTIVE',
-        agent: 'Memphis',
-      },
-    ];
-
-    this._operatorService.getOperators().subscribe(
-      (data) => {
-        console.log(data);
+    this._operatorService.operators$.subscribe(
+      (res) => {
+        this.operators = res.operators;
+        this.hasOperators = !res.empty;
+        this.totalOperators = res.total;
       },
       (e) => {
         this.alert = 'Something has gone wrong. Try again.';
@@ -85,8 +68,8 @@ export class OperatorsComponent implements OnInit, OnDestroy {
       lastname: this.registerOperatorForm.get('lastname').value,
       email: this.registerOperatorForm.get('email').value,
       mobile: this.registerOperatorForm.get('mobile').value,
-      status: 'INACTIVE',
-      agent: 'Memphis',
+      status: 'ACTIVE',
+      agent: 7,
     };
 
     this._operatorService.registerOperator(operator).subscribe(
