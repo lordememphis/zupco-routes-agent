@@ -21,5 +21,5 @@ module.exports = {
     opacity: ["responsive", "hover", "focus", "group-hover"],
     display: ["responsive", "hover", "focus", "group-hover"],
   },
-  plugins: [require("@tailwindcss/ui"), require("@tailwindcss/custom-forms")],
+  plugins: [require("@tailwindcss/ui")],
 };
