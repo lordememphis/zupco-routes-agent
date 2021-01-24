@@ -5,6 +5,7 @@ import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { DevicesComponent } from './routes/devices/devices.component';
 import { HomeComponent } from './routes/home/home.component';
 import { OperatorsComponent } from './routes/operators/operators.component';
+import { SettingsComponent } from './routes/settings/settings.component';
 import { CashInComponent } from './routes/transactions/cash-in/cash-in.component';
 import { CashOutComponent } from './routes/transactions/cash-out/cash-out.component';
 
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: 'devices', component: DevicesComponent },
       { path: 'transactions/cash-in', component: CashInComponent },
       { path: 'transactions/cash-out', component: CashOutComponent },
+      { path: 'settings', component: SettingsComponent },
     ],
   },
   { path: 'login', component: LoginComponent },

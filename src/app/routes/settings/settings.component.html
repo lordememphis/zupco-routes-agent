@@ -1,0 +1,198 @@
+<section>
+  <div *ngIf="error" class="absolute inset-0">
+    <div class="block min-h-screen text-center">
+      <div
+        class="my-8 align-middle max-w-lg w-full inline-block bg-white rounded-sm text-left overflow-hidden shadow-xl transform transition-all"
+        role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+        <div class="bg-white p-6">
+          <div class="flex items-start justify-between">
+            <div class="flex items-start">
+              <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-red-100">
+                <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <div class="ml-4 text-left">
+                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                  An error occured
+                </h3>
+                <div class="mt-2">
+                  <p class="text-sm text-gray-500">
+                    {{error}}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <button type="button" (click)="error = null">
+                <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                  fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="warning" class="absolute inset-0">
+    <div class="block min-h-screen text-center">
+      <div
+        class="my-8 align-middle max-w-lg w-full inline-block bg-white rounded-sm text-left overflow-hidden shadow-xl transform transition-all"
+        role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+        <div class="bg-white p-6">
+          <div class="flex items-start justify-between">
+            <div class="flex items-start">
+              <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-orange-100">
+                <svg class="h-6 w-6 text-orange-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <div class="ml-4 text-left">
+                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                  Warning
+                </h3>
+                <div class="mt-2">
+                  <p class="text-sm text-gray-500">
+                    {{warning}}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <button type="button" (click)="warning = null">
+                <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                  fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="success" class="absolute inset-0">
+    <div class="block min-h-screen text-center">
+      <div
+        class="my-8 align-middle max-w-lg w-full inline-block bg-white rounded-sm text-left overflow-hidden shadow-xl transform transition-all"
+        role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+        <div class="bg-white p-6">
+          <div class="flex items-start justify-between">
+            <div class="flex items-start">
+              <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-green-100">
+                <svg class="w-6 h-6 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                  fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-4 text-left">
+                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                  Success
+                </h3>
+                <div class="mt-2">
+                  <p class="text-sm text-gray-500">
+                    {{success}}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <button type="button" (click)="success = null">
+                <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                  fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="py-6 px-8">
+    <h1 class="text-3xl font-bold leading-tight text-gray-900">
+      Settings
+    </h1>
+    <section class="max-screen-w-lg mx-auto">
+      <div>
+        <div class="w-full flex items-center justify-center">
+          <div class="py-6 w-full max-w-screen-lg">
+            <div>
+              <h2 class="uppercase font-semibold leading-6 text-lg">
+                Manage password
+              </h2>
+            </div>
+            <form [formGroup]="changePasswordForm" (ngSubmit)="changePassword()">
+              <div class="mt-8">
+                <div>
+                  <div>
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">Change password</h3>
+                    <p class="mt-1 text-sm leading-5 text-gray-600">
+                      Reset your current password to a new password.
+                    </p>
+                  </div>
+                  <div class="mt-5 w-full">
+                    <form [formGroup]="changePasswordForm" (submit)="changePassword()">
+                      <div class="shadow overflow-hidden rounded-sm">
+                        <div class="p-6 bg-white">
+                          <div class="grid grid-cols-2">
+                            <div class="col-span-1 space-y-6">
+                              <div>
+                                <label for="old-password" class="block text-sm font-medium leading-5 text-gray-700">Old
+                                  password</label>
+                                <input id="old-password" type="password" class="mt-1 py-2"
+                                  formControlName="oldPassword">
+                              </div>
+                              <div>
+                                <label for="new-password" class="block text-sm font-medium leading-5 text-gray-700">New
+                                  password</label>
+                                <input id="new-password" type="password" class="mt-1 py-2"
+                                  formControlName="newPassword">
+                              </div>
+                              <div>
+                                <label for="matching-password"
+                                  class="block text-sm font-medium leading-5 text-gray-700">Matching password</label>
+                                <input id="matching-password" type="password" class="mt-1 py-2"
+                                  formControlName="matchingPassword">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="px-6 py-3 bg-gray-50 text-right">
+                          <div class="inline-flex">
+                            <button type="submit" [disabled]="!changePasswordForm.valid"
+                              [class]="{'cursor-not-allowed': !changePasswordForm.valid}"
+                              class="btn py-2 text-white bg-cool-gray-900 shadow hover:shadow-md">
+                              Set new password
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>

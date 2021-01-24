@@ -14,6 +14,9 @@ export const environment = {
   TRANSACTION_SERVICE: function () {
     return `${this.BASE_URL}akupay-transaction-service/api/v1/`;
   },
+  USER_SERVICE: function () {
+    return `${this.BASE_URL}akupay-user-manager/api/v1/`;
+  },
 };
 
 /*

@@ -13,6 +13,7 @@ import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { DevicesComponent } from './routes/devices/devices.component';
 import { CashInComponent } from './routes/transactions/cash-in/cash-in.component';
 import { CashOutComponent } from './routes/transactions/cash-out/cash-out.component';
+import { SettingsComponent } from './routes/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { CashOutComponent } from './routes/transactions/cash-out/cash-out.compon
     DevicesComponent,
     CashInComponent,
     CashOutComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
