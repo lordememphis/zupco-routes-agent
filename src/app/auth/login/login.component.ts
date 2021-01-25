@@ -10,7 +10,9 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
   form: FormGroup = new FormGroup({});
-  alert = null;
+
+  error = null;
+  processing = false;
 
   constructor(private _router: Router, private _auth: AuthService) {}
 
@@ -25,19 +27,26 @@ export class LoginComponent implements OnInit {
     const u = this.form.get('username').value;
     const p = this.form.get('password').value;
 
+    this.processing = true;
+
     this._auth.login(u, p).subscribe(
-      (res) => {
-        console.log(res);
-        this._router.navigate(['dashboard']);
+      (authenticated) => {
+        this.processing = false;
+
+        if (authenticated) {
+          this._router.navigate(['dashboard']);
+        }
       },
       (e) => {
+        this.processing = false;
+
         if (e.status === 404)
-          this.alert =
+          this.error =
             'You have used an incorrect username or password. Try again.';
-        else this.alert = 'Something has gone wrong. Try again.';
+        else this.error = 'Something has gone wrong. Try again.';
 
         setTimeout(() => {
-          this.alert = null;
+          this.error = null;
         }, 5000);
       }
     );
