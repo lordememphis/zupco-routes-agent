@@ -14,6 +14,7 @@ import { DevicesComponent } from './routes/devices/devices.component';
 import { CashInComponent } from './routes/transactions/cash-in/cash-in.component';
 import { CashOutComponent } from './routes/transactions/cash-out/cash-out.component';
 import { SettingsComponent } from './routes/settings/settings.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { SettingsComponent } from './routes/settings/settings.component';
     CashInComponent,
     CashOutComponent,
     SettingsComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,

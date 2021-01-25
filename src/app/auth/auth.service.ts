@@ -16,10 +16,24 @@ export class AuthService {
     return this._authenticated;
   }
 
-  public login(username: string, password: string): Observable<Object> {
+  login(username: string, password: string): Observable<Object> {
     return this._http.post(`${this._env.OAUTH_SERVICE()}login`, {
       username: username,
       password: password,
+    });
+  }
+
+  sendResetPasswordToken(email: string): Observable<Object> {
+    return this._http.post(
+      `${environment.USER_SERVICE()}user/resetPassword?email=${email}`,
+      null
+    );
+  }
+
+  resetPassword(token: string, password: string): Observable<Object> {
+    return this._http.post(`${environment.USER_SERVICE()}user/savePassword`, {
+      token: token,
+      newPassword: password,
     });
   }
 }
