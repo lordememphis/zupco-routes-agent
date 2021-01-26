@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { AuthService } from '../auth/auth.service';
 import { Device } from '../shared/device';
 import { GetResponse } from '../shared/response';
 
@@ -10,7 +11,7 @@ import { GetResponse } from '../shared/response';
   providedIn: 'root',
 })
 export class DeviceService {
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient, private _auth: AuthService) {}
 
   registerDevice(device: Device): Observable<Object> {
     const { id, ...d } = device;
@@ -23,7 +24,9 @@ export class DeviceService {
     total: number;
   }> {
     return this._http
-      .get<GetResponse>(`${environment.AGENT_SERVICE()}devices/7/0/10`)
+      .get<GetResponse>(
+        `${environment.AGENT_SERVICE()}devices/${this._auth.agentId}/0/10`
+      )
       .pipe(
         map((data) => {
           return {
