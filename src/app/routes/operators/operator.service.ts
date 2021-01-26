@@ -15,10 +15,12 @@ export class OperatorService {
 
   registerOperator(operator: Operator): Observable<Object> {
     const { id, agent, ...op } = operator;
-    return this._http.post(`${environment.AGENT_SERVICE()}operator`, {
-      ...op,
-      agentId: this._auth.agentId,
-    });
+    return this._http
+      .post(`${environment.AGENT_SERVICE()}operator`, {
+        ...op,
+        agentId: this._auth.agentId,
+      })
+      .pipe(map(() => true));
   }
 
   getOperators(): Observable<{

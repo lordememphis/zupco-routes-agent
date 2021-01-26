@@ -98,7 +98,7 @@ export class OperatorsComponent implements OnInit, OnDestroy {
 
     this._subs.add(
       this._operatorService.registerOperator(operator).subscribe(
-        (res) => {
+        () => {
           this.processing = false;
           this.success = true;
           this.aMessage = 'Operator successfully registered.';
