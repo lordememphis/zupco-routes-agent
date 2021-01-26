@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NavigationEnd, Router } from '@angular/router';
 import { Operator } from 'src/app/shared/models/operator';
 import { SubSink } from 'subsink';
 import { OperatorService } from './operator.service';
@@ -24,15 +25,30 @@ export class OperatorsComponent implements OnInit, OnDestroy {
   success = false;
   aMessage: string;
   processing = true;
-  viewingOperators = true;
-  registeringOperator = false;
-  editingOperator = false;
-  deletingOperator = false;
-  fsDialog = false;
+  viewingOperators: boolean;
+  registeringOperator: boolean;
+  editingOperator: boolean;
+  deletingOperator: boolean;
+  fsDialog: boolean;
 
-  constructor(private _operatorService: OperatorService) {}
+  constructor(
+    private _operatorService: OperatorService,
+    private _router: Router
+  ) {
+    this._subs.add(
+      this._router.events.subscribe((e: any) => {
+        if (e instanceof NavigationEnd) this.ngOnInit();
+      })
+    );
+  }
 
   ngOnInit() {
+    this.viewingOperators = true;
+    this.registeringOperator = false;
+    this.editingOperator = false;
+    this.deletingOperator = false;
+    this.fsDialog = false;
+
     this._subs.add(
       this._operatorService.getOperators().subscribe(
         (res) => {
@@ -83,8 +99,14 @@ export class OperatorsComponent implements OnInit, OnDestroy {
     this._subs.add(
       this._operatorService.registerOperator(operator).subscribe(
         (res) => {
-          console.log(res);
           this.processing = false;
+          this.success = true;
+          this.aMessage = 'Operator successfully registered.';
+
+          setTimeout(() => {
+            this.success = false;
+            this._router.navigate(['operators']);
+          }, 2000);
         },
         (e) => {
           this.processing = false;

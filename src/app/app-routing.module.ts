@@ -15,7 +15,6 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -29,13 +28,15 @@ const routes: Routes = [
       { path: 'transactions/cash-out', component: CashOutComponent },
       { path: 'settings', component: SettingsComponent },
     ],
+    canActivate: [AuthGuard],
+    runGuardsAndResolvers: 'always',
   },
   { path: 'login', component: LoginComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
