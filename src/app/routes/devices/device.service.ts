@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Device } from 'src/app/shared/models/device';
+import { GetResponse } from 'src/app/shared/models/response';
 import { environment } from 'src/environments/environment';
-import { AuthService } from '../auth/auth.service';
-import { Device } from '../shared/device';
-import { GetResponse } from '../shared/response';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',

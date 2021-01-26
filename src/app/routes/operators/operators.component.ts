@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Operator } from 'src/app/shared/operator';
+import { Operator } from 'src/app/shared/models/operator';
 import { SubSink } from 'subsink';
-import { OperatorService } from '../operator.service';
+import { OperatorService } from './operator.service';
 
 @Component({
   selector: 'app-operators',

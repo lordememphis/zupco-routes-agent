@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Transaction } from 'src/app/shared/transaction';
+import { Transaction } from 'src/app/shared/models/transaction';
 import { SubSink } from 'subsink';
 import { TransactionService } from '../transaction.service';
 

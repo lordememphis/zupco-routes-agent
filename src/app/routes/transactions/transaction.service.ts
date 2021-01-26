@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Transaction } from 'src/app/shared/transaction';
+import { Transaction } from 'src/app/shared/models/transaction';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

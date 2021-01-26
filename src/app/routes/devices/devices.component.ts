@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Device } from 'src/app/shared/device';
+import { Device } from 'src/app/shared/models/device';
 import { SubSink } from 'subsink';
-import { DeviceService } from '../device.service';
+import { DeviceService } from './device.service';
 
 @Component({
   selector: 'app-devices',
