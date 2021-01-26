@@ -12,38 +12,44 @@ import { GetResponse } from '../shared/response';
 export class DeviceService {
   constructor(private _http: HttpClient) {}
 
-  devices$ = this._http
-    .get<GetResponse>(`${environment.AGENT_SERVICE()}devices/7/0/10`)
-    .pipe(
-      map((data) => {
-        return {
-          devices: data.content,
-          empty: data.empty,
-          total: data.totalElements,
-        };
-      })
-    ) as Observable<{ devices: Device[]; empty: boolean; total: number }>;
-
-  public registerDevice(device: Device): Observable<Object> {
+  registerDevice(device: Device): Observable<Object> {
     const { id, ...d } = device;
     return this._http.post(`${environment.AGENT_SERVICE()}device`, d);
   }
 
-  public getMinimalDevice(id: number): Observable<Object> {
+  getDevices(): Observable<{
+    devices: any[] | Device[];
+    empty: boolean;
+    total: number;
+  }> {
+    return this._http
+      .get<GetResponse>(`${environment.AGENT_SERVICE()}devices/7/0/10`)
+      .pipe(
+        map((data) => {
+          return {
+            devices: data.content,
+            empty: data.empty,
+            total: data.totalElements,
+          };
+        })
+      );
+  }
+
+  getMinimalDevice(id: number): Observable<Object> {
     return this._http.get(`${environment.AGENT_SERVICE()}device/${id}`);
   }
 
-  public getDetailedDevice(id: number): Observable<Object> {
+  getDetailedDevice(id: number): Observable<Object> {
     return this._http.get(
       `${environment.AGENT_SERVICE()}retrieve-device/${id}`
     );
   }
 
-  public updateDevice(device: Device): Observable<Object> {
+  updateDevice(device: Device): Observable<Object> {
     return this._http.put(`${environment.AGENT_SERVICE()}device`, device);
   }
 
-  public deleteDevice(id: number): Observable<Object> {
+  deleteDevice(id: number): Observable<Object> {
     return this._http.delete(`${environment.AGENT_SERVICE()}device/${id}`);
   }
 }

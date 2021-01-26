@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
 import { Operator } from 'src/app/shared/operator';
+import { SubSink } from 'subsink';
 import { OperatorService } from '../operator.service';
 
 @Component({
@@ -11,7 +10,7 @@ import { OperatorService } from '../operator.service';
   styleUrls: ['./operators.component.scss'],
 })
 export class OperatorsComponent implements OnInit, OnDestroy {
-  private _destroy$ = new Subject();
+  private _subs = new SubSink();
 
   editOperatorForm: FormGroup;
   registerOperatorForm: FormGroup;
@@ -30,19 +29,21 @@ export class OperatorsComponent implements OnInit, OnDestroy {
 
   constructor(private _operatorService: OperatorService) {}
 
-  ngOnInit(): void {
-    this._operatorService.operators$.subscribe(
-      (res) => {
-        this.operators = res.operators;
-        this.hasOperators = !res.empty;
-        this.totalOperators = res.total;
-      },
-      (e) => {
-        this.alert = 'Something has gone wrong. Try again.';
-        setTimeout(() => {
-          this.alert = null;
-        }, 5000);
-      }
+  ngOnInit() {
+    this._subs.add(
+      this._operatorService.getOperators().subscribe(
+        (res) => {
+          this.operators = res.operators;
+          this.hasOperators = !res.empty;
+          this.totalOperators = res.total;
+        },
+        (e) => {
+          this.alert = 'Something has gone wrong. Try again.';
+          setTimeout(() => {
+            this.alert = null;
+          }, 5000);
+        }
+      )
     );
 
     this.editOperatorForm = new FormGroup({
@@ -71,14 +72,16 @@ export class OperatorsComponent implements OnInit, OnDestroy {
       agent: 7,
     };
 
-    this._operatorService.registerOperator(operator).subscribe(
-      (res) => console.log(res),
-      (e) => {
-        this.alert = 'Something has gone wrong. Try again.';
-        setTimeout(() => {
-          this.alert = null;
-        }, 5000);
-      }
+    this._subs.add(
+      this._operatorService.registerOperator(operator).subscribe(
+        (res) => console.log(res),
+        (e) => {
+          this.alert = 'Something has gone wrong. Try again.';
+          setTimeout(() => {
+            this.alert = null;
+          }, 5000);
+        }
+      )
     );
   }
 
@@ -106,13 +109,8 @@ export class OperatorsComponent implements OnInit, OnDestroy {
       agent: 'Memphis',
     };
 
-    this._operatorService
-      .updateOperator(op)
-      .pipe(
-        map((data) => data),
-        takeUntil(this._destroy$)
-      )
-      .subscribe(
+    this._subs.add(
+      this._operatorService.updateOperator(op).subscribe(
         (data) => console.log(data),
         (e) => {
           this.alert = 'Something has gone wrong. Try again.';
@@ -120,17 +118,13 @@ export class OperatorsComponent implements OnInit, OnDestroy {
             this.alert = null;
           }, 5000);
         }
-      );
+      )
+    );
   }
 
   deleteOperator(): void {
-    this._operatorService
-      .deleteOperator(this.operator.id)
-      .pipe(
-        map((data) => data),
-        takeUntil(this._destroy$)
-      )
-      .subscribe(
+    this._subs.add(
+      this._operatorService.deleteOperator(this.operator.id).subscribe(
         (res) => console.log(res),
         (e) => {
           this.alert = 'Something has gone wrong. Try again.';
@@ -138,7 +132,8 @@ export class OperatorsComponent implements OnInit, OnDestroy {
             this.alert = null;
           }, 5000);
         }
-      );
+      )
+    );
   }
 
   closeFsDialog(): void {
@@ -148,7 +143,6 @@ export class OperatorsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
+    this._subs.unsubscribe();
   }
 }

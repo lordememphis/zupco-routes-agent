@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Transaction } from 'src/app/shared/transaction';
+import { SubSink } from 'subsink';
 import { TransactionService } from '../transaction.service';
 
 @Component({
@@ -8,14 +9,16 @@ import { TransactionService } from '../transaction.service';
   templateUrl: './cash-in.component.html',
   styleUrls: ['./cash-in.component.scss'],
 })
-export class CashInComponent implements OnInit {
+export class CashInComponent implements OnInit, OnDestroy {
+  private _subs = new SubSink();
+
   cashInForm: FormGroup;
 
   alert = null;
 
   constructor(private _ts: TransactionService) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.cashInForm = new FormGroup({
       reference: new FormControl(null, Validators.required),
       sMobile: new FormControl(null, Validators.required),
@@ -38,14 +41,20 @@ export class CashInComponent implements OnInit {
       transactionTypes: this.cashInForm.get('type').value,
     };
 
-    this._ts.cashIn(transaction).subscribe(
-      (res) => console.log(res),
-      (e) => {
-        this.alert = 'Something has gone wrong. Try again.';
-        setTimeout(() => {
-          this.alert = null;
-        }, 5000);
-      }
+    this._subs.add(
+      this._ts.cashIn(transaction).subscribe(
+        (res) => console.log(res),
+        (e) => {
+          this.alert = 'Something has gone wrong. Try again.';
+          setTimeout(() => {
+            this.alert = null;
+          }, 5000);
+        }
+      )
     );
+  }
+
+  ngOnDestroy() {
+    this._subs.unsubscribe();
   }
 }

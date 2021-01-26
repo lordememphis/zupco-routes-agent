@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
 import { Device } from 'src/app/shared/device';
+import { SubSink } from 'subsink';
 import { DeviceService } from '../device.service';
 
 @Component({
@@ -11,7 +10,7 @@ import { DeviceService } from '../device.service';
   styleUrls: ['./devices.component.scss'],
 })
 export class DevicesComponent implements OnInit, OnDestroy {
-  private _destroy$ = new Subject();
+  private _subs = new SubSink();
 
   registerDeviceForm: FormGroup;
   editDeviceForm: FormGroup;
@@ -31,18 +30,20 @@ export class DevicesComponent implements OnInit, OnDestroy {
   constructor(private _deviceService: DeviceService) {}
 
   ngOnInit(): void {
-    this._deviceService.devices$.subscribe(
-      (res) => {
-        this.devices = res.devices;
-        this.hasDevices = !res.empty;
-        this.totalDevices = res.total;
-      },
-      (e) => {
-        this.alert = 'Something has gone wrong. Try again.';
-        setTimeout(() => {
-          this.alert = null;
-        }, 5000);
-      }
+    this._subs.add(
+      this._deviceService.getDevices().subscribe(
+        (res) => {
+          this.devices = res.devices;
+          this.hasDevices = !res.empty;
+          this.totalDevices = res.total;
+        },
+        (e) => {
+          this.alert = 'Something has gone wrong. Try again.';
+          setTimeout(() => {
+            this.alert = null;
+          }, 5000);
+        }
+      )
     );
 
     this.editDeviceForm = new FormGroup({
@@ -65,14 +66,16 @@ export class DevicesComponent implements OnInit, OnDestroy {
       agent: 7,
     };
 
-    this._deviceService.registerDevice(device).subscribe(
-      (res) => console.log(res),
-      (e) => {
-        this.alert = 'Something has gone wrong. Try again.';
-        setTimeout(() => {
-          this.alert = null;
-        }, 5000);
-      }
+    this._subs.add(
+      this._deviceService.registerDevice(device).subscribe(
+        (res) => console.log(res),
+        (e) => {
+          this.alert = 'Something has gone wrong. Try again.';
+          setTimeout(() => {
+            this.alert = null;
+          }, 5000);
+        }
+      )
     );
   }
 
@@ -96,13 +99,8 @@ export class DevicesComponent implements OnInit, OnDestroy {
       agent: 'Memphis',
     };
 
-    this._deviceService
-      .updateDevice(d)
-      .pipe(
-        map((data) => data),
-        takeUntil(this._destroy$)
-      )
-      .subscribe(
+    this._subs.add(
+      this._deviceService.updateDevice(d).subscribe(
         (data) => console.log(data),
         (e) => {
           this.alert = 'Something has gone wrong. Try again.';
@@ -110,17 +108,13 @@ export class DevicesComponent implements OnInit, OnDestroy {
             this.alert = null;
           }, 5000);
         }
-      );
+      )
+    );
   }
 
   deleteDevice(): void {
-    this._deviceService
-      .deleteDevice(this.device.id)
-      .pipe(
-        map((data) => data),
-        takeUntil(this._destroy$)
-      )
-      .subscribe(
+    this._subs.add(
+      this._deviceService.deleteDevice(this.device.id).subscribe(
         (res) => console.log(res),
         (e) => {
           this.alert = 'Something has gone wrong. Try again.';
@@ -128,7 +122,8 @@ export class DevicesComponent implements OnInit, OnDestroy {
             this.alert = null;
           }, 5000);
         }
-      );
+      )
+    );
   }
 
   closeFsDialog(): void {
@@ -138,7 +133,6 @@ export class DevicesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
+    this._subs.unsubscribe();
   }
 }

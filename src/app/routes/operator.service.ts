@@ -12,21 +12,27 @@ import { GetResponse } from '../shared/response';
 export class OperatorService {
   constructor(private _http: HttpClient) {}
 
-  operators$ = this._http
-    .get<GetResponse>(`${environment.AGENT_SERVICE()}operators/7/0/10`)
-    .pipe(
-      map((data) => {
-        return {
-          operators: data.content,
-          empty: data.empty,
-          total: data.totalElements,
-        };
-      })
-    ) as Observable<{ operators: Operator[]; empty: boolean; total: number }>;
-
   registerOperator(operator: Operator): Observable<Object> {
     const { id, ...op } = operator;
     return this._http.post(`${environment.AGENT_SERVICE()}operator`, op);
+  }
+
+  getOperators(): Observable<{
+    operators: Operator[] | any[];
+    empty: boolean;
+    total: number;
+  }> {
+    return this._http
+      .get<GetResponse>(`${environment.AGENT_SERVICE()}devices/7/0/10`)
+      .pipe(
+        map((data) => {
+          return {
+            operators: data.content,
+            empty: data.empty,
+            total: data.totalElements,
+          };
+        })
+      );
   }
 
   getMinimalOperator(id: number): Observable<Object> {
