@@ -14,8 +14,9 @@ export class CashInComponent implements OnInit, OnDestroy {
 
   cashInForm: FormGroup;
 
-  error = null;
-  success = null;
+  error = false;
+  success = false;
+  aMessage: string;
   processing = false;
 
   constructor(private _ts: TransactionService) {}
@@ -53,9 +54,11 @@ export class CashInComponent implements OnInit, OnDestroy {
         },
         (e) => {
           this.processing = false;
-          this.error = 'Something has gone wrong. Try again.';
+          this.error = true;
+          this.aMessage = 'Something has gone wrong. Try again.';
+
           setTimeout(() => {
-            this.error = null;
+            this.error = false;
           }, 5000);
         }
       )

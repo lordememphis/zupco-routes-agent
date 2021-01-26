@@ -14,7 +14,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
 
-  error = null;
+  error = false;
+  aMessage: string;
+  aTitle = 'Login failed';
   processing = false;
 
   constructor(private _router: Router, private _auth: AuthService) {}
@@ -43,14 +45,15 @@ export class LoginComponent implements OnInit, OnDestroy {
         },
         (e) => {
           this.processing = false;
+          this.error = true;
 
-          if (e.status === 404)
-            this.error =
-              'You have used an incorrect username or password. Try again.';
-          else this.error = 'Something has gone wrong. Try again.';
+          e.status === 404
+            ? (this.aMessage =
+                'You have used an incorrect username or password. Try again.')
+            : (this.aMessage = 'Something went wrong. Try again.');
 
           setTimeout(() => {
-            this.error = null;
+            this.error = false;
           }, 5000);
         }
       )

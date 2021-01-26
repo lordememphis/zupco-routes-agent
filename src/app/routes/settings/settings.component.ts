@@ -13,9 +13,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   changePasswordForm: FormGroup;
 
-  error = null;
-  warning = null;
-  success = null;
+  error = false;
+  warning = false;
+  success = false;
+  aMessage: string;
   processing = false;
 
   constructor(private _operatorService: OperatorService) {}
@@ -34,8 +35,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
     const m = this.changePasswordForm.get('matchingPassword').value;
 
     if (n !== m) {
-      this.warning = 'Password mismatch. Enter new passwords again.';
-      this._clearAlerts();
+      this.warning = true;
+      this.aMessage = 'Password mismatch. Enter new passwords again.';
+
+      setTimeout(() => {
+        this.warning = false;
+      }, 5000);
       return;
     }
 
@@ -46,26 +51,26 @@ export class SettingsComponent implements OnInit, OnDestroy {
         (res) => {
           console.log(res);
           this.processing = false;
-          this.success = 'Password changed successfully.';
-          this._clearAlerts();
+          this.success = true;
+          this.aMessage = 'Password changed successfully.';
+
+          setTimeout(() => {
+            this.success = false;
+          }, 5000);
         },
         (e) => {
           this.processing = false;
+          this.error = true;
           e.error.message
-            ? (this.error = e.error.message)
-            : (this.error = 'Something went wrong. Try again.');
-          this._clearAlerts();
+            ? (this.aMessage = e.error.message)
+            : (this.aMessage = 'Something went wrong. Try again.');
+
+          setTimeout(() => {
+            this.error = false;
+          }, 5000);
         }
       )
     );
-  }
-
-  private _clearAlerts() {
-    setTimeout(() => {
-      this.error = null;
-      this.warning = null;
-      this.success = null;
-    }, 5000);
   }
 
   ngOnDestroy() {

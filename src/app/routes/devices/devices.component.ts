@@ -20,8 +20,9 @@ export class DevicesComponent implements OnInit, OnDestroy {
   hasDevices: boolean;
   totalDevices: number;
 
-  error = null;
-  success = null;
+  error = false;
+  success = false;
+  aMessage: string;
   processing = true;
   viewingDevices = true;
   registeringDevice = false;
@@ -42,9 +43,11 @@ export class DevicesComponent implements OnInit, OnDestroy {
         },
         (e) => {
           this.processing = false;
-          this.error = 'Something has gone wrong. Try again.';
+          this.error = true;
+          this.aMessage = 'Something has gone wrong. Try again.';
+
           setTimeout(() => {
-            this.error = null;
+            this.error = false;
           }, 5000);
         }
       )
@@ -80,9 +83,11 @@ export class DevicesComponent implements OnInit, OnDestroy {
         },
         (e) => {
           this.processing = false;
-          this.error = 'Something has gone wrong. Try again.';
+          this.error = true;
+          this.aMessage = 'Something has gone wrong. Try again.';
+
           setTimeout(() => {
-            this.error = null;
+            this.error = false;
           }, 5000);
         }
       )
@@ -119,9 +124,11 @@ export class DevicesComponent implements OnInit, OnDestroy {
         },
         (e) => {
           this.processing = false;
-          this.error = 'Something has gone wrong. Try again.';
+          this.error = true;
+          this.aMessage = 'Something has gone wrong. Try again.';
+
           setTimeout(() => {
-            this.error = null;
+            this.error = false;
           }, 5000);
         }
       )
@@ -138,9 +145,11 @@ export class DevicesComponent implements OnInit, OnDestroy {
         },
         (e) => {
           this.processing = false;
-          this.error = 'Something has gone wrong. Try again.';
+          this.error = true;
+          this.aMessage = 'Something has gone wrong. Try again.';
+
           setTimeout(() => {
-            this.error = null;
+            this.error = false;
           }, 5000);
         }
       )

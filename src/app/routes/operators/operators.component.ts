@@ -20,8 +20,9 @@ export class OperatorsComponent implements OnInit, OnDestroy {
   hasOperators: boolean;
   totalOperators: number;
 
-  error = null;
-  success = null;
+  error = false;
+  success = false;
+  aMessage: string;
   processing = true;
   viewingOperators = true;
   registeringOperator = false;
@@ -42,9 +43,11 @@ export class OperatorsComponent implements OnInit, OnDestroy {
         },
         (e) => {
           this.processing = false;
-          this.error = 'Something has gone wrong. Try again.';
+          this.error = true;
+          this.aMessage = 'Something has gone wrong. Try again.';
+
           setTimeout(() => {
-            this.error = null;
+            this.error = false;
           }, 5000);
         }
       )
@@ -85,9 +88,11 @@ export class OperatorsComponent implements OnInit, OnDestroy {
         },
         (e) => {
           this.processing = false;
-          this.error = 'Something has gone wrong. Try again.';
+          this.error = true;
+          this.aMessage = 'Something has gone wrong. Try again.';
+
           setTimeout(() => {
-            this.error = null;
+            this.error = false;
           }, 5000);
         }
       )
@@ -128,9 +133,11 @@ export class OperatorsComponent implements OnInit, OnDestroy {
         },
         (e) => {
           this.processing = false;
-          this.error = 'Something has gone wrong. Try again.';
+          this.error = true;
+          this.aMessage = 'Something has gone wrong. Try again.';
+
           setTimeout(() => {
-            this.error = null;
+            this.error = false;
           }, 5000);
         }
       )
@@ -147,9 +154,11 @@ export class OperatorsComponent implements OnInit, OnDestroy {
         },
         (e) => {
           this.processing = false;
-          this.error = 'Something has gone wrong. Try again.';
+          this.error = true;
+          this.aMessage = 'Something has gone wrong. Try again.';
+
           setTimeout(() => {
-            this.error = null;
+            this.error = false;
           }, 5000);
         }
       )

@@ -15,6 +15,10 @@ import { CashInComponent } from './routes/transactions/cash-in/cash-in.component
 import { CashOutComponent } from './routes/transactions/cash-out/cash-out.component';
 import { SettingsComponent } from './routes/settings/settings.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { ErrorModal } from './shared/modal/error';
+import { ProcessingModal } from './shared/modal/processing';
+import { WarningModal } from './shared/modal/warning';
+import { SuccessModal } from './shared/modal/success';
 
 @NgModule({
   declarations: [
@@ -28,6 +32,10 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
     CashOutComponent,
     SettingsComponent,
     ResetPasswordComponent,
+    ProcessingModal,
+    ErrorModal,
+    WarningModal,
+    SuccessModal,
   ],
   imports: [
     BrowserModule,

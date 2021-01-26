@@ -15,11 +15,12 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   sendTokenForm: FormGroup;
   resetPasswordForm: FormGroup;
 
-  error = null;
-  warning = null;
-  success = null;
+  error = false;
+  warning = false;
+  success = false;
   processing = false;
   resetting = false;
+  aMessage: string;
 
   token: string;
 
@@ -63,18 +64,24 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         .subscribe(
           (res) => {
             this.processing = false;
+            this.success = true;
+
             console.log(res);
-            this.success = 'A reset token has been sent to the email you .';
+
+            this.aMessage = 'A reset token has been sent to the email you .';
+
             setTimeout(() => {
-              this.success = null;
+              this.success = false;
               this.resetting = true;
             }, 2000);
           },
           (e) => {
             this.processing = false;
+            this.error = true;
+
             e.error.message
-              ? (this.error = e.error.message)
-              : (this.error = 'Something went wrong. Try again.');
+              ? (this.aMessage = e.error.message)
+              : (this.aMessage = 'Something went wrong. Try again.');
 
             setTimeout(() => {
               this.error = false;
@@ -85,36 +92,45 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   }
 
   onSavePassword() {
-    this.processing = true;
-
     const p = this.resetPasswordForm.get('password').value;
     const mp = this.resetPasswordForm.get('matchingPassword').value;
 
     if (p !== mp) {
-      this.warning = 'Passwords do not match.';
+      this.warning = true;
+      this.aMessage = 'Passwords do not match.';
+
       setTimeout(() => {
-        this.warning = null;
+        this.warning = false;
       }, 5000);
+
       return;
     }
+
+    this.processing = true;
 
     this._subs.add(
       this._auth.resetPassword(this.token, p).subscribe(
         (res) => {
           this.processing = false;
+          this.success = true;
+
           console.log(res);
-          this.success =
+
+          this.aMessage =
             'Your password has been reset successfully. You can now login with your new password.';
+
           setTimeout(() => {
-            this.success = null;
+            this.success = false;
             this._router.navigate(['login']);
           }, 2000);
         },
         (e) => {
           this.processing = false;
+          this.error = true;
+
           e.error.message
-            ? (this.error = e.error.message)
-            : (this.error = 'Something went wrong. Try again.');
+            ? (this.aMessage = e.error.message)
+            : (this.aMessage = 'Something went wrong. Try again.');
 
           setTimeout(() => {
             this.error = false;
