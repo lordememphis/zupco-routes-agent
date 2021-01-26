@@ -67,8 +67,8 @@ import { Component, Input } from '@angular/core';
 })
 export class SuccessModal {
   @Input() open: boolean = false;
-  @Input() title: string = 'An error occured';
-  @Input() message: string = 'Something went wrong. Try again';
+  @Input() title: string = 'Success';
+  @Input() message: string = 'Operation done successfully.';
 
   close() {
     this.open = false;

@@ -70,8 +70,8 @@ import { Component, Input } from '@angular/core';
 })
 export class WarningModal {
   @Input() open: boolean = false;
-  @Input() title: string = 'An error occured';
-  @Input() message: string = 'Something went wrong. Try again';
+  @Input() title: string = 'Warning';
+  @Input() message: string = 'You did something wrong. Try again';
 
   close() {
     this.open = false;
