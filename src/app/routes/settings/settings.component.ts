@@ -16,6 +16,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   error = null;
   warning = null;
   success = null;
+  processing = false;
 
   constructor(private _operatorService: OperatorService) {}
 
@@ -38,14 +39,18 @@ export class SettingsComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.processing = true;
+
     this._subs.add(
       this._operatorService.changePassword(o, n).subscribe(
         (res) => {
           console.log(res);
+          this.processing = false;
           this.success = 'Password changed successfully.';
           this._clearAlerts();
         },
         (e) => {
+          this.processing = false;
           e.error.message
             ? (this.error = e.error.message)
             : (this.error = 'Something went wrong. Try again.');

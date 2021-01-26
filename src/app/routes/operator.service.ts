@@ -25,7 +25,7 @@ export class OperatorService {
   }> {
     return this._http
       .get<GetResponse>(
-        `${environment.AGENT_SERVICE()}devices/${this._auth.agentId}/0/10`
+        `${environment.AGENT_SERVICE()}operators/${this._auth.agentId}/0/10`
       )
       .pipe(
         map((data) => {

@@ -20,7 +20,9 @@ export class DevicesComponent implements OnInit, OnDestroy {
   hasDevices: boolean;
   totalDevices: number;
 
-  alert = null;
+  error = null;
+  success = null;
+  processing = true;
   viewingDevices = true;
   registeringDevice = false;
   editingDevice = false;
@@ -36,11 +38,13 @@ export class DevicesComponent implements OnInit, OnDestroy {
           this.devices = res.devices;
           this.hasDevices = !res.empty;
           this.totalDevices = res.total;
+          this.processing = false;
         },
         (e) => {
-          this.alert = 'Something has gone wrong. Try again.';
+          this.processing = false;
+          this.error = 'Something has gone wrong. Try again.';
           setTimeout(() => {
-            this.alert = null;
+            this.error = null;
           }, 5000);
         }
       )
@@ -58,6 +62,8 @@ export class DevicesComponent implements OnInit, OnDestroy {
   }
 
   registerDevice(): void {
+    this.processing = true;
+
     const device: Device = {
       id: null,
       imei: this.registerDeviceForm.get('imei').value,
@@ -68,11 +74,15 @@ export class DevicesComponent implements OnInit, OnDestroy {
 
     this._subs.add(
       this._deviceService.registerDevice(device).subscribe(
-        (res) => console.log(res),
+        (res) => {
+          console.log(res);
+          this.processing = false;
+        },
         (e) => {
-          this.alert = 'Something has gone wrong. Try again.';
+          this.processing = false;
+          this.error = 'Something has gone wrong. Try again.';
           setTimeout(() => {
-            this.alert = null;
+            this.error = null;
           }, 5000);
         }
       )
@@ -91,6 +101,8 @@ export class DevicesComponent implements OnInit, OnDestroy {
   }
 
   updateDevice(): void {
+    this.processing = true;
+
     const d: Device = {
       id: this.device.id,
       imei: this.registerDeviceForm.get('imei').value,
@@ -101,11 +113,15 @@ export class DevicesComponent implements OnInit, OnDestroy {
 
     this._subs.add(
       this._deviceService.updateDevice(d).subscribe(
-        (data) => console.log(data),
+        (res) => {
+          console.log(res);
+          this.processing = false;
+        },
         (e) => {
-          this.alert = 'Something has gone wrong. Try again.';
+          this.processing = false;
+          this.error = 'Something has gone wrong. Try again.';
           setTimeout(() => {
-            this.alert = null;
+            this.error = null;
           }, 5000);
         }
       )
@@ -113,13 +129,18 @@ export class DevicesComponent implements OnInit, OnDestroy {
   }
 
   deleteDevice(): void {
+    this.processing = true;
     this._subs.add(
       this._deviceService.deleteDevice(this.device.id).subscribe(
-        (res) => console.log(res),
+        (res) => {
+          console.log(res);
+          this.processing = false;
+        },
         (e) => {
-          this.alert = 'Something has gone wrong. Try again.';
+          this.processing = false;
+          this.error = 'Something has gone wrong. Try again.';
           setTimeout(() => {
-            this.alert = null;
+            this.error = null;
           }, 5000);
         }
       )

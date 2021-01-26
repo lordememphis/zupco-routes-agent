@@ -14,7 +14,9 @@ export class CashInComponent implements OnInit, OnDestroy {
 
   cashInForm: FormGroup;
 
-  alert = null;
+  error = null;
+  success = null;
+  processing = false;
 
   constructor(private _ts: TransactionService) {}
 
@@ -41,13 +43,19 @@ export class CashInComponent implements OnInit, OnDestroy {
       transactionTypes: this.cashInForm.get('type').value,
     };
 
+    this.processing = true;
+
     this._subs.add(
       this._ts.cashIn(transaction).subscribe(
-        (res) => console.log(res),
+        (res) => {
+          console.log(res);
+          this.processing = false;
+        },
         (e) => {
-          this.alert = 'Something has gone wrong. Try again.';
+          this.processing = false;
+          this.error = 'Something has gone wrong. Try again.';
           setTimeout(() => {
-            this.alert = null;
+            this.error = null;
           }, 5000);
         }
       )

@@ -20,7 +20,9 @@ export class OperatorsComponent implements OnInit, OnDestroy {
   hasOperators: boolean;
   totalOperators: number;
 
-  alert = null;
+  error = null;
+  success = null;
+  processing = true;
   viewingOperators = true;
   registeringOperator = false;
   editingOperator = false;
@@ -33,14 +35,16 @@ export class OperatorsComponent implements OnInit, OnDestroy {
     this._subs.add(
       this._operatorService.getOperators().subscribe(
         (res) => {
+          this.processing = false;
           this.operators = res.operators;
           this.hasOperators = !res.empty;
           this.totalOperators = res.total;
         },
         (e) => {
-          this.alert = 'Something has gone wrong. Try again.';
+          this.processing = false;
+          this.error = 'Something has gone wrong. Try again.';
           setTimeout(() => {
-            this.alert = null;
+            this.error = null;
           }, 5000);
         }
       )
@@ -62,6 +66,7 @@ export class OperatorsComponent implements OnInit, OnDestroy {
   }
 
   registerOperator(): void {
+    this.processing = true;
     const operator: Operator = {
       id: null,
       firstname: this.registerOperatorForm.get('firstname').value,
@@ -74,11 +79,15 @@ export class OperatorsComponent implements OnInit, OnDestroy {
 
     this._subs.add(
       this._operatorService.registerOperator(operator).subscribe(
-        (res) => console.log(res),
+        (res) => {
+          console.log(res);
+          this.processing = false;
+        },
         (e) => {
-          this.alert = 'Something has gone wrong. Try again.';
+          this.processing = false;
+          this.error = 'Something has gone wrong. Try again.';
           setTimeout(() => {
-            this.alert = null;
+            this.error = null;
           }, 5000);
         }
       )
@@ -99,6 +108,8 @@ export class OperatorsComponent implements OnInit, OnDestroy {
   }
 
   updateOperator(): void {
+    this.processing = true;
+
     const op: Operator = {
       id: this.operator.id,
       firstname: this.editOperatorForm.get('firstname').value,
@@ -111,11 +122,15 @@ export class OperatorsComponent implements OnInit, OnDestroy {
 
     this._subs.add(
       this._operatorService.updateOperator(op).subscribe(
-        (data) => console.log(data),
+        (res) => {
+          console.log(res);
+          this.processing = false;
+        },
         (e) => {
-          this.alert = 'Something has gone wrong. Try again.';
+          this.processing = false;
+          this.error = 'Something has gone wrong. Try again.';
           setTimeout(() => {
-            this.alert = null;
+            this.error = null;
           }, 5000);
         }
       )
@@ -123,13 +138,18 @@ export class OperatorsComponent implements OnInit, OnDestroy {
   }
 
   deleteOperator(): void {
+    this.processing = true;
     this._subs.add(
       this._operatorService.deleteOperator(this.operator.id).subscribe(
-        (res) => console.log(res),
+        (res) => {
+          console.log(res);
+          this.processing = false;
+        },
         (e) => {
-          this.alert = 'Something has gone wrong. Try again.';
+          this.processing = false;
+          this.error = 'Something has gone wrong. Try again.';
           setTimeout(() => {
-            this.alert = null;
+            this.error = null;
           }, 5000);
         }
       )

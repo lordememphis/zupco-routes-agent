@@ -1,5 +1,5 @@
 <section>
-  <div *ngIf="processing" class="absolute inset-0">
+  <div *ngIf="processing" class="absolute inset-0 z-20">
     <div class="block min-h-screen text-center">
       <div
         class="my-8 align-middle inline-block bg-white rounded-full text-left overflow-hidden shadow-xl transform transition-all"
@@ -42,7 +42,7 @@
               </div>
             </div>
             <div>
-              <button type="button" (click)="error = null">
+              <button type="button" (click)="error=null">
                 <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                   fill="currentColor">
                   <path fill-rule="evenodd"
