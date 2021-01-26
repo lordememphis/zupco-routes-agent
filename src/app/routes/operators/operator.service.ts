@@ -14,8 +14,11 @@ export class OperatorService {
   constructor(private _http: HttpClient, private _auth: AuthService) {}
 
   registerOperator(operator: Operator): Observable<Object> {
-    const { id, ...op } = operator;
-    return this._http.post(`${environment.AGENT_SERVICE()}operator`, op);
+    const { id, agent, ...op } = operator;
+    return this._http.post(`${environment.AGENT_SERVICE()}operator`, {
+      ...op,
+      agentId: this._auth.agentId,
+    });
   }
 
   getOperators(): Observable<{
