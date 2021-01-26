@@ -58,7 +58,9 @@ export class OperatorService {
   }
 
   deleteOperator(id: number): Observable<Object> {
-    return this._http.delete(`${environment.AGENT_SERVICE()}operator/${id}`);
+    return this._http
+      .delete(`${environment.AGENT_SERVICE()}operator/${id}`)
+      .pipe(map(() => true));
   }
 
   changePassword(old: string, newPassword: string): Observable<Object> {

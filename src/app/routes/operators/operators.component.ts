@@ -170,9 +170,15 @@ export class OperatorsComponent implements OnInit, OnDestroy {
     this.processing = true;
     this._subs.add(
       this._operatorService.deleteOperator(this.operator.id).subscribe(
-        (res) => {
-          console.log(res);
+        () => {
           this.processing = false;
+          this.success = true;
+          this.aMessage = 'Operator successfully deleted.';
+
+          setTimeout(() => {
+            this.success = false;
+          }, 2000);
+          this._router.navigate(['operators']);
         },
         (e) => {
           this.processing = false;
