@@ -54,10 +54,18 @@ export class DeviceService {
   }
 
   updateDevice(device: Device): Observable<Object> {
-    return this._http.put(`${environment.AGENT_SERVICE()}device`, device);
+    const { agent, ...d } = device;
+    return this._http
+      .put(`${environment.AGENT_SERVICE()}device`, {
+        ...d,
+        agentId: this._auth.agentId,
+      })
+      .pipe(map(() => true));
   }
 
   deleteDevice(id: number): Observable<Object> {
-    return this._http.delete(`${environment.AGENT_SERVICE()}device/${id}`);
+    return this._http
+      .delete(`${environment.AGENT_SERVICE()}device/${id}`)
+      .pipe(map(() => true));
   }
 }

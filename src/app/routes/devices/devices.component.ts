@@ -55,13 +55,7 @@ export class DevicesComponent implements OnInit, OnDestroy {
           this.processing = false;
         },
         (e) => {
-          this.processing = false;
-          this.error = true;
-          this.aMessage = 'Something has gone wrong. Try again.';
-
-          setTimeout(() => {
-            this.error = false;
-          }, 5000);
+          this._onReqError('Something went wrong. Try again.');
         }
       )
     );
@@ -91,23 +85,10 @@ export class DevicesComponent implements OnInit, OnDestroy {
     this._subs.add(
       this._deviceService.registerDevice(device).subscribe(
         () => {
-          this.processing = false;
-          this.success = true;
-          this.aMessage = 'Device successfully registered.';
-
-          setTimeout(() => {
-            this.success = false;
-          }, 2000);
-          this._router.navigate(['devices']);
+          this._onReqSuccess('The device has been registered successfully.');
         },
         (e) => {
-          this.processing = false;
-          this.error = true;
-          this.aMessage = 'Something has gone wrong. Try again.';
-
-          setTimeout(() => {
-            this.error = false;
-          }, 5000);
+          this._onReqError('Something went wrong. Try again.');
         }
       )
     );
@@ -132,23 +113,16 @@ export class DevicesComponent implements OnInit, OnDestroy {
       imei: this.registerDeviceForm.get('imei').value,
       type: this.registerDeviceForm.get('type').value,
       status: this.device.status,
-      agent: 'Memphis',
+      agent: null,
     };
 
     this._subs.add(
       this._deviceService.updateDevice(d).subscribe(
-        (res) => {
-          console.log(res);
-          this.processing = false;
+        () => {
+          this._onReqSuccess('The device has been updated successfully.');
         },
         (e) => {
-          this.processing = false;
-          this.error = true;
-          this.aMessage = 'Something has gone wrong. Try again.';
-
-          setTimeout(() => {
-            this.error = false;
-          }, 5000);
+          this._onReqError('Something went wrong. Try again.');
         }
       )
     );
@@ -158,18 +132,11 @@ export class DevicesComponent implements OnInit, OnDestroy {
     this.processing = true;
     this._subs.add(
       this._deviceService.deleteDevice(this.device.id).subscribe(
-        (res) => {
-          console.log(res);
-          this.processing = false;
+        () => {
+          this._onReqSuccess('The device has been deleted successfully.');
         },
         (e) => {
-          this.processing = false;
-          this.error = true;
-          this.aMessage = 'Something has gone wrong. Try again.';
-
-          setTimeout(() => {
-            this.error = false;
-          }, 5000);
+          this._onReqError('Something went wrong. Try again.');
         }
       )
     );
@@ -179,6 +146,27 @@ export class DevicesComponent implements OnInit, OnDestroy {
     this.fsDialog = false;
     this.editingDevice = false;
     this.deletingDevice = false;
+  }
+
+  private _onReqSuccess(message: string) {
+    this.processing = false;
+    this.success = true;
+    this.aMessage = message;
+
+    setTimeout(() => {
+      this.success = false;
+    }, 2000);
+    this._router.navigate(['devices']);
+  }
+
+  private _onReqError(message: string) {
+    this.processing = false;
+    this.error = true;
+    this.aMessage = message;
+
+    setTimeout(() => {
+      this.error = false;
+    }, 5000);
   }
 
   ngOnDestroy(): void {
