@@ -14,8 +14,13 @@ export class DeviceService {
   constructor(private _http: HttpClient, private _auth: AuthService) {}
 
   registerDevice(device: Device): Observable<Object> {
-    const { id, ...d } = device;
-    return this._http.post(`${environment.AGENT_SERVICE()}device`, d);
+    const { id, agent, ...d } = device;
+    return this._http
+      .post(`${environment.AGENT_SERVICE()}device`, {
+        ...d,
+        agentId: this._auth.agentId,
+      })
+      .pipe(map(() => true));
   }
 
   getDevices(): Observable<{

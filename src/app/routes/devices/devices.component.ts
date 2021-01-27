@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NavigationEnd, Router } from '@angular/router';
 import { Device } from 'src/app/shared/models/device';
 import { SubSink } from 'subsink';
 import { DeviceService } from './device.service';
@@ -24,15 +25,27 @@ export class DevicesComponent implements OnInit, OnDestroy {
   success = false;
   aMessage: string;
   processing = true;
-  viewingDevices = true;
-  registeringDevice = false;
-  editingDevice = false;
-  deletingDevice = false;
-  fsDialog = false;
+  viewingDevices: boolean;
+  registeringDevice: boolean;
+  editingDevice: boolean;
+  deletingDevice: boolean;
+  fsDialog: boolean;
 
-  constructor(private _deviceService: DeviceService) {}
+  constructor(private _deviceService: DeviceService, private _router: Router) {
+    this._subs.add(
+      this._router.events.subscribe((e: any) => {
+        if (e instanceof NavigationEnd) this.ngOnInit();
+      })
+    );
+  }
 
   ngOnInit(): void {
+    this.viewingDevices = true;
+    this.registeringDevice = false;
+    this.editingDevice = false;
+    this.deletingDevice = false;
+    this.fsDialog = false;
+
     this._subs.add(
       this._deviceService.getDevices().subscribe(
         (res) => {
@@ -60,7 +73,7 @@ export class DevicesComponent implements OnInit, OnDestroy {
 
     this.registerDeviceForm = new FormGroup({
       imei: new FormControl(null, Validators.required),
-      type: new FormControl(null, Validators.required),
+      type: new FormControl('WEB', Validators.required),
     });
   }
 
@@ -77,9 +90,15 @@ export class DevicesComponent implements OnInit, OnDestroy {
 
     this._subs.add(
       this._deviceService.registerDevice(device).subscribe(
-        (res) => {
-          console.log(res);
+        () => {
           this.processing = false;
+          this.success = true;
+          this.aMessage = 'Device successfully registered.';
+
+          setTimeout(() => {
+            this.success = false;
+          }, 2000);
+          this._router.navigate(['devices']);
         },
         (e) => {
           this.processing = false;
