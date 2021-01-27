@@ -54,7 +54,13 @@ export class OperatorService {
   }
 
   updateOperator(operator: Operator): Observable<Object> {
-    return this._http.put(`${environment.AGENT_SERVICE()}operator`, operator);
+    const { agent, ...op } = operator;
+    return this._http
+      .put(`${environment.AGENT_SERVICE()}operator`, {
+        ...op,
+        agentId: this._auth.agentId,
+      })
+      .pipe(map(() => true));
   }
 
   deleteOperator(id: number): Observable<Object> {

@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
+import { map } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Operator } from 'src/app/shared/models/operator';
 import { SubSink } from 'subsink';
 import { OperatorService } from './operator.service';
@@ -33,7 +35,8 @@ export class OperatorsComponent implements OnInit, OnDestroy {
 
   constructor(
     private _operatorService: OperatorService,
-    private _router: Router
+    private _router: Router,
+    private _auth: AuthService
   ) {
     this._subs.add(
       this._router.events.subscribe((e: any) => {
@@ -105,8 +108,8 @@ export class OperatorsComponent implements OnInit, OnDestroy {
 
           setTimeout(() => {
             this.success = false;
-            this._router.navigate(['operators']);
           }, 2000);
+          this._router.navigate(['operators']);
         },
         (e) => {
           this.processing = false;
@@ -144,14 +147,20 @@ export class OperatorsComponent implements OnInit, OnDestroy {
       email: this.editOperatorForm.get('email').value,
       mobile: this.editOperatorForm.get('mobile').value,
       status: this.operator.status,
-      agent: 'Memphis',
+      agent: null,
     };
 
     this._subs.add(
       this._operatorService.updateOperator(op).subscribe(
         (res) => {
-          console.log(res);
           this.processing = false;
+          this.success = true;
+          this.aMessage = 'Operator information changed successfully.';
+
+          setTimeout(() => {
+            this.success = false;
+          }, 2000);
+          this._router.navigate(['operators']);
         },
         (e) => {
           this.processing = false;
