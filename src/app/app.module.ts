@@ -21,6 +21,7 @@ import { WarningModal } from './shared/modal/warning';
 import { SuccessModal } from './shared/modal/success';
 import { OperatorTransactionsComponent } from './routes/transactions/operator-transactions/operator-transactions.component';
 import { DatePipe } from '@angular/common';
+import { DeviceTransactionsComponent } from './routes/transactions/device-transactions/device-transactions.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { DatePipe } from '@angular/common';
     WarningModal,
     SuccessModal,
     OperatorTransactionsComponent,
+    DeviceTransactionsComponent,
   ],
   imports: [
     BrowserModule,

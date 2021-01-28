@@ -52,4 +52,28 @@ export class TransactionService {
         })
       );
   }
+
+  getDeviceTransactions(
+    imei: string,
+    startDate: string,
+    endDate: string
+  ): Observable<{
+    transactions: TransactionHistory[] | any[];
+    empty: boolean;
+    total: number;
+  }> {
+    return this._http
+      .get<GetResponse>(
+        `${environment.TRANSACTION_SERVICE()}transactions/device/0/10?imei=${imei}&startDate=${startDate}&endDate=${endDate}`
+      )
+      .pipe(
+        map((data) => {
+          return {
+            transactions: data.content,
+            empty: data.empty,
+            total: data.totalElements,
+          };
+        })
+      );
+  }
 }
