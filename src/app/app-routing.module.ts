@@ -10,6 +10,7 @@ import { OperatorsComponent } from './routes/operators/operators.component';
 import { SettingsComponent } from './routes/settings/settings.component';
 import { CashInComponent } from './routes/transactions/cash-in/cash-in.component';
 import { CashOutComponent } from './routes/transactions/cash-out/cash-out.component';
+import { OperatorTransactionsComponent } from './routes/transactions/operator-transactions/operator-transactions.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
       { path: 'devices', component: DevicesComponent },
       { path: 'transactions/cash-in', component: CashInComponent },
       { path: 'transactions/cash-out', component: CashOutComponent },
+      {
+        path: 'reports/operator-transactions',
+        component: OperatorTransactionsComponent,
+      },
       { path: 'settings', component: SettingsComponent },
     ],
     canActivate: [AuthGuard],

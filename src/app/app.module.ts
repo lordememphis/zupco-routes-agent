@@ -19,6 +19,7 @@ import { ErrorModal } from './shared/modal/error';
 import { ProcessingModal } from './shared/modal/processing';
 import { WarningModal } from './shared/modal/warning';
 import { SuccessModal } from './shared/modal/success';
+import { OperatorTransactionsComponent } from './routes/transactions/operator-transactions/operator-transactions.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { SuccessModal } from './shared/modal/success';
     ErrorModal,
     WarningModal,
     SuccessModal,
+    OperatorTransactionsComponent,
   ],
   imports: [
     BrowserModule,
