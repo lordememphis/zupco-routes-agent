@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TransactionHistory } from 'src/app/shared/models/transaction-history';
@@ -23,16 +24,29 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
   success = false;
   processing = true;
   aMessage: string;
+  fsDialog = false;
 
-  constructor(private _ts: TransactionService, private _router: Router) {}
+  startDate: string;
+  endDate: string;
+
+  constructor(
+    private _ts: TransactionService,
+    private _router: Router,
+    datePipe: DatePipe
+  ) {
+    this.startDate = this.endDate = datePipe.transform(
+      new Date(),
+      'yyyy-MM-dd'
+    );
+  }
 
   ngOnInit() {
     this._subs.add(
-      this._ts.getOperatorTransactions().subscribe(
+      this._ts.getOperatorTransactions(this.startDate, this.endDate).subscribe(
         (obs) => {
           this.processing = false;
           this.transactions = obs.transactions;
-          this.hasTransactions = obs.empty;
+          this.hasTransactions = !obs.empty;
         },
         (e) => {
           this._onReqError('Something went wrong. Try again.');

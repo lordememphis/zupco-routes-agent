@@ -23,10 +23,6 @@
                 </p>
               </div>
               <div>
-                <button type="button" (click)="viewingTransactions=false; registeringDevice=true"
-                  class="btn py-2  text-white bg-cool-gray-900 shadow hover:shadow-md">
-                  New device
-                </button>
               </div>
             </div>
             <div *ngIf="!hasTransactions" class="mt-10">
@@ -39,7 +35,7 @@
                 <div class="text-center">
                   Your account hasn't made or recorded any transactions, yet. <a
                     [routerLink]="['/transactions', 'cash-out']" class="underline">Cash out</a> or <a
-                    [routerLink]="['/transactions', 'cash-out']" class="underline">cash in</a> to begin transactions.
+                    [routerLink]="['/transactions', 'cash-in']" class="underline">cash in</a> to begin transactions.
                 </div>
               </div>
             </div>

@@ -28,16 +28,19 @@ export class TransactionService {
     );
   }
 
-  getOperatorTransactions(): Observable<{
+  getOperatorTransactions(
+    startDate: string,
+    endDate: string
+  ): Observable<{
     transactions: TransactionHistory[] | any[];
     empty: boolean;
     total: number;
   }> {
     return this._http
       .get<GetResponse>(
-        `${environment.TRANSACTION_SERVICE()}transactions/device/0/10?tellerId=${
+        `${environment.TRANSACTION_SERVICE()}transactions/operator/0/10?tellerId=${
           this._auth.userId
-        }&startDate=2021-01-01&endDate=2021-01-02`
+        }&startDate=${startDate}&endDate=${endDate}`
       )
       .pipe(
         map((data) => {

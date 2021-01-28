@@ -20,6 +20,7 @@ import { ProcessingModal } from './shared/modal/processing';
 import { WarningModal } from './shared/modal/warning';
 import { SuccessModal } from './shared/modal/success';
 import { OperatorTransactionsComponent } from './routes/transactions/operator-transactions/operator-transactions.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { OperatorTransactionsComponent } from './routes/transactions/operator-tr
     HttpClientModule,
   ],
   providers: [
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
