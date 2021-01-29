@@ -14,18 +14,22 @@ import { environment } from 'src/environments/environment';
 export class TransactionService {
   constructor(private _http: HttpClient, private _auth: AuthService) {}
 
-  cashIn(transaction: Transaction): Observable<Object> {
-    return this._http.post(
-      `${environment.TRANSACTION_SERVICE()}transactions/cash-in`,
-      transaction
-    );
+  cashIn(transaction: Transaction): Observable<boolean> {
+    return this._http
+      .post(
+        `${environment.TRANSACTION_SERVICE()}transactions/cash-in`,
+        transaction
+      )
+      .pipe(map(() => true));
   }
 
-  cashOut(transaction: Transaction): Observable<Object> {
-    return this._http.post(
-      `${environment.TRANSACTION_SERVICE()}transactions/cash-out`,
-      transaction
-    );
+  cashOut(transaction: Transaction): Observable<boolean> {
+    return this._http
+      .post(
+        `${environment.TRANSACTION_SERVICE()}transactions/cash-out`,
+        transaction
+      )
+      .pipe(map(() => true));
   }
 
   getOperatorTransactions(

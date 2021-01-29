@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Transaction } from 'src/app/shared/models/transaction';
 import { SubSink } from 'subsink';
 import { TransactionService } from '../transaction.service';
@@ -19,7 +21,11 @@ export class CashInComponent implements OnInit, OnDestroy {
   aMessage: string;
   processing = false;
 
-  constructor(private _ts: TransactionService) {}
+  constructor(
+    private _ts: TransactionService,
+    private _router: Router,
+    private _auth: AuthService
+  ) {}
 
   ngOnInit() {
     this.cashInForm = new FormGroup({
@@ -34,10 +40,10 @@ export class CashInComponent implements OnInit, OnDestroy {
   cashIn() {
     const transaction: Transaction = {
       originalRef: this.cashInForm.get('reference').value,
-      agentId: 7,
+      agentId: this._auth.agentId,
       subscriberMobile: this.cashInForm.get('sMobile').value,
       amount: this.cashInForm.get('amount').value,
-      operatorId: 7,
+      operatorId: this._auth.userId,
       imei: this.cashInForm.get('imei').value,
       operatorCode: 'operatorCode',
       channel: 'WEB',
@@ -53,16 +59,33 @@ export class CashInComponent implements OnInit, OnDestroy {
           this.processing = false;
         },
         (e) => {
-          this.processing = false;
-          this.error = true;
-          this.aMessage = 'Something has gone wrong. Try again.';
-
-          setTimeout(() => {
-            this.error = false;
-          }, 5000);
+          e.error.message
+            ? this._onReqError(e.error.message)
+            : this._onReqError('Something went wrong. Try again.');
         }
       )
     );
+  }
+
+  private _onReqSuccess(message: string) {
+    this.processing = false;
+    this.success = true;
+    this.aMessage = message;
+
+    setTimeout(() => {
+      this.success = false;
+    }, 2000);
+    this._router.navigate(['devices']);
+  }
+
+  private _onReqError(message: string) {
+    this.processing = false;
+    this.error = true;
+    this.aMessage = message;
+
+    setTimeout(() => {
+      this.error = false;
+    }, 5000);
   }
 
   ngOnDestroy() {
