@@ -82,7 +82,7 @@
               <div class="p-4 rounded-sm shadow bg-cool-gray-900">
                 <div>
                   <h3 class="font-semibold leading-6 text-xl text-white">
-                    Devices
+                    Account Transactions
                   </h3>
                   <div class="mt-4 relative">
                     <label for="view-by" class="block text-sm font-medium leading-5 text-cool-gray-500">Filter by
@@ -94,18 +94,20 @@
                         clip-rule="evenodd" />
                     </svg>
                     <select id="view-by" class="mt-1 py-2 border-cool-gray-600 text-cool-gray-400"
-                      (change)="onFilterDevices($event)">
-                      <option value="ACTIVE">Active</option>
-                      <option value="INACTIVE">Inactive</option>
+                      (change)="onFilterAccountTransactions($event)">
+                      <option value="CASHIN">Cash in</option>
+                      <option value="CASHOUT">Cash out</option>
                     </select>
                   </div>
                 </div>
                 <div class="flex items-baseline">
-                  <p class="text-6xl text-white">{{domDevices}}</p>
-                  <span *ngIf="activeDevices"
-                    class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-green-400">Active</span>
-                  <span *ngIf="!activeDevices"
-                    class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-red-600">Inactive</span>
+                  <p class="text-6xl text-white">{{domAccountTransactions}}</p>
+                  <span *ngIf="cashInTransactions"
+                    class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-indigo-500">Cashed
+                    in</span>
+                  <span *ngIf="!cashInTransactions"
+                    class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-blue-400">Cashed
+                    out</span>
                 </div>
               </div>
             </div>

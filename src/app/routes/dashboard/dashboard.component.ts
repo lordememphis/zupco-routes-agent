@@ -6,6 +6,9 @@ import { OperatorService } from '../operators/operator.service';
 import { SubSink } from 'subsink';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { TransactionService } from '../transactions/transaction.service';
+import { DatePipe } from '@angular/common';
+import { TransactionHistory } from 'src/app/shared/models/transaction-history';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,50 +17,80 @@ import { map } from 'rxjs/operators';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   private _subs = new SubSink();
-  initialSubs$: Observable<{ devices: Device[]; operators: Operator[] }>;
 
   devices: Device[] = [];
   operators: Operator[] = [];
+  accountTranscations: TransactionHistory[] = [];
 
   domDevices: number;
   domOperators: number;
+  domAccountTransactions: number;
   activeDevices = true;
   activeOperators = true;
+  cashInTransactions = true;
 
   processing = true;
   error = false;
   aMessage: string;
 
+  startDate: string;
+  endDate: string;
+
   constructor(
     private _deviceService: DeviceService,
-    private _operatorService: OperatorService
-  ) {}
+    private _operatorService: OperatorService,
+    private _transactionService: TransactionService,
+    datePipe: DatePipe
+  ) {
+    this.startDate = this.endDate = datePipe.transform(
+      new Date(),
+      'yyyy-MM-dd'
+    );
+  }
 
   ngOnInit(): void {
     this._subs.add(
       forkJoin([
         this._deviceService.getDevices(),
         this._operatorService.getOperators(),
+        this._transactionService.getOperatorTransactions(
+          this.startDate,
+          this.endDate
+        ),
       ])
         .pipe(
-          map(([devices, operators]) => {
-            return { devices, operators };
+          map(([devices, operators, operatorTransactions]) => {
+            return { devices, operators, operatorTransactions };
           })
         )
-        .subscribe((data) => {
-          this.devices = data.devices.devices;
-          this.operators = data.operators.operators;
+        .subscribe(
+          (data) => {
+            this.devices = data.devices.devices;
+            this.operators = data.operators.operators;
+            this.accountTranscations = data.operatorTransactions.transactions;
 
-          this.domDevices = this.devices.filter(
-            (device) => device.status === 'ACTIVE'
-          ).length;
+            this.domDevices = this.devices.filter(
+              (device) => device.status === 'ACTIVE'
+            ).length;
 
-          this.domOperators = this.operators.filter(
-            (operator) => operator.status === 'ACTIVE'
-          ).length;
+            this.domOperators = this.operators.filter(
+              (operator) => operator.status === 'ACTIVE'
+            ).length;
 
-          this.processing = false;
-        })
+            this.domAccountTransactions = this.accountTranscations.filter(
+              (transaction) => transaction.transactionType === 'CASHIN'
+            ).length;
+
+            this.processing = false;
+          },
+          (e) => {
+            e.error.message
+              ? this._onReqError(e.error.message)
+              : this._onReqError(
+                  'Something went wrong and we could not get your data. Try to refresh page.'
+                );
+          }
+        )
     );
   }
 
@@ -73,6 +106,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.domOperators = this.operators.filter(
       (operator) => operator.status === e.target.value
     ).length;
+  }
+
+  onFilterAccountTransactions(e: any) {
+    this.cashInTransactions = !this.cashInTransactions;
+    this.domAccountTransactions = this.accountTranscations.filter(
+      (transaction) => transaction.transactionType === e.target.value
+    ).length;
+  }
+
+  private _onReqError(message: string) {
+    this.processing = false;
+    this.error = true;
+    this.aMessage = message;
+
+    setTimeout(() => {
+      this.error = false;
+    }, 5000);
   }
 
   ngOnDestroy() {
