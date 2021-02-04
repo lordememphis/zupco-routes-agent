@@ -20,3 +20,14 @@ export interface A2ATransaction {
   channel: string;
   transactionTypes: string;
 }
+
+export interface WTBTransaction {
+  originalRef: string;
+  agentId: number;
+  bankId: number;
+  amount: number;
+  operatorId: number;
+  operatorCode: string;
+  channel: string;
+  transactionTypes: string;
+}

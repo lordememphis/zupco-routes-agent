@@ -13,6 +13,7 @@ import { CashInComponent } from './routes/transactions/cash-in/cash-in.component
 import { CashOutComponent } from './routes/transactions/cash-out/cash-out.component';
 import { DeviceTransactionsComponent } from './routes/transactions/device-transactions/device-transactions.component';
 import { OperatorTransactionsComponent } from './routes/transactions/operator-transactions/operator-transactions.component';
+import { WalletToBankComponent } from './routes/transactions/wallet-to-bank/wallet-to-bank.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
       { path: 'transactions/cash-in', component: CashInComponent },
       { path: 'transactions/cash-out', component: CashOutComponent },
       { path: 'transactions/agent-to-agent', component: AgentToAgentComponent },
+      { path: 'transactions/wallet-to-bank', component: WalletToBankComponent },
       {
         path: 'reports/account-transactions',
         component: OperatorTransactionsComponent,

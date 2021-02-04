@@ -23,6 +23,7 @@ import { OperatorTransactionsComponent } from './routes/transactions/operator-tr
 import { DatePipe } from '@angular/common';
 import { DeviceTransactionsComponent } from './routes/transactions/device-transactions/device-transactions.component';
 import { AgentToAgentComponent } from './routes/transactions/agent-to-agent/agent-to-agent.component';
+import { WalletToBankComponent } from './routes/transactions/wallet-to-bank/wallet-to-bank.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { AgentToAgentComponent } from './routes/transactions/agent-to-agent/agen
     OperatorTransactionsComponent,
     DeviceTransactionsComponent,
     AgentToAgentComponent,
+    WalletToBankComponent,
   ],
   imports: [
     BrowserModule,

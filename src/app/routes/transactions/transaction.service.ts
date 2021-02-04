@@ -7,6 +7,7 @@ import { GetResponse } from 'src/app/shared/models/response';
 import {
   A2ATransaction,
   CashInOutTransaction,
+  WTBTransaction,
 } from 'src/app/shared/models/transaction';
 import { TransactionHistory } from 'src/app/shared/models/transaction-history';
 import { environment } from 'src/environments/environment';
@@ -39,6 +40,15 @@ export class TransactionService {
     return this._http
       .post(
         `${environment.TRANSACTION_SERVICE()}transactions/agent-transfer`,
+        transaction
+      )
+      .pipe(map(() => true));
+  }
+
+  walletToBank(transaction: WTBTransaction): Observable<boolean> {
+    return this._http
+      .post(
+        `${environment.TRANSACTION_SERVICE()}transactions/agent-wallet-to-bank`,
         transaction
       )
       .pipe(map(() => true));
