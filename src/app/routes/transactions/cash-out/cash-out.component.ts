@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Transaction } from 'src/app/shared/models/transaction';
 import { SubSink } from 'subsink';
 import { TransactionService } from '../transaction.service';
+import * as UUID from 'uuid-int';
 
 @Component({
   selector: 'app-cash-out',
@@ -29,7 +30,10 @@ export class CashOutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.cashOutForm = new FormGroup({
-      reference: new FormControl(null, Validators.required),
+      reference: new FormControl(
+        { value: UUID(0).uuid(), disabled: true },
+        Validators.required
+      ),
       sMobile: new FormControl(null, Validators.required),
       imei: new FormControl(null, Validators.required),
       type: new FormControl('CASHOUT', Validators.required),
