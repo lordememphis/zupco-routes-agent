@@ -91,7 +91,7 @@ export class DeviceTransactionsComponent implements OnInit {
     setTimeout(() => {
       this.success = false;
     }, 2000);
-    this._router.navigate(['devices']);
+    this._router.navigate(['reports', 'device-transactions']);
   }
 
   private _onReqError(message: string) {

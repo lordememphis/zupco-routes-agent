@@ -18,7 +18,7 @@
                 Cash In
               </h2>
             </div>
-            <form [formGroup]="cashInForm" (ngSubmit)="fsDialog=true">
+            <form [formGroup]="transactionForm" (ngSubmit)="fsDialog=true">
               <div class="mt-8">
                 <div>
                   <div>
@@ -69,8 +69,8 @@
                         </div>
                         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
                           <div class="inline-flex">
-                            <button type="submit" [disabled]="!cashInForm.valid"
-                              [class]="{'cursor-not-allowed': !cashInForm.valid}"
+                            <button type="submit" [disabled]="!transactionForm.valid"
+                              [class]="{'cursor-not-allowed': !transactionForm.valid}"
                               class="btn py-2 text-white bg-cool-gray-900 shadow hover:shadow-md">
                               Cash In
                             </button>

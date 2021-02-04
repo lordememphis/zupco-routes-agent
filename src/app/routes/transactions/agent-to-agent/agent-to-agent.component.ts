@@ -2,10 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
-import {
-  A2ATransaction,
-  CashInOutTransaction,
-} from 'src/app/shared/models/transaction';
+import { A2ATransaction } from 'src/app/shared/models/transaction';
 import { SubSink } from 'subsink';
 import * as UUID from 'uuid-int';
 import { TransactionService } from '../transaction.service';
@@ -18,7 +15,7 @@ import { TransactionService } from '../transaction.service';
 export class AgentToAgentComponent implements OnInit, OnDestroy {
   private _subs = new SubSink();
 
-  a2aForm: FormGroup;
+  transactionForm: FormGroup;
   authForm: FormGroup;
 
   error = false;
@@ -34,7 +31,7 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.a2aForm = new FormGroup({
+    this.transactionForm = new FormGroup({
       reference: new FormControl(
         { value: UUID(0).uuid(), disabled: true },
         Validators.required
@@ -51,23 +48,22 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
 
   agentTransfer() {
     const transaction: A2ATransaction = {
-      originalRef: this.a2aForm.get('reference').value,
+      originalRef: this.transactionForm.get('reference').value,
       senderAgentId: this._auth.agentId,
-      receiverAgentMobile: this.a2aForm.get('rMobile').value,
-      amount: this.a2aForm.get('amount').value,
+      receiverAgentMobile: this.transactionForm.get('rMobile').value,
+      amount: this.transactionForm.get('amount').value,
       operatorId: this._auth.userId,
       operatorCode: this.authForm.get('code').value,
       channel: 'WEB',
-      transactionTypes: this.a2aForm.get('type').value,
+      transactionTypes: this.transactionForm.get('type').value,
     };
 
     this.processing = true;
 
     this._subs.add(
       this._ts.agentToAgent(transaction).subscribe(
-        (res) => {
-          console.log(res);
-          this.processing = false;
+        () => {
+          this._onReqSuccess('Your agent to agent transfer was successful.');
         },
         (e) => {
           e.error.message
@@ -80,17 +76,19 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
 
   private _onReqSuccess(message: string) {
     this.processing = false;
+    this.fsDialog = false;
     this.success = true;
     this.aMessage = message;
 
     setTimeout(() => {
       this.success = false;
     }, 2000);
-    this._router.navigate(['devices']);
+    this._router.navigate(['transactions', 'agent-to-agent']);
   }
 
   private _onReqError(message: string) {
     this.processing = false;
+    this.fsDialog = false;
     this.error = true;
     this.aMessage = message;
 

@@ -63,7 +63,6 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
     this._subs.add(
       this._ts.walletToBank(transaction).subscribe(
         () => {
-          this.processing = false;
           this._onReqSuccess('Your wallet to bank transfer was successful.');
         },
         (e) => {
@@ -84,7 +83,7 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.success = false;
     }, 2000);
-    this._router.navigate(['devices']);
+    this._router.navigate(['transactions', 'wallet-to-bank']);
   }
 
   private _onReqError(message: string) {

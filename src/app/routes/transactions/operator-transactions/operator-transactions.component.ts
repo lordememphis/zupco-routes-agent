@@ -63,7 +63,7 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.success = false;
     }, 2000);
-    this._router.navigate(['devices']);
+    this._router.navigate(['reports', 'account-transactions']);
   }
 
   private _onReqError(message: string) {

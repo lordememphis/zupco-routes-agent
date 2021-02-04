@@ -15,7 +15,7 @@ import * as UUID from 'uuid-int';
 export class CashInComponent implements OnInit, OnDestroy {
   private _subs = new SubSink();
 
-  cashInForm: FormGroup;
+  transactionForm: FormGroup;
   authForm: FormGroup;
 
   error = false;
@@ -31,7 +31,7 @@ export class CashInComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.cashInForm = new FormGroup({
+    this.transactionForm = new FormGroup({
       reference: new FormControl(
         { value: UUID(0).uuid(), disabled: true },
         Validators.required
@@ -49,24 +49,23 @@ export class CashInComponent implements OnInit, OnDestroy {
 
   cashIn() {
     const transaction: CashInOutTransaction = {
-      originalRef: this.cashInForm.get('reference').value,
+      originalRef: this.transactionForm.get('reference').value,
       agentId: this._auth.agentId,
-      subscriberMobile: this.cashInForm.get('sMobile').value,
-      amount: this.cashInForm.get('amount').value,
+      subscriberMobile: this.transactionForm.get('sMobile').value,
+      amount: this.transactionForm.get('amount').value,
       operatorId: this._auth.userId,
-      imei: this.cashInForm.get('imei').value,
+      imei: this.transactionForm.get('imei').value,
       operatorCode: this.authForm.get('code').value,
       channel: 'WEB',
-      transactionTypes: this.cashInForm.get('type').value,
+      transactionTypes: this.transactionForm.get('type').value,
     };
 
     this.processing = true;
 
     this._subs.add(
       this._ts.cashIn(transaction).subscribe(
-        (res) => {
-          console.log(res);
-          this.processing = false;
+        () => {
+          this._onReqSuccess('Your cash in transaction was successful.');
         },
         (e) => {
           e.error.message
@@ -79,17 +78,19 @@ export class CashInComponent implements OnInit, OnDestroy {
 
   private _onReqSuccess(message: string) {
     this.processing = false;
+    this.fsDialog = false;
     this.success = true;
     this.aMessage = message;
 
     setTimeout(() => {
       this.success = false;
     }, 2000);
-    this._router.navigate(['devices']);
+    this._router.navigate(['transactions', 'cash-in']);
   }
 
   private _onReqError(message: string) {
     this.processing = false;
+    this.fsDialog = false;
     this.error = true;
     this.aMessage = message;
 
