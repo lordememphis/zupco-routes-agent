@@ -16,11 +16,13 @@ export class CashInComponent implements OnInit, OnDestroy {
   private _subs = new SubSink();
 
   cashInForm: FormGroup;
+  authForm: FormGroup;
 
   error = false;
   success = false;
   aMessage: string;
   processing = false;
+  fsDialog = false;
 
   constructor(
     private _ts: TransactionService,
@@ -39,6 +41,10 @@ export class CashInComponent implements OnInit, OnDestroy {
       type: new FormControl('CASHIN', Validators.required),
       amount: new FormControl(null, Validators.required),
     });
+
+    this.authForm = new FormGroup({
+      code: new FormControl(null, Validators.required),
+    });
   }
 
   cashIn() {
@@ -49,7 +55,7 @@ export class CashInComponent implements OnInit, OnDestroy {
       amount: this.cashInForm.get('amount').value,
       operatorId: this._auth.userId,
       imei: this.cashInForm.get('imei').value,
-      operatorCode: 'operatorCode',
+      operatorCode: this.authForm.get('code').value,
       channel: 'WEB',
       transactionTypes: this.cashInForm.get('type').value,
     };
