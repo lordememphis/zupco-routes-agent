@@ -8,6 +8,7 @@ import { DevicesComponent } from './routes/devices/devices.component';
 import { HomeComponent } from './routes/home/home.component';
 import { OperatorsComponent } from './routes/operators/operators.component';
 import { SettingsComponent } from './routes/settings/settings.component';
+import { AgentToAgentComponent } from './routes/transactions/agent-to-agent/agent-to-agent.component';
 import { CashInComponent } from './routes/transactions/cash-in/cash-in.component';
 import { CashOutComponent } from './routes/transactions/cash-out/cash-out.component';
 import { DeviceTransactionsComponent } from './routes/transactions/device-transactions/device-transactions.component';
@@ -28,6 +29,7 @@ const routes: Routes = [
       { path: 'devices', component: DevicesComponent },
       { path: 'transactions/cash-in', component: CashInComponent },
       { path: 'transactions/cash-out', component: CashOutComponent },
+      { path: 'transactions/agent-to-agent', component: AgentToAgentComponent },
       {
         path: 'reports/account-transactions',
         component: OperatorTransactionsComponent,

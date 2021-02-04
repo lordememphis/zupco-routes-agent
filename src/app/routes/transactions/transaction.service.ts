@@ -4,7 +4,10 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { GetResponse } from 'src/app/shared/models/response';
-import { Transaction } from 'src/app/shared/models/transaction';
+import {
+  A2ATransaction,
+  CashInOutTransaction,
+} from 'src/app/shared/models/transaction';
 import { TransactionHistory } from 'src/app/shared/models/transaction-history';
 import { environment } from 'src/environments/environment';
 
@@ -14,7 +17,7 @@ import { environment } from 'src/environments/environment';
 export class TransactionService {
   constructor(private _http: HttpClient, private _auth: AuthService) {}
 
-  cashIn(transaction: Transaction): Observable<boolean> {
+  cashIn(transaction: CashInOutTransaction): Observable<boolean> {
     return this._http
       .post(
         `${environment.TRANSACTION_SERVICE()}transactions/cash-in`,
@@ -23,10 +26,19 @@ export class TransactionService {
       .pipe(map(() => true));
   }
 
-  cashOut(transaction: Transaction): Observable<boolean> {
+  cashOut(transaction: CashInOutTransaction): Observable<boolean> {
     return this._http
       .post(
         `${environment.TRANSACTION_SERVICE()}transactions/cash-out`,
+        transaction
+      )
+      .pipe(map(() => true));
+  }
+
+  agentToAgent(transaction: A2ATransaction): Observable<boolean> {
+    return this._http
+      .post(
+        `${environment.TRANSACTION_SERVICE()}transactions/agent-transfer`,
         transaction
       )
       .pipe(map(() => true));

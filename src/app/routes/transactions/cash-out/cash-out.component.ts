@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Transaction } from 'src/app/shared/models/transaction';
+import { CashInOutTransaction } from 'src/app/shared/models/transaction';
 import { SubSink } from 'subsink';
 import { TransactionService } from '../transaction.service';
 import * as UUID from 'uuid-int';
@@ -48,7 +48,7 @@ export class CashOutComponent implements OnInit, OnDestroy {
   }
 
   cashOut() {
-    const transaction: Transaction = {
+    const transaction: CashInOutTransaction = {
       originalRef: this.cashOutForm.get('reference').value,
       agentId: this._auth.agentId,
       subscriberMobile: this.cashOutForm.get('sMobile').value,

@@ -22,6 +22,7 @@ import { SuccessModal } from './shared/modal/success';
 import { OperatorTransactionsComponent } from './routes/transactions/operator-transactions/operator-transactions.component';
 import { DatePipe } from '@angular/common';
 import { DeviceTransactionsComponent } from './routes/transactions/device-transactions/device-transactions.component';
+import { AgentToAgentComponent } from './routes/transactions/agent-to-agent/agent-to-agent.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { DeviceTransactionsComponent } from './routes/transactions/device-transa
     SuccessModal,
     OperatorTransactionsComponent,
     DeviceTransactionsComponent,
+    AgentToAgentComponent,
   ],
   imports: [
     BrowserModule,

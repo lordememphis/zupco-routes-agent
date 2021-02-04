@@ -1,21 +1,24 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
-import { CashInOutTransaction } from 'src/app/shared/models/transaction';
+import {
+  A2ATransaction,
+  CashInOutTransaction,
+} from 'src/app/shared/models/transaction';
 import { SubSink } from 'subsink';
-import { TransactionService } from '../transaction.service';
 import * as UUID from 'uuid-int';
+import { TransactionService } from '../transaction.service';
 
 @Component({
-  selector: 'app-cash-in',
-  templateUrl: './cash-in.component.html',
-  styleUrls: ['./cash-in.component.scss'],
+  selector: 'app-agent-to-agent',
+  templateUrl: './agent-to-agent.component.html',
+  styleUrls: ['./agent-to-agent.component.scss'],
 })
-export class CashInComponent implements OnInit, OnDestroy {
+export class AgentToAgentComponent implements OnInit, OnDestroy {
   private _subs = new SubSink();
 
-  cashInForm: FormGroup;
+  a2aForm: FormGroup;
   authForm: FormGroup;
 
   error = false;
@@ -31,13 +34,12 @@ export class CashInComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.cashInForm = new FormGroup({
+    this.a2aForm = new FormGroup({
       reference: new FormControl(
         { value: UUID(0).uuid(), disabled: true },
         Validators.required
       ),
-      sMobile: new FormControl(null, Validators.required),
-      imei: new FormControl(null, Validators.required),
+      rMobile: new FormControl(null, Validators.required),
       type: new FormControl('CASHIN', Validators.required),
       amount: new FormControl(null, Validators.required),
     });
@@ -47,23 +49,22 @@ export class CashInComponent implements OnInit, OnDestroy {
     });
   }
 
-  cashIn() {
-    const transaction: CashInOutTransaction = {
-      originalRef: this.cashInForm.get('reference').value,
-      agentId: this._auth.agentId,
-      subscriberMobile: this.cashInForm.get('sMobile').value,
-      amount: this.cashInForm.get('amount').value,
+  agentTransfer() {
+    const transaction: A2ATransaction = {
+      originalRef: this.a2aForm.get('reference').value,
+      senderAgentId: this._auth.agentId,
+      receiverAgentMobile: this.a2aForm.get('rMobile').value,
+      amount: this.a2aForm.get('amount').value,
       operatorId: this._auth.userId,
-      imei: this.cashInForm.get('imei').value,
       operatorCode: this.authForm.get('code').value,
       channel: 'WEB',
-      transactionTypes: this.cashInForm.get('type').value,
+      transactionTypes: this.a2aForm.get('type').value,
     };
 
     this.processing = true;
 
     this._subs.add(
-      this._ts.cashIn(transaction).subscribe(
+      this._ts.agentToAgent(transaction).subscribe(
         (res) => {
           console.log(res);
           this.processing = false;
