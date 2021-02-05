@@ -127,6 +127,32 @@ export class DevicesComponent implements OnInit, OnDestroy {
       )
     );
   }
+  changeDeviceStatus(device: Device) {
+    this.processing = true;
+    const { ...d } = device;
+
+    device.status === 'ACTIVE' ? (d.status = 'BLOCKED') : (d.status = 'ACTIVE');
+
+    this._subs.add(
+      this._deviceService.updateDevice(d).subscribe(
+        () => {
+          this._onReqSuccess('Device status changed successfully.');
+        },
+        (e) => {
+          if (e.error)
+            e.error.message
+              ? this._onReqError(e.error.message)
+              : this._onReqError(
+                  'Something went wrong. Could not change device status. Try again.'
+                );
+          else
+            this._onReqError(
+              'Something went wrong. Could not change device status. Try again.'
+            );
+        }
+      )
+    );
+  }
 
   deleteDevice(): void {
     this.processing = true;

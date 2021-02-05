@@ -61,13 +61,9 @@ export class OperatorsComponent implements OnInit, OnDestroy {
           this.totalOperators = res.total;
         },
         (e) => {
-          this.processing = false;
-          this.error = true;
-          this.aMessage = 'Something has gone wrong. Try again.';
-
-          setTimeout(() => {
-            this.error = false;
-          }, 5000);
+          e.error.message
+            ? this._onReqError(e.error.message)
+            : this._onReqError('Something went wrong. Try again.');
         }
       )
     );
@@ -102,23 +98,12 @@ export class OperatorsComponent implements OnInit, OnDestroy {
     this._subs.add(
       this._operatorService.registerOperator(operator).subscribe(
         () => {
-          this.processing = false;
-          this.success = true;
-          this.aMessage = 'Operator successfully registered.';
-
-          setTimeout(() => {
-            this.success = false;
-          }, 2000);
-          this._router.navigate(['operators']);
+          this._onReqSuccess('Operator successfully registered.');
         },
         (e) => {
-          this.processing = false;
-          this.error = true;
-          this.aMessage = 'Something has gone wrong. Try again.';
-
-          setTimeout(() => {
-            this.error = false;
-          }, 5000);
+          e.error.message
+            ? this._onReqError(e.error.message)
+            : this._onReqError('Something went wrong. Try again.');
         }
       )
     );
@@ -152,24 +137,42 @@ export class OperatorsComponent implements OnInit, OnDestroy {
 
     this._subs.add(
       this._operatorService.updateOperator(op).subscribe(
-        (res) => {
-          this.processing = false;
-          this.success = true;
-          this.aMessage = 'Operator information changed successfully.';
-
-          setTimeout(() => {
-            this.success = false;
-          }, 2000);
-          this._router.navigate(['operators']);
+        () => {
+          this._onReqSuccess('Operator information changed successfully.');
         },
         (e) => {
-          this.processing = false;
-          this.error = true;
-          this.aMessage = 'Something has gone wrong. Try again.';
+          e.error.message
+            ? this._onReqError(e.error.message)
+            : this._onReqError('Something went wrong. Try again.');
+        }
+      )
+    );
+  }
 
-          setTimeout(() => {
-            this.error = false;
-          }, 5000);
+  changeOperatorStatus(operator: Operator) {
+    this.processing = true;
+    const { ...op } = operator;
+
+    operator.status === 'ACTIVE'
+      ? (op.status = 'BLOCKED')
+      : (op.status = 'ACTIVE');
+
+    this._subs.add(
+      this._operatorService.updateOperator(op).subscribe(
+        () => {
+          this._onReqSuccess('Operator status changed successfully.');
+        },
+        (e) => {
+          if (e.error)
+            e.error.message
+              ? this._onReqError(e.error.message)
+              : this._onReqError(
+                  'Something went wrong. Could not change operator status. Try again.'
+                );
+          else
+            this._onReqError(
+              'Something went wrong. Could not change operator status. Try again.'
+            );
         }
       )
     );
@@ -180,26 +183,36 @@ export class OperatorsComponent implements OnInit, OnDestroy {
     this._subs.add(
       this._operatorService.deleteOperator(this.operator.id).subscribe(
         () => {
-          this.processing = false;
-          this.success = true;
-          this.aMessage = 'Operator successfully deleted.';
-
-          setTimeout(() => {
-            this.success = false;
-          }, 2000);
-          this._router.navigate(['operators']);
+          this._onReqSuccess('Operator successfully deleted.');
         },
         (e) => {
-          this.processing = false;
-          this.error = true;
-          this.aMessage = 'Something has gone wrong. Try again.';
-
-          setTimeout(() => {
-            this.error = false;
-          }, 5000);
+          e.error.message
+            ? this._onReqError(e.error.message)
+            : this._onReqError('Something went wrong. Try again.');
         }
       )
     );
+  }
+
+  private _onReqSuccess(message: string) {
+    this.processing = false;
+    this.success = true;
+    this.aMessage = message;
+
+    setTimeout(() => {
+      this.success = false;
+    }, 2000);
+    this._router.navigate(['operators']);
+  }
+
+  private _onReqError(message: string) {
+    this.processing = false;
+    this.error = true;
+    this.aMessage = message;
+
+    setTimeout(() => {
+      this.error = false;
+    }, 5000);
   }
 
   closeFsDialog(): void {

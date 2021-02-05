@@ -122,15 +122,19 @@
                               <div class="text-sm leading-5 text-gray-500">{{d.type}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap">
-                              <span
+                              <span *ngIf="d.status.toLowerCase() === 'active'"
                                 class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                 Active
                               </span>
+                              <span *ngIf="d.status.toLowerCase() !== 'active'"
+                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">
+                                Inactive
+                              </span>
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                              <button *ngIf="d.status.toLowerCase() !== 'active'"
+                              <button (click)="changeDeviceStatus(d)" *ngIf="d.status.toLowerCase() !== 'active'"
                                 class="text-green-600 hover:text-green-900">Activate</button>
-                              <button *ngIf="d.status.toLowerCase() === 'active'"
+                              <button (click)="changeDeviceStatus(d)" *ngIf="d.status.toLowerCase() === 'active'"
                                 class="text-orange-500 hover:text-orange-600">Deactivate</button>
                               <button (click)="onEditDevice(d)"
                                 class="ml-4 text-cool-gray-800 hover:text-cool-gray-900">Edit</button>
