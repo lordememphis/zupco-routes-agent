@@ -17,6 +17,7 @@ export class CashOutComponent implements OnInit, OnDestroy {
 
   transactionForm: FormGroup;
   authForm: FormGroup;
+  transactionCode: string;
 
   error = false;
   success = false;
@@ -25,12 +26,13 @@ export class CashOutComponent implements OnInit, OnDestroy {
   fsDialog = false;
 
   constructor(
-    private _ts: TransactionService,
+    private _transactionService: TransactionService,
     private _router: Router,
     private _auth: AuthService
   ) {}
 
   ngOnInit() {
+    this.transactionCode = this._transactionService.CASHOUT_CODE;
     this.transactionForm = new FormGroup({
       reference: new FormControl(
         { value: UUID(0).uuid(), disabled: true },
@@ -63,7 +65,7 @@ export class CashOutComponent implements OnInit, OnDestroy {
     this.processing = true;
 
     this._subs.add(
-      this._ts.cashOut(transaction).subscribe(
+      this._transactionService.cashOut(transaction).subscribe(
         () => {
           this._onReqSuccess('Your cash out transaction was successful.');
         },

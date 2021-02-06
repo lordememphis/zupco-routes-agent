@@ -17,6 +17,7 @@ export class CashInComponent implements OnInit, OnDestroy {
 
   transactionForm: FormGroup;
   authForm: FormGroup;
+  transactionCode: string;
 
   error = false;
   success = false;
@@ -25,12 +26,13 @@ export class CashInComponent implements OnInit, OnDestroy {
   fsDialog = false;
 
   constructor(
-    private _ts: TransactionService,
+    private _transactionService: TransactionService,
     private _router: Router,
     private _auth: AuthService
   ) {}
 
   ngOnInit() {
+    this.transactionCode = this._transactionService.CASHIN_CODE;
     this.transactionForm = new FormGroup({
       reference: new FormControl(
         { value: UUID(0).uuid(), disabled: true },
@@ -38,7 +40,7 @@ export class CashInComponent implements OnInit, OnDestroy {
       ),
       sMobile: new FormControl(null, Validators.required),
       imei: new FormControl(null, Validators.required),
-      type: new FormControl('CASHIN', Validators.required),
+      type: new FormControl(this.transactionCode, Validators.required),
       amount: new FormControl(null, Validators.required),
     });
 
@@ -63,7 +65,7 @@ export class CashInComponent implements OnInit, OnDestroy {
     this.processing = true;
 
     this._subs.add(
-      this._ts.cashIn(transaction).subscribe(
+      this._transactionService.cashIn(transaction).subscribe(
         () => {
           this._onReqSuccess('Your cash in transaction was successful.');
         },

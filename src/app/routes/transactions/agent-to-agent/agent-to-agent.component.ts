@@ -17,6 +17,7 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
 
   transactionForm: FormGroup;
   authForm: FormGroup;
+  transactionCode: string;
 
   error = false;
   success = false;
@@ -25,19 +26,20 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
   fsDialog = false;
 
   constructor(
-    private _ts: TransactionService,
+    private _transactionService: TransactionService,
     private _router: Router,
     private _auth: AuthService
   ) {}
 
   ngOnInit() {
+    this.transactionCode = this._transactionService.A2A_CODE;
     this.transactionForm = new FormGroup({
       reference: new FormControl(
         { value: UUID(0).uuid(), disabled: true },
         Validators.required
       ),
       rMobile: new FormControl(null, Validators.required),
-      type: new FormControl('CASHIN', Validators.required),
+      type: new FormControl(this.transactionCode, Validators.required),
       amount: new FormControl(null, Validators.required),
     });
 
@@ -61,7 +63,7 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
     this.processing = true;
 
     this._subs.add(
-      this._ts.agentToAgent(transaction).subscribe(
+      this._transactionService.agentToAgent(transaction).subscribe(
         () => {
           this._onReqSuccess('Your agent to agent transfer was successful.');
         },

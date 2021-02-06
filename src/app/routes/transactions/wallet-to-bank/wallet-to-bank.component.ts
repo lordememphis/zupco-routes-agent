@@ -17,6 +17,7 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
 
   transactionForm: FormGroup;
   authForm: FormGroup;
+  transactionCode: string;
 
   error = false;
   success = false;
@@ -25,19 +26,20 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
   fsDialog = false;
 
   constructor(
-    private _ts: TransactionService,
+    private _transactionService: TransactionService,
     private _router: Router,
     private _auth: AuthService
   ) {}
 
   ngOnInit() {
+    this.transactionCode = this._transactionService.WTB_CODE;
     this.transactionForm = new FormGroup({
       reference: new FormControl(
         { value: UUID(0).uuid(), disabled: true },
         Validators.required
       ),
       bankId: new FormControl(null, Validators.required),
-      type: new FormControl('CASHIN', Validators.required),
+      type: new FormControl(this.transactionCode, Validators.required),
       amount: new FormControl(null, Validators.required),
     });
 
@@ -61,7 +63,7 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
     this.processing = true;
 
     this._subs.add(
-      this._ts.walletToBank(transaction).subscribe(
+      this._transactionService.walletToBank(transaction).subscribe(
         () => {
           this._onReqSuccess('Your wallet to bank transfer was successful.');
         },
