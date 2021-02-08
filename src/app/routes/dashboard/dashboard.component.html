@@ -38,7 +38,7 @@
                     <select id="view-by" class="mt-1 py-2 border-cool-gray-600 text-cool-gray-400"
                       (change)="onFilterDevices($event)">
                       <option value="ACTIVE">Active</option>
-                      <option value="INACTIVE">Inactive</option>
+                      <option value="BLOCKED">Blocked</option>
                     </select>
                   </div>
                 </div>
@@ -47,7 +47,7 @@
                   <span *ngIf="activeDevices"
                     class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-green-400">Active</span>
                   <span *ngIf="!activeDevices"
-                    class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-red-600">Inactive</span>
+                    class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-red-600">Blocked</span>
                 </div>
               </div>
               <div class="p-4 rounded-sm shadow bg-cool-gray-900">
@@ -67,7 +67,7 @@
                     <select id="view-by" class="mt-1 py-2 border-cool-gray-600 text-cool-gray-400"
                       (change)="onFilterOperators($event)">
                       <option value="ACTIVE">Active</option>
-                      <option value="INACTIVE">Inactive</option>
+                      <option value="BLOCKED">Blocked</option>
                     </select>
                   </div>
                 </div>
@@ -76,7 +76,7 @@
                   <span *ngIf="activeOperators"
                     class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-green-400">Active</span>
                   <span *ngIf="!activeOperators"
-                    class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-red-600">Inactive</span>
+                    class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-red-600">Blocked</span>
                 </div>
               </div>
               <div class="p-4 rounded-sm shadow bg-cool-gray-900">
