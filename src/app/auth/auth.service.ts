@@ -55,17 +55,21 @@ export class AuthService {
     this._router.navigate(['login']);
   }
 
-  sendResetPasswordToken(email: string): Observable<Object> {
-    return this._http.post(
-      `${environment.USER_SERVICE()}user/resetPassword?email=${email}`,
-      null
-    );
+  sendResetPasswordToken(email: string): Observable<boolean> {
+    return this._http
+      .post(
+        `${environment.USER_SERVICE()}user/resetPassword?email=${email}`,
+        null
+      )
+      .pipe(map(() => true));
   }
 
-  resetPassword(token: string, password: string): Observable<Object> {
-    return this._http.post(`${environment.USER_SERVICE()}user/savePassword`, {
-      token: token,
-      newPassword: password,
-    });
+  resetPassword(token: string, password: string): Observable<boolean> {
+    return this._http
+      .post(`${environment.USER_SERVICE()}user/savePassword`, {
+        token: token,
+        newPassword: password,
+      })
+      .pipe(map(() => true));
   }
 }

@@ -62,30 +62,16 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       this._auth
         .sendResetPasswordToken(this.sendTokenForm.get('email').value)
         .subscribe(
-          (res) => {
+          () => {
             this.processing = false;
             this.success = true;
-
-            console.log(res);
-
-            this.aMessage = 'A reset token has been sent to the email you .';
-
-            setTimeout(() => {
-              this.success = false;
-              this.resetting = true;
-            }, 2000);
+            this.aMessage =
+              'A reset token has been sent to the email you provided. Please check your email and click the link with your password reset token to reset your password.';
           },
           (e) => {
-            this.processing = false;
-            this.error = true;
-
             e.error.message
-              ? (this.aMessage = e.error.message)
-              : (this.aMessage = 'Something went wrong. Try again.');
-
-            setTimeout(() => {
-              this.error = false;
-            }, 5000);
+              ? this._onReqError(e.error.message)
+              : this._onReqError('Something went wrong. Try again.');
           }
         )
     );
@@ -110,34 +96,39 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     this._subs.add(
       this._auth.resetPassword(this.token, p).subscribe(
-        (res) => {
-          this.processing = false;
-          this.success = true;
-
-          console.log(res);
-
-          this.aMessage =
-            'Your password has been reset successfully. You can now login with your new password.';
-
-          setTimeout(() => {
-            this.success = false;
-            this._router.navigate(['login']);
-          }, 2000);
+        () => {
+          this._onReqSuccess(
+            'Your password has been reset successfully. You now login using your newly set password.'
+          );
         },
         (e) => {
-          this.processing = false;
-          this.error = true;
-
           e.error.message
-            ? (this.aMessage = e.error.message)
-            : (this.aMessage = 'Something went wrong. Try again.');
-
-          setTimeout(() => {
-            this.error = false;
-          }, 5000);
+            ? this._onReqError(e.error.message)
+            : this._onReqError('Something went wrong. Try again.');
         }
       )
     );
+  }
+
+  private _onReqSuccess(message: string) {
+    this.processing = false;
+    this.success = true;
+    this.aMessage = message;
+
+    setTimeout(() => {
+      this.success = false;
+      this._router.navigate(['login']);
+    }, 3000);
+  }
+
+  private _onReqError(message: string) {
+    this.processing = false;
+    this.error = true;
+    this.aMessage = message;
+
+    setTimeout(() => {
+      this.error = false;
+    }, 5000);
   }
 
   ngOnDestroy() {

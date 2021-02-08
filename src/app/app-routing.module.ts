@@ -47,6 +47,7 @@ const routes: Routes = [
   },
   { path: 'login', component: LoginComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'resetPassword/changePassword', redirectTo: 'reset-password' },
 ];
 
 @NgModule({
