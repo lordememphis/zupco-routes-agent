@@ -15,7 +15,7 @@ html {
 
     .ng-invalid.ng-dirty {
       &:focus {
-        @apply shadow-outline-red border-red-300;
+        @apply border-red-600;
       }
     }
 
