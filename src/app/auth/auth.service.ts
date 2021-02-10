@@ -39,6 +39,8 @@ export class AuthService {
       })
       .pipe(
         map((data) => {
+          if (!data.agentId) return false;
+
           sessionStorage.setItem('oauth', 'true');
           sessionStorage.setItem('token', data.access_token);
           sessionStorage.setItem('user', `${data.firstName} ${data.lastName}`);

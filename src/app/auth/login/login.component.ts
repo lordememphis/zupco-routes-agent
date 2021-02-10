@@ -41,6 +41,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
           if (authenticated) {
             this._router.navigate(['dashboard']);
+          } else {
+            this.error = true;
+            this.aMessage =
+              'This account was not created using a verified agent, and therefore is invalid and cannot be used to login. Ask your administrator to create a new account for you.';
+
+            setTimeout(() => {
+              this.error = false;
+            }, 8000);
           }
         },
         (e) => {
