@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/auth/auth.service';
 import { SubSink } from 'subsink';
 import { OperatorService } from '../operators/operator.service';
 
@@ -12,6 +13,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   private _subs = new SubSink();
 
   changePasswordForm: FormGroup;
+  rauth: boolean;
 
   error = false;
   warning = false;
@@ -19,20 +21,29 @@ export class SettingsComponent implements OnInit, OnDestroy {
   aMessage: string;
   processing = false;
 
-  constructor(private _operatorService: OperatorService) {}
+  constructor(
+    private _operatorService: OperatorService,
+    private _auth: AuthService
+  ) {}
 
   ngOnInit() {
+    this.rauth = this._auth.rauthenticated;
     this.changePasswordForm = new FormGroup({
       oldPassword: new FormControl(null, Validators.required),
       newPassword: new FormControl(null, Validators.required),
       matchingPassword: new FormControl(null, Validators.required),
+      username: new FormControl(null, Validators.required),
     });
+
+    if (this.rauth)
+      this.changePasswordForm.patchValue({ username: 'username' });
   }
 
   changePassword() {
     const o = this.changePasswordForm.get('oldPassword').value;
     const n = this.changePasswordForm.get('newPassword').value;
     const m = this.changePasswordForm.get('matchingPassword').value;
+    const u = this.changePasswordForm.get('username').value;
 
     if (n !== m) {
       this.warning = true;
@@ -47,7 +58,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.processing = true;
 
     this._subs.add(
-      this._operatorService.changePassword(o, n).subscribe(
+      this._operatorService.changePassword(o, n, u).subscribe(
         (res) => {
           console.log(res);
           this.processing = false;

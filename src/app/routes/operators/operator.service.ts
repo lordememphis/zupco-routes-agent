@@ -69,10 +69,25 @@ export class OperatorService {
       .pipe(map(() => true));
   }
 
-  changePassword(old: string, newPassword: string): Observable<Object> {
+  changePassword(
+    old: string,
+    newPassword: string,
+    username: string
+  ): Observable<Object> {
+    if (this._auth.rauthenticated)
+      return this._http.post(
+        `${environment.USER_SERVICE()}user/change-password`,
+        {
+          oldPassword: old,
+          matchingPassword: newPassword,
+          newPassword: newPassword,
+        }
+      );
     return this._http.post(
-      `${environment.USER_SERVICE()}user/change-password`,
+      `${environment.BASE_URL}api/v1/operator-change-code`,
       {
+        id: this._auth.userId,
+        username: username,
         oldPassword: old,
         matchingPassword: newPassword,
         newPassword: newPassword,

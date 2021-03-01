@@ -34,6 +34,11 @@
                         <div class="p-6 bg-white">
                           <div class="grid grid-cols-2">
                             <div class="col-span-1 space-y-6">
+                              <div *ngIf="!rauth">
+                                <label for="username"
+                                  class="block text-sm font-medium leading-5 text-gray-700">Username</label>
+                                <input id="username" type="text" class="mt-1 py-2" formControlName="username">
+                              </div>
                               <div>
                                 <label for="old-password" class="block text-sm font-medium leading-5 text-gray-700">Old
                                   password</label>
