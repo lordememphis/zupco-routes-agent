@@ -42,7 +42,7 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._subs.add(
-      this._ts.getOperatorTransactions(this.startDate, this.endDate).subscribe(
+      this._ts.getTransactionHistory(this.startDate, this.endDate).subscribe(
         (obs) => {
           this.processing = false;
           this.transactions = obs.transactions;

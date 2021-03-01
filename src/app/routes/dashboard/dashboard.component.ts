@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       forkJoin([
         this._deviceService.getDevices(),
         this._operatorService.getOperators(),
-        this._transactionService.getOperatorTransactions(
+        this._transactionService.getTransactionHistory(
           this.startDate,
           this.endDate
         ),

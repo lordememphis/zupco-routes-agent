@@ -75,7 +75,7 @@ export class TransactionService {
       .pipe(map(() => true));
   }
 
-  getOperatorTransactions(
+  getTransactionHistory(
     startDate: string,
     endDate: string
   ): Observable<{
@@ -83,6 +83,22 @@ export class TransactionService {
     empty: boolean;
     total: number;
   }> {
+    if (this._auth.rauthenticated)
+      return this._http
+        .get<GetResponse>(
+          `${environment.TRANSACTION_SERVICE()}transactions/agent/0/10?agentId=${
+            this._auth.agentId
+          }&startDate=${startDate}&endDate=${endDate}`
+        )
+        .pipe(
+          map((data) => {
+            return {
+              transactions: data.content,
+              empty: data.empty,
+              total: data.totalElements,
+            };
+          })
+        );
     return this._http
       .get<GetResponse>(
         `${environment.TRANSACTION_SERVICE()}transactions/operator/0/10?tellerId=${
