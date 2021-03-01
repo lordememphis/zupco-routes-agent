@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
+import { RAuthGuard } from './auth/rauth.guard';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { DevicesComponent } from './routes/devices/devices.component';
@@ -26,8 +27,16 @@ const routes: Routes = [
         redirectTo: 'dashboard',
       },
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'operators', component: OperatorsComponent },
-      { path: 'devices', component: DevicesComponent },
+      {
+        path: 'operators',
+        component: OperatorsComponent,
+        canActivate: [RAuthGuard],
+      },
+      {
+        path: 'devices',
+        component: DevicesComponent,
+        canActivate: [RAuthGuard],
+      },
       { path: 'transactions/cash-in', component: CashInComponent },
       { path: 'transactions/cash-out', component: CashOutComponent },
       { path: 'transactions/agent-to-agent', component: AgentToAgentComponent },

@@ -12,7 +12,7 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class RAuthGuard implements CanActivate {
   constructor(private _auth: AuthService, private _router: Router) {}
 
   canActivate(
@@ -23,8 +23,8 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const auth = this._auth.authenticated;
-    if (!auth) this._router.navigate(['login']);
-    return auth;
+    const rauth = this._auth.rauthenticated;
+    if (!rauth) this._router.navigate(['dashboard']);
+    return rauth;
   }
 }

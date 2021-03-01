@@ -15,6 +15,10 @@ export class AuthService {
     return sessionStorage.getItem('oauth') !== null;
   }
 
+  get rauthenticated(): boolean {
+    return sessionStorage.getItem('rauth') !== null;
+  }
+
   get token(): string {
     return sessionStorage.getItem('token');
   }
@@ -40,13 +44,13 @@ export class AuthService {
       .pipe(
         map((data) => {
           if (!data.agentId) return false;
-
+          if (data.roles[0].name === 'ROLE_AGENT_ADMIN')
+            sessionStorage.setItem('rauth', 'true');
           sessionStorage.setItem('oauth', 'true');
           sessionStorage.setItem('token', data.access_token);
           sessionStorage.setItem('user', `${data.firstName} ${data.lastName}`);
           sessionStorage.setItem('auid', `${data.agentId}`);
           sessionStorage.setItem('uuid', `${data.id}`);
-
           return true;
         })
       );

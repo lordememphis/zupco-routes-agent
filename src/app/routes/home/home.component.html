@@ -69,7 +69,7 @@
               <span class="ml-2">Wallet to Bank</span>
             </a>
           </div>
-          <div class="space-y-1">
+          <div *ngIf="rauth" class="space-y-1">
             <h6 class="text-xs text-cool-gray-500 font-bold uppercase tracking-wider">Manage</h6>
             <a [routerLink]="['operators']" routerLinkActive="active-route" class="route">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
