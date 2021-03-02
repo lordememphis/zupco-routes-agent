@@ -88,7 +88,7 @@ export class TransactionService {
         .get<GetResponse>(
           `${environment.TRANSACTION_SERVICE()}transactions/agent/0/10?agentId=${
             this._auth.agentId
-          }&startDate=${startDate}&endDate=${endDate}`
+          }&startDate=2021-01-01&endDate=${endDate}`
         )
         .pipe(
           map((data) => {
@@ -102,8 +102,8 @@ export class TransactionService {
     return this._http
       .get<GetResponse>(
         `${environment.TRANSACTION_SERVICE()}transactions/operator/0/10?tellerId=${
-          this._auth.userId
-        }&startDate=${startDate}&endDate=${endDate}`
+          this._auth.operatorId
+        }&startDate=2021-01-01&endDate=${endDate}`
       )
       .pipe(
         map((data) => {
