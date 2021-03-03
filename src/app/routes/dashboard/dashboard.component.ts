@@ -81,7 +81,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             ).length;
 
             this.domAccountTransactions = this.accountTranscations.filter(
-              (transaction) => transaction.transactionType === 'CASHIN'
+              (transaction) => transaction.transactionType === 'AGENT_TRANSFER'
             ).length;
 
             this.accountBalance = data.balances.balance;
