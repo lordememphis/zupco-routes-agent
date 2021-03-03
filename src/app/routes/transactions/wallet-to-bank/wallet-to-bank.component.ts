@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Bank } from 'src/app/shared/models/bank';
 import { WTBTransaction } from 'src/app/shared/models/transaction';
 import { SubSink } from 'subsink';
 import * as UUID from 'uuid-int';
@@ -14,6 +15,7 @@ import { TransactionService } from '../transaction.service';
 })
 export class WalletToBankComponent implements OnInit, OnDestroy {
   private _subs = new SubSink();
+  banks: Bank[] = [];
 
   transactionForm: FormGroup;
   authForm: FormGroup;
@@ -32,6 +34,11 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this._subs.add(
+      this._transactionService
+        .getBanks()
+        .subscribe((banks) => (this.banks = banks))
+    );
     this.transactionCode = this._transactionService.WTB_CODE;
     this.transactionForm = new FormGroup({
       reference: new FormControl(

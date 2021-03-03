@@ -4,6 +4,7 @@ import { env } from 'process';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Bank } from 'src/app/shared/models/bank';
 import { GetResponse } from 'src/app/shared/models/response';
 import {
   A2ATransaction,
@@ -160,5 +161,11 @@ export class TransactionService {
           };
         })
       );
+  }
+
+  getBanks(): Observable<Bank[]> {
+    return this._http
+      .get<{ content: Bank[] }>(`${environment.AGENT_SERVICE()}bank/0/1000`)
+      .pipe(map((data) => data.content));
   }
 }
