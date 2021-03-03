@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { env } from 'process';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -135,6 +136,27 @@ export class TransactionService {
             transactions: data.content,
             empty: data.empty,
             total: data.totalElements,
+          };
+        })
+      );
+  }
+
+  getBalances(): Observable<{ balance: number; commission: number }> {
+    return this._http
+      .get<{
+        accountBalance: number;
+        commissionBalance: number;
+        totalAmount: number;
+      }>(
+        `${environment.TRANSACTION_SERVICE()}transactions/agent-balance/${
+          this._auth.agentMobile
+        }`
+      )
+      .pipe(
+        map((data) => {
+          return {
+            balance: data.accountBalance,
+            commission: data.commissionBalance,
           };
         })
       );

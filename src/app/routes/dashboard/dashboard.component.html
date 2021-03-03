@@ -10,104 +10,138 @@
     </h1>
     <section>
       <div class="px-4 py-6 sm:px-0">
-        <div class="w-full max-w-screen-xl flex items-center justify-center">
-          <div class="py-6 w-full">
-            <div>
-              <h2 class="uppercase font-semibold leading-6 text-lg text-remit-blue-900">
-                Statistics
-              </h2>
-              <p class="mt-1 text-sm leading-5 text-gray-600">
-                Account devices, operators and transactions statistics.
-              </p>
+        <div class="w-full max-w-screen-xl">
+          <div class="flex flex-col">
+            <div class="py-6 w-full">
+              <div>
+                <h2 class="uppercase font-semibold leading-6 text-lg text-remit-blue-900">
+                  Balances
+                </h2>
+                <p class="mt-1 text-sm leading-5 text-gray-600">
+                  Account balance and commission balance.
+                </p>
+              </div>
+              <div *ngIf="!processing" class="mt-8 grid grid-cols-2 gap-8">
+                <div class="p-4 rounded-sm shadow bg-cool-gray-900">
+                  <div>
+                    <h3 class="font-semibold leading-6 text-xl text-white">
+                      Account Balance
+                    </h3>
+                  </div>
+                  <div class="mt-4">
+                    <p class="text-4xl text-white">{{accountBalance | currency:'NGN ':'symbol':'1.2-2'}}</p>
+                  </div>
+                </div>
+                <div class="p-4 rounded-sm shadow bg-cool-gray-900">
+                  <div>
+                    <h3 class="font-semibold leading-6 text-xl text-white">
+                      Commission Balance
+                    </h3>
+                  </div>
+                  <div class="mt-4">
+                    <p class="text-4xl text-white">{{accountCommission | currency:'NGN ':'symbol':'1.2-2'}}</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div *ngIf="!processing" class="mt-8 grid grid-cols-3 gap-8">
-              <div class="p-4 rounded-sm shadow bg-cool-gray-900">
-                <div>
-                  <h3 class="font-semibold leading-6 text-xl text-white">
-                    Devices
-                  </h3>
-                  <div class="mt-4 relative">
-                    <label for="view-by" class="block text-sm font-medium leading-5 text-cool-gray-500">Filter by
-                      status</label>
-                    <svg class="w-5 h-5 absolute z-10 right-0 mx-2 my-3 text-gray-500"
-                      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd"
-                        d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                        clip-rule="evenodd" />
-                    </svg>
-                    <select id="view-by" class="mt-1 py-2 border-cool-gray-600 text-cool-gray-400"
-                      (change)="onFilterDevices($event)">
-                      <option value="ACTIVE">Active</option>
-                      <option value="BLOCKED">Blocked</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="flex items-baseline">
-                  <p class="text-6xl text-white">{{domDevices}}</p>
-                  <span *ngIf="activeDevices"
-                    class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-green-400">Active</span>
-                  <span *ngIf="!activeDevices"
-                    class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-red-600">Blocked</span>
-                </div>
+            <div class="py-6 w-full">
+              <div>
+                <h2 class="uppercase font-semibold leading-6 text-lg text-remit-blue-900">
+                  Statistics
+                </h2>
+                <p class="mt-1 text-sm leading-5 text-gray-600">
+                  Account devices, operators and transactions statistics.
+                </p>
               </div>
-              <div class="p-4 rounded-sm shadow bg-cool-gray-900">
-                <div>
-                  <h3 class="font-semibold leading-6 text-xl text-white">
-                    Operators
-                  </h3>
-                  <div class="mt-4 relative">
-                    <label for="view-by" class="block text-sm font-medium leading-5 text-cool-gray-500">Filter by
-                      status</label>
-                    <svg class="w-5 h-5 absolute z-10 right-0 mx-2 my-3 text-gray-500"
-                      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd"
-                        d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                        clip-rule="evenodd" />
-                    </svg>
-                    <select id="view-by" class="mt-1 py-2 border-cool-gray-600 text-cool-gray-400"
-                      (change)="onFilterOperators($event)">
-                      <option value="ACTIVE">Active</option>
-                      <option value="BLOCKED">Blocked</option>
-                    </select>
+              <div *ngIf="!processing" class="mt-8 grid grid-cols-3 gap-8">
+                <div class="p-4 rounded-sm shadow bg-cool-gray-900">
+                  <div>
+                    <h3 class="font-semibold leading-6 text-xl text-white">
+                      Devices
+                    </h3>
+                    <div class="mt-4 relative">
+                      <label for="view-by" class="block text-sm font-medium leading-5 text-cool-gray-500">Filter by
+                        status</label>
+                      <svg class="w-5 h-5 absolute z-10 right-0 mx-2 my-3 text-gray-500"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                          d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                          clip-rule="evenodd" />
+                      </svg>
+                      <select id="view-by" class="mt-1 py-2 border-cool-gray-600 text-cool-gray-400"
+                        (change)="onFilterDevices($event)">
+                        <option value="ACTIVE">Active</option>
+                        <option value="BLOCKED">Blocked</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="flex items-baseline">
+                    <p class="text-6xl text-white">{{domDevices}}</p>
+                    <span *ngIf="activeDevices"
+                      class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-green-400">Active</span>
+                    <span *ngIf="!activeDevices"
+                      class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-red-600">Blocked</span>
                   </div>
                 </div>
-                <div class="flex items-baseline">
-                  <p class="text-6xl text-white">{{domOperators}}</p>
-                  <span *ngIf="activeOperators"
-                    class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-green-400">Active</span>
-                  <span *ngIf="!activeOperators"
-                    class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-red-600">Blocked</span>
-                </div>
-              </div>
-              <div class="p-4 rounded-sm shadow bg-cool-gray-900">
-                <div>
-                  <h3 class="font-semibold leading-6 text-xl text-white">
-                    Account Transactions
-                  </h3>
-                  <div class="mt-4 relative">
-                    <label for="view-by" class="block text-sm font-medium leading-5 text-cool-gray-500">Filter by
-                      status</label>
-                    <svg class="w-5 h-5 absolute z-10 right-0 mx-2 my-3 text-gray-500"
-                      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd"
-                        d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                        clip-rule="evenodd" />
-                    </svg>
-                    <select id="view-by" class="mt-1 py-2 border-cool-gray-600 text-cool-gray-400"
-                      (change)="onFilterAccountTransactions($event)">
-                      <option value="CASHIN">Cash in</option>
-                      <option value="CASHOUT">Cash out</option>
-                    </select>
+                <div class="p-4 rounded-sm shadow bg-cool-gray-900">
+                  <div>
+                    <h3 class="font-semibold leading-6 text-xl text-white">
+                      Operators
+                    </h3>
+                    <div class="mt-4 relative">
+                      <label for="view-by" class="block text-sm font-medium leading-5 text-cool-gray-500">Filter by
+                        status</label>
+                      <svg class="w-5 h-5 absolute z-10 right-0 mx-2 my-3 text-gray-500"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                          d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                          clip-rule="evenodd" />
+                      </svg>
+                      <select id="view-by" class="mt-1 py-2 border-cool-gray-600 text-cool-gray-400"
+                        (change)="onFilterOperators($event)">
+                        <option value="ACTIVE">Active</option>
+                        <option value="BLOCKED">Blocked</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="flex items-baseline">
+                    <p class="text-6xl text-white">{{domOperators}}</p>
+                    <span *ngIf="activeOperators"
+                      class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-green-400">Active</span>
+                    <span *ngIf="!activeOperators"
+                      class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-red-600">Blocked</span>
                   </div>
                 </div>
-                <div class="flex items-baseline">
-                  <p class="text-6xl text-white">{{domAccountTransactions}}</p>
-                  <span *ngIf="cashInTransactions"
-                    class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-indigo-500">Cashed
-                    in</span>
-                  <span *ngIf="!cashInTransactions"
-                    class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-blue-400">Cashed
-                    out</span>
+                <div class="p-4 rounded-sm shadow bg-cool-gray-900">
+                  <div>
+                    <h3 class="font-semibold leading-6 text-xl text-white">
+                      Account Transactions
+                    </h3>
+                    <div class="mt-4 relative">
+                      <label for="view-by" class="block text-sm font-medium leading-5 text-cool-gray-500">Filter by
+                        status</label>
+                      <svg class="w-5 h-5 absolute z-10 right-0 mx-2 my-3 text-gray-500"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                          d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                          clip-rule="evenodd" />
+                      </svg>
+                      <select id="view-by" class="mt-1 py-2 border-cool-gray-600 text-cool-gray-400"
+                        (change)="onFilterAccountTransactions($event)">
+                        <option value="CASHIN">Cash in</option>
+                        <option value="CASHOUT">Cash out</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="flex items-baseline">
+                    <p class="text-6xl text-white">{{domAccountTransactions}}</p>
+                    <span *ngIf="cashInTransactions"
+                      class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-indigo-500">Cashed
+                      in</span>
+                    <span *ngIf="!cashInTransactions"
+                      class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-blue-400">Cashed
+                      out</span>
+                  </div>
                 </div>
               </div>
             </div>

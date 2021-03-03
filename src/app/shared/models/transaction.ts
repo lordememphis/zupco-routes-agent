@@ -2,6 +2,7 @@ export interface CashInOutTransaction {
   originalRef: string;
   agentId: number;
   subscriberMobile: string;
+  pin?: string;
   amount: number;
   operatorId: number;
   imei: string;

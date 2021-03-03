@@ -16,7 +16,8 @@ export class CashOutComponent implements OnInit, OnDestroy {
   private _subs = new SubSink();
 
   transactionForm: FormGroup;
-  authForm: FormGroup;
+  oAuthForm: FormGroup;
+  sAuthForm: FormGroup;
   transactionCode: string;
 
   error = false;
@@ -24,6 +25,8 @@ export class CashOutComponent implements OnInit, OnDestroy {
   aMessage: string;
   processing = false;
   fsDialog = false;
+  oAuth = false;
+  sAuth = false;
 
   constructor(
     private _transactionService: TransactionService,
@@ -44,8 +47,12 @@ export class CashOutComponent implements OnInit, OnDestroy {
       amount: new FormControl(null, Validators.required),
     });
 
-    this.authForm = new FormGroup({
+    this.oAuthForm = new FormGroup({
       code: new FormControl(null, Validators.required),
+    });
+
+    this.sAuthForm = new FormGroup({
+      pin: new FormControl(null, Validators.required),
     });
   }
 
@@ -54,10 +61,11 @@ export class CashOutComponent implements OnInit, OnDestroy {
       originalRef: this.transactionForm.get('reference').value,
       agentId: this._auth.agentId,
       subscriberMobile: this.transactionForm.get('sMobile').value,
+      pin: this.sAuthForm.get('pin').value,
       amount: this.transactionForm.get('amount').value,
       operatorId: this._auth.operatorId,
       imei: this.transactionForm.get('imei').value,
-      operatorCode: this.authForm.get('code').value,
+      operatorCode: this.oAuthForm.get('code').value,
       channel: 'WEB',
       transactionTypes: this.transactionForm.get('type').value,
     };
@@ -67,9 +75,16 @@ export class CashOutComponent implements OnInit, OnDestroy {
     this._subs.add(
       this._transactionService.cashOut(transaction).subscribe(
         () => {
+          this.transactionForm.reset();
+          this.oAuthForm.reset();
+          this.sAuthForm.reset();
+          this.sAuth = false;
           this._onReqSuccess('Your cash out transaction was successful.');
         },
         (e) => {
+          this.oAuthForm.reset();
+          this.sAuthForm.reset();
+          this.sAuth = false;
           e.error.message
             ? this._onReqError(e.error.message)
             : this._onReqError('Something went wrong. Try again.');

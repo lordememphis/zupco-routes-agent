@@ -54,7 +54,7 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
       agentId: this._auth.agentId,
       bankId: this.transactionForm.get('bankId').value,
       amount: this.transactionForm.get('amount').value,
-      operatorId: this._auth.userId,
+      operatorId: this._auth.operatorId,
       operatorCode: this.authForm.get('code').value,
       channel: 'WEB',
       transactionTypes: this.transactionForm.get('type').value,
@@ -65,9 +65,12 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
     this._subs.add(
       this._transactionService.walletToBank(transaction).subscribe(
         () => {
+          this.transactionForm.reset();
+          this.authForm.reset();
           this._onReqSuccess('Your wallet to bank transfer was successful.');
         },
         (e) => {
+          this.authForm.reset();
           e.error.message
             ? this._onReqError(e.error.message)
             : this._onReqError('Something went wrong. Try again.');

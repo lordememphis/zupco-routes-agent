@@ -36,10 +36,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this._subs.add(
       this._auth.login(u, p).subscribe(
-        (authenticated) => {
+        async (authenticated) => {
           this.processing = false;
 
-          if (authenticated) {
+          if (await authenticated) {
             this._router.navigate(['dashboard']);
           } else {
             this.error = true;

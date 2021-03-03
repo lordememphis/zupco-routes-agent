@@ -21,6 +21,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   devices: Device[] = [];
   operators: Operator[] = [];
   accountTranscations: TransactionHistory[] = [];
+  accountBalance: number = 0;
+  accountCommission: number = 0;
 
   domDevices: number;
   domOperators: number;
@@ -57,10 +59,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.startDate,
           this.endDate
         ),
+        this._transactionService.getBalances(),
       ])
         .pipe(
-          map(([devices, operators, operatorTransactions]) => {
-            return { devices, operators, operatorTransactions };
+          map(([devices, operators, operatorTransactions, balances]) => {
+            return { devices, operators, operatorTransactions, balances };
           })
         )
         .subscribe(
@@ -80,6 +83,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.domAccountTransactions = this.accountTranscations.filter(
               (transaction) => transaction.transactionType === 'CASHIN'
             ).length;
+
+            this.accountBalance = data.balances.balance;
+            this.accountCommission = data.balances.commission;
 
             this.processing = false;
           },

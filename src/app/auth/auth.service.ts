@@ -39,17 +39,19 @@ export class AuthService {
     return parseInt(sessionStorage.getItem('ouid'));
   }
 
-  login(username: string, password: string): Observable<boolean> {
+  get agentMobile(): string {
+    return sessionStorage.getItem('mobile');
+  }
+
+  login(username: string, password: string): Observable<any> {
     return this._http
       .post<any>(`${environment.OAUTH_SERVICE()}login`, {
         username: username,
         password: password,
       })
       .pipe(
-        map((data) => {
+        map(async (data) => {
           if (!data.agentId) return false;
-          console.log(data);
-
           if (data.roles[0].name === 'ROLE_AGENT_ADMIN')
             sessionStorage.setItem('rauth', 'true');
           sessionStorage.setItem('oauth', 'true');
@@ -58,6 +60,7 @@ export class AuthService {
           sessionStorage.setItem('auid', `${data.agentId}`);
           sessionStorage.setItem('uuid', `${data.id}`);
           sessionStorage.setItem('ouid', `${data.clientId}`);
+          await this.setAgentMobile();
           return true;
         })
       );
@@ -84,5 +87,11 @@ export class AuthService {
         newPassword: password,
       })
       .pipe(map(() => true));
+  }
+
+  private async setAgentMobile(): Promise<any> {
+    this._http
+      .get<any>(`${environment.AGENT_SERVICE()}retrieve-agent/${this.agentId}`)
+      .subscribe((agent) => sessionStorage.setItem('mobile', agent.mobile));
   }
 }

@@ -18,7 +18,7 @@
                 Cash Out
               </h2>
             </div>
-            <form [formGroup]="transactionForm" (ngSubmit)="fsDialog=true">
+            <form [formGroup]="transactionForm" (ngSubmit)="fsDialog=true;oAuth=true">
               <div class="mt-8">
                 <div>
                   <div>
@@ -62,7 +62,8 @@
                               <input id="sMobile" type="tel" class="mt-1 py-2" formControlName="sMobile">
                             </div>
                             <div class="col-span-6 sm:col-span-3">
-                              <label for="imei" class="block text-sm font-medium leading-5 text-gray-700">IMEI</label>
+                              <label for="imei" class="block text-sm font-medium leading-5 text-gray-700">Device
+                                IMEI</label>
                               <input id="imei" type="text" class="mt-1 py-2" formControlName="imei">
                             </div>
                           </div>
@@ -103,7 +104,7 @@
       <div
         class="w-full max-w-screen-md bg-white rounded-sm text-left overflow-hidden shadow-xl transform transition-all sm:my-8"
         role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-        <form [formGroup]="authForm" (ngSubmit)="cashOut()" class="w-full">
+        <form *ngIf="oAuth" [formGroup]="oAuthForm" (ngSubmit)="oAuth=false;sAuth=true" class="w-full">
           <div>
             <div>
               <div class="px-4 pt-4 sm:px-6 sm:pt-6">
@@ -121,20 +122,62 @@
                       <div class="col-span-6 sm:col-span-3">
                         <label for="operator-code" class="block text-sm font-medium leading-5 text-gray-700">Operator
                           code</label>
-                        <input id="operator-code" type="text" class="mt-1 py-2" formControlName="code">
+                        <input id="operator-code" type="password" class="mt-1 py-2" formControlName="code">
                       </div>
                     </div>
                   </div>
                   <div class="px-4 py-3 bg-gray-50 flex items-center justify-between sm:px-6">
                     <div>
-                      <button type="button" (click)="fsDialog=false"
+                      <button type="button" (click)="fsDialog=false;oAuth=false"
                         class="btn py-2 text-cool-gray-500 bg-white shadow hover:shadow-md">
                         Cancel
                       </button>
                     </div>
                     <div class="text-right">
-                      <button type="submit" [disabled]="!authForm.valid"
-                        [class]="{'cursor-not-allowed': !authForm.valid}"
+                      <button type="submit" [disabled]="!oAuthForm.valid"
+                        [class]="{'cursor-not-allowed': !oAuthForm.valid}"
+                        class="btn py-2 text-white bg-cool-gray-900 shadow hover:shadow-md">
+                        Authorise/Next
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <form *ngIf="sAuth" [formGroup]="sAuthForm" (ngSubmit)="cashOut()" class="w-full">
+          <div>
+            <div>
+              <div class="px-4 pt-4 sm:px-6 sm:pt-6">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Authorise Transcation</h3>
+                <p class="mt-1 text-sm leading-5 text-gray-600">
+                  Enter your PIN to authorise this transaction.
+                </p>
+              </div>
+            </div>
+            <div class="mt-5 w-full">
+              <div>
+                <div class="overflow-hidden sm:rounded-sm">
+                  <div class="px-4 py-5 bg-white sm:p-6">
+                    <div class="grid grid-cols-6 gap-6">
+                      <div class="col-span-6 sm:col-span-3">
+                        <label for="subscriber-pin" class="block text-sm font-medium leading-5 text-gray-700">Subscriber
+                          PIN</label>
+                        <input id="subscriber-pin" type="password" class="mt-1 py-2" formControlName="pin">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="px-4 py-3 bg-gray-50 flex items-center justify-between sm:px-6">
+                    <div>
+                      <button type="button" (click)="fsDialog=false;sAuth=false"
+                        class="btn py-2 text-cool-gray-500 bg-white shadow hover:shadow-md">
+                        Cancel
+                      </button>
+                    </div>
+                    <div class="text-right">
+                      <button type="submit" [disabled]="!sAuthForm.valid"
+                        [class]="{'cursor-not-allowed': !sAuthForm.valid}"
                         class="btn py-2 text-white bg-cool-gray-900 shadow hover:shadow-md">
                         Authorise
                       </button>

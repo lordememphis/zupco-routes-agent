@@ -67,9 +67,12 @@ export class CashInComponent implements OnInit, OnDestroy {
     this._subs.add(
       this._transactionService.cashIn(transaction).subscribe(
         () => {
+          this.transactionForm.reset();
+          this.authForm.reset();
           this._onReqSuccess('Your cash in transaction was successful.');
         },
         (e) => {
+          this.authForm.reset();
           e.error.message
             ? this._onReqError(e.error.message)
             : this._onReqError('Something went wrong. Try again.');

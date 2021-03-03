@@ -54,7 +54,7 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
       senderAgentId: this._auth.agentId,
       receiverAgentMobile: this.transactionForm.get('rMobile').value,
       amount: this.transactionForm.get('amount').value,
-      operatorId: this._auth.userId,
+      operatorId: this._auth.operatorId,
       operatorCode: this.authForm.get('code').value,
       channel: 'WEB',
       transactionTypes: this.transactionForm.get('type').value,
@@ -65,9 +65,12 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
     this._subs.add(
       this._transactionService.agentToAgent(transaction).subscribe(
         () => {
+          this.transactionForm.reset();
+          this.authForm.reset();
           this._onReqSuccess('Your agent to agent transfer was successful.');
         },
         (e) => {
+          this.authForm.reset();
           e.error.message
             ? this._onReqError(e.error.message)
             : this._onReqError('Something went wrong. Try again.');
