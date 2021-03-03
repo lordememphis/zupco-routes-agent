@@ -46,6 +46,7 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
         Validators.required
       ),
       bankId: new FormControl(null, Validators.required),
+      account: new FormControl(null, Validators.required),
       type: new FormControl(this.transactionCode, Validators.required),
       amount: new FormControl(null, Validators.required),
     });
@@ -60,6 +61,7 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
       originalRef: this.transactionForm.get('reference').value,
       agentId: this._auth.agentId,
       bankId: this.transactionForm.get('bankId').value,
+      bankAccount: this.transactionForm.get('account').value,
       amount: this.transactionForm.get('amount').value,
       operatorId: this._auth.operatorId,
       operatorCode: this.authForm.get('code').value,

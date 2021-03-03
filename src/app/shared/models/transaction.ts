@@ -26,6 +26,7 @@ export interface WTBTransaction {
   originalRef: string;
   agentId: number;
   bankId: number;
+  bankAccount: string;
   amount: number;
   operatorId: number;
   operatorCode: string;

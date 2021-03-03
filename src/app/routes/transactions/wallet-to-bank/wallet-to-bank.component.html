@@ -34,12 +34,12 @@
                       <div class="shadow overflow-hidden sm:rounded-sm">
                         <div class="px-4 py-5 bg-white sm:p-6">
                           <div class="grid grid-cols-6 gap-6">
-                            <div class="col-span-6 sm:col-span-3">
+                            <div class="sm:col-span-3">
                               <label for="reference"
                                 class="block text-sm font-medium leading-5 text-gray-700">Reference</label>
                               <input id="reference" type="text" class="mt-1 py-2" formControlName="reference">
                             </div>
-                            <div class="relative col-span-6 sm:col-span-3">
+                            <div class="relative sm:col-span-3">
                               <label for="type" class="block text-sm font-medium leading-5 text-gray-700">Type</label>
                               <svg class="w-5 h-5 absolute z-10 right-0 mx-2 my-3 text-gray-500"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -51,12 +51,12 @@
                                 <option [value]="transactionCode">Wallet to Bank Transfer</option>
                               </select>
                             </div>
-                            <div class="col-span-6 sm:col-span-3">
+                            <div class="sm:col-span-1">
                               <label for="amount"
                                 class="block text-sm font-medium leading-5 text-gray-700">Amount</label>
                               <input id="amount" type="tel" class="mt-1 py-2" formControlName="amount">
                             </div>
-                            <div class="relative col-span-6 sm:col-span-3">
+                            <div class="relative sm:col-span-2">
                               <label for="bank-id"
                                 class="block text-sm font-medium leading-5 text-gray-700">Bank</label>
                               <svg class="w-5 h-5 absolute z-10 right-0 mx-2 my-3 text-gray-500"
@@ -70,6 +70,11 @@
                                 <option [value]="null" disabled hidden>Select Bank</option>
                                 <option *ngFor="let bank of banks" [value]="bank.code">{{bank.shortName}}</option>
                               </select>
+                            </div>
+                            <div class="sm:col-span-3">
+                              <label for="amount" class="block text-sm font-medium leading-5 text-gray-700">Bank
+                                Account</label>
+                              <input id="amount" type="tel" class="mt-1 py-2" formControlName="account">
                             </div>
                           </div>
                         </div>
