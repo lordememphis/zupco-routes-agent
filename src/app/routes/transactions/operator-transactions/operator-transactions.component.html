@@ -9,10 +9,10 @@
     <h1 class="text-3xl font-bold leading-tight text-gray-900">
       Transaction History
     </h1>
-    <section *ngIf="viewingTransactions" class="max-w-screen-xl mx-auto">
+    <section *ngIf="viewingTransactions">
       <div class="px-4 py-6 sm:px-0">
         <div class="w-full flex items-center justify-center">
-          <div class="py-6 w-full max-w-screen-xl">
+          <div class="py-6 w-full">
             <div class="flex items-start justify-between">
               <div>
                 <h2 class="uppercase font-semibold leading-6 text-lg text-remit-blue-900">
@@ -42,7 +42,7 @@
             <div *ngIf="hasTransactions">
               <div>
                 <form class="text-right">
-                  <div class="mt-4 max-w-md inline-grid grid-cols-2 grid-flow-row gap-x-1">
+                  <div *ngIf="false" class="mt-4 max-w-md inline-grid grid-cols-2 grid-flow-row gap-x-1">
                     <div class="relative text-left">
                       <label for="search-by" class="block text-sm font-medium leading-5 text-gray-700">Search by</label>
                       <svg class="w-5 h-5 absolute z-10 right-0 mx-2 my-3 text-gray-500"
@@ -100,11 +100,11 @@
                             </th>
                             <th
                               class="px-6 py-3 bg-cool-gray-900 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
-                              Source
+                              Source Acc/No.
                             </th>
                             <th
                               class="px-6 py-3 bg-cool-gray-900 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
-                              Destination
+                              Destination Acc/No.
                             </th>
                             <th
                               class="px-6 py-3 bg-cool-gray-900 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
@@ -120,6 +120,10 @@
                             </th>
                             <th
                               class="px-6 py-3 bg-cool-gray-900 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
+                              DR/CR
+                            </th>
+                            <th
+                              class="px-6 py-3 bg-cool-gray-900 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
                               Status
                             </th>
                             <th class="px-6 py-3 bg-cool-gray-900"></th>
@@ -128,7 +132,7 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                           <tr *ngFor="let t of transactions">
                             <td class="px-6 py-4 whitespace-no-wrap">
-                              <div class="text-sm leading-5 font-medium text-gray-900">{{t.originalReference}}</div>
+                              <div class="text-sm leading-5 font-medium text-gray-900">{{t.id}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                               <div class="text-sm leading-5 text-gray-500">{{t.transactionDate | date}}</div>
@@ -150,15 +154,18 @@
                                 {{t.transactionAmount | currency:'NGN ':'symbol':'1.2-2'}}
                               </div>
                             </td>
+                            <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                              <div class="text-sm leading-5 text-gray-500">{{t.typeOfEntry}}</div>
+                            </td>
                             <td class="px-6 py-4 whitespace-no-wrap">
                               <span
                                 class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                Active
+                                {{t.status}}
                               </span>
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                               <button (click)="fsDialog=true; viewTransaction=true; transaction=t"
-                                class="ml-4 text-red-600 hover:text-red-900">View</button>
+                                class="ml-4 text-gray-700 hover:text-gray-900">View</button>
                             </td>
                           </tr>
                         </tbody>
@@ -174,5 +181,200 @@
         </div>
       </div>
     </section>
+  </div>
+
+  <div *ngIf="fsDialog" class="absolute z-10 inset-0 overflow-y-auto">
+    <div class="fixed inset-0 transition-opacity">
+      <div class="absolute inset-0 bg-gray-500 opacity-75">
+      </div>
+      <button (click)="fsDialog=false"
+        class="absolute mt-20 mr-8 right-0 top-0 p-2 bg-white rounded-full cursor-pointer focus:outline-none">
+        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <div class="h-full flex items-center justify-center">
+      <div
+        class="w-full max-w-screen-lg bg-white rounded-sm text-left overflow-hidden shadow-xl transform transition-all sm:my-8"
+        role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+        <div>
+          <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Transaction Information
+              </h3>
+              <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
+                Full transaction details.
+              </p>
+            </div>
+            <div class="grid grid-cols-2">
+              <div>
+                <dl>
+                  <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Date
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.transactionDate | date: 'medium'}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Reference number
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.id}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Bank
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.bankName}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Destination Acc/No.
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.destination}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Source Acc/No.
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.source}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Amount
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.transactionAmount | currency:'NGN ':'symbol':'1.2-2'}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      DR/CR
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.typeOfEntry}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Commission
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.commission | currency:'NGN ':'symbol':'1.2-2'}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Transaction type
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.transactionType}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Status
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.status}}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+              <div>
+                <dl>
+                  <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Agent
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.agentName}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Agent number
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.mobile}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Operator
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.operatorName}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Channel
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.channel}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Description
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.description}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Fee
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.fee | currency:'NGN ':'symbol':'1.2-2'}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">
+                      Device IMEI
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                      {{transaction.imei}}
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">&ndash;
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">&ndash;
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                    </dd>
+                  </div>
+                  <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
+                    <dt class="text-sm leading-5 font-medium text-gray-500">&ndash;
+                    </dt>
+                    <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </main>
