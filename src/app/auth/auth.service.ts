@@ -50,18 +50,26 @@ export class AuthService {
         password: password,
       })
       .pipe(
-        map(async (data) => {
+        map((data) => {
           if (!data.agentId) return false;
-          if (data.roles[0].name === 'ROLE_AGENT_ADMIN')
-            sessionStorage.setItem('rauth', 'true');
-          sessionStorage.setItem('oauth', 'true');
-          sessionStorage.setItem('token', data.access_token);
-          sessionStorage.setItem('user', `${data.firstName} ${data.lastName}`);
-          sessionStorage.setItem('auid', `${data.agentId}`);
-          sessionStorage.setItem('uuid', `${data.id}`);
-          sessionStorage.setItem('ouid', `${data.clientId}`);
-          await this.setAgentMobile();
-          return true;
+          return this._http
+            .get<any>(
+              `${environment.AGENT_SERVICE()}retrieve-agent/${data.agentId}`
+            )
+            .subscribe((agent) => {
+              if (data.roles[0].name === 'ROLE_AGENT_ADMIN')
+                sessionStorage.setItem('rauth', 'true');
+              sessionStorage.setItem('oauth', 'true');
+              sessionStorage.setItem('token', data.access_token);
+              sessionStorage.setItem(
+                'user',
+                `${data.firstName} ${data.lastName}`
+              );
+              sessionStorage.setItem('auid', `${data.agentId}`);
+              sessionStorage.setItem('uuid', `${data.id}`);
+              sessionStorage.setItem('ouid', `${data.clientId}`);
+              sessionStorage.setItem('mobile', agent.mobile);
+            });
         })
       );
   }
@@ -89,7 +97,7 @@ export class AuthService {
       .pipe(map(() => true));
   }
 
-  private async setAgentMobile(): Promise<any> {
+  private setAgentMobile() {
     this._http
       .get<any>(`${environment.AGENT_SERVICE()}retrieve-agent/${this.agentId}`)
       .subscribe((agent) => sessionStorage.setItem('mobile', agent.mobile));

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { SubSink } from 'subsink';
 import { AuthService } from '../auth.service';
 
@@ -36,11 +37,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this._subs.add(
       this._auth.login(u, p).subscribe(
-        async (authenticated) => {
-          this.processing = false;
-
-          if (await authenticated) {
-            this._router.navigate(['dashboard']);
+        (authenticated) => {
+          if (authenticated) {
+            setTimeout(() => {
+              this._router.navigate(['dashboard']);
+              this.processing = false;
+            }, 1000);
           } else {
             this.error = true;
             this.aMessage =
