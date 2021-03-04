@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { A2ATransaction } from 'src/app/shared/models/transaction';
 import { SubSink } from 'subsink';
@@ -29,7 +29,13 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
     private _transactionService: TransactionService,
     private _router: Router,
     private _auth: AuthService
-  ) {}
+  ) {
+    this._subs.add(
+      this._router.events.subscribe((e: any) => {
+        if (e instanceof NavigationEnd) this.ngOnInit();
+      })
+    );
+  }
 
   ngOnInit() {
     this.transactionCode = this._transactionService.A2A_CODE;

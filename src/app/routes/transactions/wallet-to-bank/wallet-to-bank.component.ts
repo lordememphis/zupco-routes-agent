@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Bank } from 'src/app/shared/models/bank';
 import { WTBTransaction } from 'src/app/shared/models/transaction';
@@ -31,7 +31,13 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
     private _transactionService: TransactionService,
     private _router: Router,
     private _auth: AuthService
-  ) {}
+  ) {
+    this._subs.add(
+      this._router.events.subscribe((e: any) => {
+        if (e instanceof NavigationEnd) this.ngOnInit();
+      })
+    );
+  }
 
   ngOnInit() {
     this._subs.add(
@@ -74,8 +80,6 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
     this._subs.add(
       this._transactionService.walletToBank(transaction).subscribe(
         () => {
-          this.transactionForm.reset();
-          this.authForm.reset();
           this._onReqSuccess('Your wallet to bank transfer was successful.');
         },
         (e) => {

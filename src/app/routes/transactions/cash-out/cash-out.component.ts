@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CashInOutTransaction } from 'src/app/shared/models/transaction';
 import { SubSink } from 'subsink';
@@ -32,7 +32,13 @@ export class CashOutComponent implements OnInit, OnDestroy {
     private _transactionService: TransactionService,
     private _router: Router,
     private _auth: AuthService
-  ) {}
+  ) {
+    this._subs.add(
+      this._router.events.subscribe((e: any) => {
+        if (e instanceof NavigationEnd) this.ngOnInit();
+      })
+    );
+  }
 
   ngOnInit() {
     this.transactionCode = this._transactionService.CASHOUT_CODE;
@@ -75,10 +81,6 @@ export class CashOutComponent implements OnInit, OnDestroy {
     this._subs.add(
       this._transactionService.cashOut(transaction).subscribe(
         () => {
-          this.transactionForm.reset();
-          this.oAuthForm.reset();
-          this.sAuthForm.reset();
-          this.sAuth = false;
           this._onReqSuccess('Your cash out transaction was successful.');
         },
         (e) => {
