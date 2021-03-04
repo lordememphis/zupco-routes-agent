@@ -83,8 +83,8 @@ export class OperatorService {
           newPassword: newPassword,
         }
       );
-    return this._http.post(
-      `${environment.BASE_URL}api/v1/operator-change-code`,
+    return this._http.put(
+      `${environment.AGENT_SERVICE()}/operator-change-code`,
       {
         id: this._auth.userId,
         username: username,
