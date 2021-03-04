@@ -96,10 +96,4 @@ export class AuthService {
       })
       .pipe(map(() => true));
   }
-
-  private setAgentMobile() {
-    this._http
-      .get<any>(`${environment.AGENT_SERVICE()}retrieve-agent/${this.agentId}`)
-      .subscribe((agent) => sessionStorage.setItem('mobile', agent.mobile));
-  }
 }
