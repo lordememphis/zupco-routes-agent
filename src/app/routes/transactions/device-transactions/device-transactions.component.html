@@ -128,7 +128,7 @@
                           <tr>
                             <th
                               class="px-6 py-3 bg-cool-gray-900 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
-                              Reference
+                              Transaction ID
                             </th>
                             <th
                               class="px-6 py-3 bg-cool-gray-900 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
@@ -255,15 +255,17 @@
                       Date
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.transactionDate | date: 'medium'}}
+                      <span *ngIf="!transaction.transactionDate">N/A</span>
+                      <span *ngIf="transaction.transactionDate">{{transaction.transactionDate | date: 'medium'}}</span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
                     <dt class="text-sm leading-5 font-medium text-gray-500">
-                      Reference number
+                      Transaction ID
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.id}}
+                      <span *ngIf="!transaction.id">N/A</span>
+                      <span *ngIf="transaction.id">{{transaction.id}}</span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
@@ -271,7 +273,8 @@
                       Bank
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.bankName}}
+                      <span *ngIf="!transaction.bankName">N/A</span>
+                      <span *ngIf="transaction.bankName">{{transaction.bankName}}</span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
@@ -279,7 +282,8 @@
                       Destination Acc/No.
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.destination}}
+                      <span *ngIf="!transaction.destination">N/A</span>
+                      <span *ngIf="transaction.destination">{{transaction.destination}}</span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
@@ -287,7 +291,8 @@
                       Source Acc/No.
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.source}}
+                      <span *ngIf="!transaction.source">N/A</span>
+                      <span *ngIf="transaction.source">{{transaction.source}}</span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
@@ -295,7 +300,10 @@
                       Amount
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.transactionAmount | currency:'NGN ':'symbol':'1.2-2'}}
+                      <span *ngIf="!transaction.transactionAmount">N/A</span>
+                      <span *ngIf="transaction.transactionAmount">
+                        {{transaction.transactionAmount | currency:'NGN ':'symbol':'1.2-2'}}
+                      </span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
@@ -303,7 +311,8 @@
                       DR/CR
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.typeOfEntry}}
+                      <span *ngIf="!transaction.typeOfEntry">N/A</span>
+                      <span *ngIf="transaction.typeOfEntry">{{transaction.typeOfEntry}}</span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
@@ -311,7 +320,10 @@
                       Commission
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.commission | currency:'NGN ':'symbol':'1.2-2'}}
+                      <span *ngIf="!transaction.commission">N/A</span>
+                      <span *ngIf="transaction.commission">
+                        {{transaction.commission | currency:'NGN ':'symbol':'1.2-2'}}
+                      </span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
@@ -319,7 +331,8 @@
                       Transaction type
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.transactionType}}
+                      <span *ngIf="!transaction.transactionType">N/A</span>
+                      <span *ngIf="transaction.transactionType">{{transaction.transactionType}}</span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
@@ -327,7 +340,8 @@
                       Status
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.status}}
+                      <span *ngIf="!transaction.status">N/A</span>
+                      <span *ngIf="transaction.status">{{transaction.status}}</span>
                     </dd>
                   </div>
                 </dl>
@@ -339,7 +353,8 @@
                       Agent
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.agentName}}
+                      <span *ngIf="!transaction.agentName">N/A</span>
+                      <span *ngIf="transaction.agentName">{{transaction.agentName}}</span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
@@ -347,7 +362,8 @@
                       Agent number
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.mobile}}
+                      <span *ngIf="!transaction.mobile">N/A</span>
+                      <span *ngIf="transaction.mobile">{{transaction.mobile}}</span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
@@ -355,7 +371,8 @@
                       Operator
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.operatorName}}
+                      <span *ngIf="!transaction.operatorName">N/A</span>
+                      <span *ngIf="transaction.operatorName">{{transaction.operatorName}}</span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
@@ -363,7 +380,8 @@
                       Channel
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.channel}}
+                      <span *ngIf="!transaction.channel">N/A</span>
+                      <span *ngIf="transaction.channel">{{transaction.channel}}</span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
@@ -371,7 +389,8 @@
                       Description
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.description}}
+                      <span *ngIf="!transaction.description">N/A</span>
+                      <span *ngIf="transaction.description">{{transaction.description}}</span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
@@ -379,7 +398,10 @@
                       Fee
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.fee | currency:'NGN ':'symbol':'1.2-2'}}
+                      <span *ngIf="!transaction.fee">N/A</span>
+                      <span *ngIf="transaction.fee">
+                        {{transaction.fee | currency:'NGN ':'symbol':'1.2-2'}}
+                      </span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
@@ -387,7 +409,8 @@
                       Device IMEI
                     </dt>
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
-                      {{transaction.imei}}
+                      <span *ngIf="!transaction.imei">N/A</span>
+                      <span *ngIf="transaction.imei">{{transaction.imei}}</span>
                     </dd>
                   </div>
                   <div class="grid grid-cols-2 gap-8 bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
