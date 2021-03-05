@@ -30,7 +30,7 @@ export class DeviceService {
   }> {
     return this._http
       .get<GetResponse>(
-        `${environment.AGENT_SERVICE()}devices/${this._auth.agentId}/0/10`
+        `${environment.AGENT_SERVICE()}devices/${this._auth.agentId}/0/999`
       )
       .pipe(
         map((data) => {

@@ -1,0 +1,13 @@
+.paginator ::ng-deep .ngx-pagination .current {
+  @apply relative inline-flex items-center px-4 py-2 border border-gray-300 bg-cool-gray-900 text-sm font-medium text-white rounded;
+}
+
+.paginator ::ng-deep .ngx-pagination a,
+.ngx-pagination button {
+  @apply relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 rounded;
+}
+
+.paginator ::ng-deep .ngx-pagination a:hover,
+.ngx-pagination button:hover {
+  @apply bg-gray-50;
+}

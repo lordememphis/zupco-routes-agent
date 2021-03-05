@@ -22,28 +22,23 @@
                   Transactions that this account has performed.
                 </p>
               </div>
-              <div>
-              </div>
             </div>
-            <div *ngIf="!hasTransactions" class="mt-10">
-              <div class="flex flex-col items-center justify-center">
-                <svg class="w-16 h-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                    clip-rule="evenodd" />
-                </svg>
-                <div class="text-center">
-                  Your account hasn't made or recorded any transactions, yet. <a
-                    [routerLink]="['/transactions', 'cash-out']" class="underline">Cash out</a> or <a
-                    [routerLink]="['/transactions', 'cash-in']" class="underline">cash in</a> to begin transactions.
-                </div>
-              </div>
-            </div>
-            <div *ngIf="hasTransactions">
-              <div>
-                <form class="text-right">
-                  <div *ngIf="false" class="mt-4 max-w-md inline-grid grid-cols-2 grid-flow-row gap-x-1">
-                    <div class="relative text-left">
+            <div>
+              <form [formGroup]="filterForm" class="text-right">
+                <div class="mt-4 w-full max-w-lg inline-grid grid-cols-2 gap-2">
+                  <div class="text-left">
+                    <label for="search_parameter" class="block text-sm font-medium leading-5 text-gray-700">
+                      Start date</label>
+                    <input id="search_parameter" type="date" [max]="maxDate > endDate ? endDate : maxDate"
+                      (change)="filterTransactions(0)" class="mt-1 py-2" formControlName="startDate">
+                  </div>
+                  <div class="text-left">
+                    <label for="search_parameter" class="block text-sm font-medium leading-5 text-gray-700">
+                      End date</label>
+                    <input id="search_parameter" type="date" [min]="startDate" [max]="maxDate"
+                      (change)="filterTransactions(0)" class="mt-1 py-2" formControlName="endDate">
+                  </div>
+                  <!-- <div class="relative text-left">
                       <label for="search-by" class="block text-sm font-medium leading-5 text-gray-700">Search by</label>
                       <svg class="w-5 h-5 absolute z-10 right-0 mx-2 my-3 text-gray-500"
                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -52,8 +47,14 @@
                           clip-rule="evenodd" />
                       </svg>
                       <select id="search-by" class="mt-1 py-2">
-                        <option value="imei">IMEI</option>
-                        <option value="type">Type</option>
+                        <option value="id">Reference</option>
+                        <option value="transactionDate">Date</option>
+                        <option value="source">Source Acc/No.</option>
+                        <option value="destination">Destination Acc/No.</option>
+                        <option value="transactionType">Type</option>
+                        <option value="operatorName">Operator</option>
+                        <option value="transactionAmount">Amount</option>
+                        <option value="typeOfEntry">DR/CR</option>
                         <option value="status">Status</option>
                       </select>
                     </div>
@@ -72,18 +73,22 @@
                           </button>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
+                </div>
+              </form>
+              <div *ngIf="!hasTransactions" class="mt-10">
+                <div class="flex flex-col items-center justify-center">
+                  <svg class="w-16 h-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd" />
+                  </svg>
+                  <div class="text-center">
+                    This account has no transactions for the period between {{startDate | date}} and {{endDate | date}}
                   </div>
-                </form>
+                </div>
               </div>
-              <div *ngIf="false" class="mt-8 flex flex-col items-center">
-                <svg class="w-10 h-10 text-cool-gray-400 animate-bounce" xmlns="http://www.w3.org/2000/svg" fill="none"
-                  viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
-                </svg>
-              </div>
-              <div class="mt-2 flex flex-col">
+              <div *ngIf="hasTransactions" class="mt-2 flex flex-col">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                   <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-sm">
@@ -130,7 +135,8 @@
                           </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                          <tr *ngFor="let t of transactions">
+                          <tr
+                            *ngFor="let t of transactions | paginate: { id: 'transactions', itemsPerPage: 10, currentPage: pageNo, totalItems: totalTransactions }">
                             <td class="px-6 py-4 whitespace-no-wrap">
                               <div class="text-sm leading-5 font-medium text-gray-900">{{t.id}}</div>
                             </td>
@@ -171,6 +177,8 @@
                         </tbody>
                       </table>
                       <div class="pt-4 flex items-center justify-center">
+                        <pagination-controls class="paginator" id="transactions" (pageChange)="changePage($event)">
+                        </pagination-controls>
                       </div>
                     </div>
                   </div>

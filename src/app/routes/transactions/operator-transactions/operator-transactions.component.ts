@@ -1,6 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { TransactionHistory } from 'src/app/shared/models/transaction-history';
 import { SubSink } from 'subsink';
 import { TransactionService } from '../transaction.service';
@@ -12,12 +14,15 @@ import { TransactionService } from '../transaction.service';
 })
 export class OperatorTransactionsComponent implements OnInit, OnDestroy {
   private _subs = new SubSink();
+  filterForm: FormGroup;
 
   transactions: TransactionHistory[];
   transaction: TransactionHistory;
   hasTransactions = false;
+  totalTransactions: number;
   viewingTransactions = true;
   viewTransaction = false;
+  pageNo = 1;
 
   error = false;
   warning = false;
@@ -28,31 +33,72 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
 
   startDate: string;
   endDate: string;
+  maxDate: string;
 
   constructor(
     private _ts: TransactionService,
     private _router: Router,
+    private _auth: AuthService,
     datePipe: DatePipe
   ) {
-    this.startDate = this.endDate = datePipe.transform(
-      new Date(),
-      'yyyy-MM-dd'
+    const dateFormat = 'yyyy-MM-dd';
+    this.startDate = datePipe.transform(
+      new Date().setDate(new Date().getDate() - 1),
+      dateFormat
     );
+    this.maxDate = this.endDate = datePipe.transform(new Date(), dateFormat);
   }
 
   ngOnInit() {
     this._subs.add(
-      this._ts.getTransactionHistory(this.startDate, this.endDate).subscribe(
+      this._ts.getTransactionHistory(0, this.startDate, this.endDate).subscribe(
         (obs) => {
           this.processing = false;
-          this.transactions = obs.transactions;
           this.hasTransactions = !obs.empty;
+          this.totalTransactions = obs.total;
+          this.transactions = obs.transactions.filter(
+            (t) => t.agentId === this._auth.agentId
+          );
         },
         (e) => {
           this._onReqError('Something went wrong. Try again.');
         }
       )
     );
+    this.filterForm = new FormGroup({
+      startDate: new FormControl(this.startDate, Validators.required),
+      endDate: new FormControl(this.endDate, Validators.required),
+    });
+  }
+
+  filterTransactions(page: number) {
+    this.processing = true;
+    this.transactions = [];
+    this.startDate = this.filterForm.get('startDate').value;
+    this.endDate = this.filterForm.get('endDate').value;
+
+    this._subs.add(
+      this._ts
+        .getTransactionHistory(page, this.startDate, this.endDate)
+        .subscribe(
+          (obs) => {
+            this.processing = false;
+            this.hasTransactions = !obs.empty;
+            this.totalTransactions = obs.total;
+            this.transactions = obs.transactions.filter(
+              (t) => t.agentId === this._auth.agentId
+            );
+          },
+          (e) => {
+            this._onReqError('Something went wrong. Try again.');
+          }
+        )
+    );
+  }
+
+  changePage(event: any) {
+    this.pageNo = event;
+    this.filterTransactions(event - 1);
   }
 
   private _onReqSuccess(message: string) {

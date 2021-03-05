@@ -78,6 +78,7 @@ export class TransactionService {
   }
 
   getTransactionHistory(
+    page: number,
     startDate: string,
     endDate: string
   ): Observable<{
@@ -88,9 +89,9 @@ export class TransactionService {
     if (this._auth.rauthenticated)
       return this._http
         .get<GetResponse>(
-          `${environment.TRANSACTION_SERVICE()}transactions/agent/0/10?agentId=${
+          `${environment.TRANSACTION_SERVICE()}transactions/agent/${page}/10?agentId=${
             this._auth.agentId
-          }&startDate=2021-01-01&endDate=${endDate}`
+          }&startDate=${startDate}&endDate=${endDate}`
         )
         .pipe(
           map((data) => {
@@ -103,9 +104,9 @@ export class TransactionService {
         );
     return this._http
       .get<GetResponse>(
-        `${environment.TRANSACTION_SERVICE()}transactions/operator/0/10?tellerId=${
+        `${environment.TRANSACTION_SERVICE()}transactions/operator/${page}/10?tellerId=${
           this._auth.operatorId
-        }&startDate=2021-01-01&endDate=${endDate}`
+        }&startDate=${startDate}&endDate=${endDate}`
       )
       .pipe(
         map((data) => {
@@ -120,6 +121,7 @@ export class TransactionService {
 
   getDeviceTransactions(
     imei: string,
+    page: number,
     startDate: string,
     endDate: string
   ): Observable<{
@@ -129,7 +131,7 @@ export class TransactionService {
   }> {
     return this._http
       .get<GetResponse>(
-        `${environment.TRANSACTION_SERVICE()}transactions/device/0/10?imei=${imei}&startDate=${startDate}&endDate=${endDate}`
+        `${environment.TRANSACTION_SERVICE()}transactions/device/${page}/10?imei=${imei}&startDate=${startDate}&endDate=${endDate}`
       )
       .pipe(
         map((data) => {
