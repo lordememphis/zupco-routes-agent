@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   aMessage: string;
   aTitle = 'Login failed';
   processing = false;
+  showPassword = false;
 
   constructor(private _router: Router, private _auth: AuthService) {}
 
