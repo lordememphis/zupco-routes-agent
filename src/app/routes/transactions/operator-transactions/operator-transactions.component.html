@@ -136,7 +136,7 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                           <tr
-                            *ngFor="let t of transactions | paginate: { id: 'transactions', itemsPerPage: 10, currentPage: pageNo, totalItems: totalTransactions }">
+                            *ngFor="let t of transactions | paginate: { id: 'transactions', itemsPerPage: pageLimit, currentPage: pageNo, totalItems: totalTransactions }">
                             <td class="px-6 py-4 whitespace-no-wrap">
                               <div class="text-sm leading-5 font-medium text-gray-900">{{t.id}}</div>
                             </td>

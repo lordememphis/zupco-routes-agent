@@ -44,10 +44,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private _transactionService: TransactionService,
     datePipe: DatePipe
   ) {
-    this.startDate = this.endDate = datePipe.transform(
-      new Date(),
-      'yyyy-MM-dd'
-    );
+    this.startDate = '2021-01-01';
+    this.endDate = datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
 
   ngOnInit(): void {
@@ -56,6 +54,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this._deviceService.getDevices(),
         this._operatorService.getOperators(),
         this._transactionService.getTransactionHistory(
+          0,
+          9999,
           this.startDate,
           this.endDate
         ),

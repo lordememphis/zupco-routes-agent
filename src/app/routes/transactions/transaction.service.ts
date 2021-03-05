@@ -79,6 +79,7 @@ export class TransactionService {
 
   getTransactionHistory(
     page: number,
+    limit: number,
     startDate: string,
     endDate: string
   ): Observable<{
@@ -89,7 +90,7 @@ export class TransactionService {
     if (this._auth.rauthenticated)
       return this._http
         .get<GetResponse>(
-          `${environment.TRANSACTION_SERVICE()}transactions/agent/${page}/10?agentId=${
+          `${environment.TRANSACTION_SERVICE()}transactions/agent/${page}/${limit}?agentId=${
             this._auth.agentId
           }&startDate=${startDate}&endDate=${endDate}`
         )

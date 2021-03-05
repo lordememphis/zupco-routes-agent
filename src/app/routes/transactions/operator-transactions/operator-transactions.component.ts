@@ -23,6 +23,7 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
   viewingTransactions = true;
   viewTransaction = false;
   pageNo = 1;
+  pageLimit = 10;
 
   error = false;
   warning = false;
@@ -51,19 +52,21 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._subs.add(
-      this._ts.getTransactionHistory(0, this.startDate, this.endDate).subscribe(
-        (obs) => {
-          this.processing = false;
-          this.hasTransactions = !obs.empty;
-          this.totalTransactions = obs.total;
-          this.transactions = obs.transactions.filter(
-            (t) => t.agentId === this._auth.agentId
-          );
-        },
-        (e) => {
-          this._onReqError('Something went wrong. Try again.');
-        }
-      )
+      this._ts
+        .getTransactionHistory(0, this.pageLimit, this.startDate, this.endDate)
+        .subscribe(
+          (obs) => {
+            this.processing = false;
+            this.hasTransactions = !obs.empty;
+            this.totalTransactions = obs.total;
+            this.transactions = obs.transactions.filter(
+              (t) => t.agentId === this._auth.agentId
+            );
+          },
+          (e) => {
+            this._onReqError('Something went wrong. Try again.');
+          }
+        )
     );
     this.filterForm = new FormGroup({
       startDate: new FormControl(this.startDate, Validators.required),
@@ -79,7 +82,12 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
 
     this._subs.add(
       this._ts
-        .getTransactionHistory(page, this.startDate, this.endDate)
+        .getTransactionHistory(
+          page,
+          this.pageLimit,
+          this.startDate,
+          this.endDate
+        )
         .subscribe(
           (obs) => {
             this.processing = false;
