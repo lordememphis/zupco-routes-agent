@@ -89,6 +89,13 @@ export class OverviewComponent implements OnInit, OnDestroy {
             this.processing = false;
           },
           (e) => {
+            if (!e.response) {
+              this._onReqError(
+                'The server cannot be reached at the moment. Check your internet connection and try again later'
+              );
+              return;
+            }
+
             e.error.message
               ? this._onReqError(e.error.message)
               : this._onReqError(

@@ -83,6 +83,12 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
         },
         (e) => {
           this.authForm.reset();
+          if (!e.response) {
+            this._onReqError(
+              'The server cannot be reached at the moment. Check your internet connection and try again later'
+            );
+            return;
+          }
           e.error.message
             ? this._onReqError(e.error.message)
             : this._onReqError('Something went wrong. Try again.');

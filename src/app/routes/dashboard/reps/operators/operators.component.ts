@@ -99,6 +99,13 @@ export class OperatorsComponent implements OnInit, OnDestroy {
           this._onReqSuccess('Operator successfully registered.');
         },
         (e) => {
+          if (!e.response) {
+            this._onReqError(
+              'The server cannot be reached at the moment. Check your internet connection and try again later'
+            );
+            return;
+          }
+
           e.error.message
             ? this._onReqError(e.error.message)
             : this._onReqError('Something went wrong. Try again.');

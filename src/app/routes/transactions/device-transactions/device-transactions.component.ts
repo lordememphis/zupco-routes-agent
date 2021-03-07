@@ -88,6 +88,12 @@ export class DeviceTransactionsComponent implements OnInit {
                 );
               },
               (e) => {
+                if (!e.response) {
+                  this._onReqError(
+                    'The server cannot be reached at the moment. Check your internet connection and try again later'
+                  );
+                  return;
+                }
                 this._onReqError('Something went wrong. Try again.');
               }
             )
@@ -127,6 +133,12 @@ export class DeviceTransactionsComponent implements OnInit {
             );
           },
           (e) => {
+            if (!e.response) {
+              this._onReqError(
+                'The server cannot be reached at the moment. Check your internet connection and try again later'
+              );
+              return;
+            }
             this._onReqError('Something went wrong. Try again.');
           }
         )

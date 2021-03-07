@@ -58,6 +58,12 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.processing = false;
           this.error = true;
 
+          if (!e.response) {
+            this.aMessage =
+              'The server cannot be reached at the moment. Check your internet connection and try again later';
+            return;
+          }
+
           e.status === 404
             ? (this.aMessage =
                 'You have used an incorrect username or password. Try again.')
