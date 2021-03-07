@@ -28,7 +28,7 @@
       </div>
       <div class="mt-4 flex flex-col">
         <div class="flex flex-col space-y-4">
-          <div *ngIf="rauth" class="space-y-1">
+          <div class="space-y-1">
             <h6 class="text-xs text-cool-gray-500 font-bold uppercase tracking-wider">Dashboard</h6>
             <a [routerLink]="['dashboard', 'overview']" routerLinkActive="active-route" class="route">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -37,14 +37,16 @@
               </svg>
               <span class="ml-2">Overview</span>
             </a>
-            <a [routerLink]="['dashboard', 'reps', 'operators']" routerLinkActive="active-route" class="route">
+            <a *ngIf="rauth" [routerLink]="['dashboard', 'reps', 'operators']" routerLinkActive="active-route"
+              class="route">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path
                   d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
               </svg>
               <span class="ml-2">Operators</span>
             </a>
-            <a [routerLink]="['dashboard', 'reps', 'devices']" routerLinkActive="active-route" class="route">
+            <a *ngIf="rauth" [routerLink]="['dashboard', 'reps', 'devices']" routerLinkActive="active-route"
+              class="route">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd"
                   d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z"
