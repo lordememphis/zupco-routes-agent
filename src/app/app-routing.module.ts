@@ -5,16 +5,22 @@ import { LoginComponent } from './auth/login/login.component';
 import { RAuthGuard } from './auth/rauth.guard';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
-import { DevicesComponent } from './routes/devices/devices.component';
+import { DevicesComponent } from './routes/dashboard/reps/devices/devices.component';
 import { HomeComponent } from './routes/home/home.component';
-import { OperatorsComponent } from './routes/operators/operators.component';
-import { SettingsComponent } from './routes/settings/settings.component';
+import { OperatorsComponent } from './routes/dashboard/reps/operators/operators.component';
+import { SettingsComponent } from './routes/account/settings/settings.component';
 import { AgentToAgentComponent } from './routes/transactions/agent-to-agent/agent-to-agent.component';
 import { CashInComponent } from './routes/transactions/cash-in/cash-in.component';
 import { CashOutComponent } from './routes/transactions/cash-out/cash-out.component';
 import { DeviceTransactionsComponent } from './routes/transactions/device-transactions/device-transactions.component';
 import { OperatorTransactionsComponent } from './routes/transactions/operator-transactions/operator-transactions.component';
+import { TransactionsComponent } from './routes/transactions/transactions.component';
 import { WalletToBankComponent } from './routes/transactions/wallet-to-bank/wallet-to-bank.component';
+import { OverviewComponent } from './routes/dashboard/overview/overview.component';
+import { RepsComponent } from './routes/dashboard/reps/reps.component';
+import { AccountComponent } from './routes/account/account.component';
+import { ReportsComponent } from './routes/account/reports/reports.component';
+import { TransactionHistoryComponent } from './routes/account/reports/transaction-history/transaction-history.component';
 
 const routes: Routes = [
   {
@@ -26,30 +32,72 @@ const routes: Routes = [
         pathMatch: 'full',
         redirectTo: 'dashboard',
       },
-      { path: 'dashboard', component: DashboardComponent },
       {
-        path: 'operators',
-        component: OperatorsComponent,
-        canActivate: [RAuthGuard],
+        path: 'dashboard',
+        component: DashboardComponent,
+        children: [
+          { path: '', pathMatch: 'full', redirectTo: 'overview' },
+          { path: 'overview', component: OverviewComponent },
+          {
+            path: 'reps',
+            component: RepsComponent,
+            children: [
+              { path: '', pathMatch: 'full', redirectTo: 'operators' },
+              { path: 'operators', component: OperatorsComponent },
+              { path: 'devices', component: DevicesComponent },
+            ],
+            canActivate: [RAuthGuard],
+          },
+        ],
       },
       {
-        path: 'devices',
-        component: DevicesComponent,
-        canActivate: [RAuthGuard],
-      },
-      { path: 'transactions/cash-in', component: CashInComponent },
-      { path: 'transactions/cash-out', component: CashOutComponent },
-      { path: 'transactions/agent-to-agent', component: AgentToAgentComponent },
-      { path: 'transactions/wallet-to-bank', component: WalletToBankComponent },
-      {
-        path: 'reports/account-transactions',
-        component: OperatorTransactionsComponent,
+        path: 'transactions',
+        component: TransactionsComponent,
+        children: [
+          { path: 'cash-in', component: CashInComponent },
+          { path: 'cash-out', component: CashOutComponent },
+          { path: 'agent-to-agent', component: AgentToAgentComponent },
+          { path: 'wallet-to-bank', component: WalletToBankComponent },
+        ],
       },
       {
-        path: 'reports/device-transactions',
-        component: DeviceTransactionsComponent,
+        path: 'account',
+        component: AccountComponent,
+        children: [
+          { path: '', pathMatch: 'full', redirectTo: 'settings' },
+          { path: 'settings', component: SettingsComponent },
+          {
+            path: 'reports',
+            component: ReportsComponent,
+            children: [
+              {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'transaction-history',
+              },
+              {
+                path: 'transactions',
+                component: TransactionHistoryComponent,
+                children: [
+                  {
+                    path: '',
+                    pathMatch: 'full',
+                    redirectTo: 'operator',
+                  },
+                  {
+                    path: 'operator',
+                    component: OperatorTransactionsComponent,
+                  },
+                  {
+                    path: 'device',
+                    component: DeviceTransactionsComponent,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
-      { path: 'settings', component: SettingsComponent },
     ],
     canActivate: [AuthGuard],
     runGuardsAndResolvers: 'always',

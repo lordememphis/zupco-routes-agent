@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { Operator } from 'src/app/shared/models/operator';
 import { GetResponse } from 'src/app/shared/models/response';
 import { environment } from 'src/environments/environment';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.service';
 import { SubSink } from 'subsink';
-import { OperatorService } from '../operators/operator.service';
+import { OperatorService } from '../../dashboard/reps/operators/operator.service';
 
 @Component({
   selector: 'app-settings',

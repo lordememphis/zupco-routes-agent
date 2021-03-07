@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Device } from 'src/app/shared/models/device';
 import { TransactionHistory } from 'src/app/shared/models/transaction-history';
 import { SubSink } from 'subsink';
-import { DeviceService } from '../../devices/device.service';
+import { DeviceService } from '../../dashboard/reps/devices/device.service';
 import { TransactionService } from '../transaction.service';
 
 @Component({
