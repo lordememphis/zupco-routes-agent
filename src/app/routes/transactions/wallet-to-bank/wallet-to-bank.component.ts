@@ -11,7 +11,6 @@ import { TransactionService } from '../transaction.service';
 @Component({
   selector: 'app-wallet-to-bank',
   templateUrl: './wallet-to-bank.component.html',
-  styleUrls: ['./wallet-to-bank.component.scss'],
 })
 export class WalletToBankComponent implements OnInit, OnDestroy {
   private _subs = new SubSink();

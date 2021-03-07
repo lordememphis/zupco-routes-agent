@@ -10,7 +10,6 @@ import * as UUID from 'uuid-int';
 @Component({
   selector: 'app-cash-out',
   templateUrl: './cash-out.component.html',
-  styleUrls: ['./cash-out.component.scss'],
 })
 export class CashOutComponent implements OnInit, OnDestroy {
   private _subs = new SubSink();

@@ -7,7 +7,6 @@ import { OperatorService } from '../../dashboard/reps/operators/operator.service
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit, OnDestroy {
   private _subs = new SubSink();

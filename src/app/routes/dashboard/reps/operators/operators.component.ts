@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
-import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Operator } from 'src/app/shared/models/operator';
 import { SubSink } from 'subsink';
@@ -10,7 +9,6 @@ import { OperatorService } from './operator.service';
 @Component({
   selector: 'app-operators',
   templateUrl: './operators.component.html',
-  styleUrls: ['./operators.component.scss'],
 })
 export class OperatorsComponent implements OnInit, OnDestroy {
   private _subs = new SubSink();

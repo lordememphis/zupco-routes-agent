@@ -8,7 +8,6 @@ import { DeviceService } from './device.service';
 @Component({
   selector: 'app-devices',
   templateUrl: './devices.component.html',
-  styleUrls: ['./devices.component.scss'],
 })
 export class DevicesComponent implements OnInit, OnDestroy {
   private _subs = new SubSink();

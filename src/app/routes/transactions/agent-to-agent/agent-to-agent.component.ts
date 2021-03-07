@@ -10,7 +10,6 @@ import { TransactionService } from '../transaction.service';
 @Component({
   selector: 'app-agent-to-agent',
   templateUrl: './agent-to-agent.component.html',
-  styleUrls: ['./agent-to-agent.component.scss'],
 })
 export class AgentToAgentComponent implements OnInit, OnDestroy {
   private _subs = new SubSink();
