@@ -73,15 +73,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
           this.processing = false;
           this.error = true;
 
-          if (!e.response) {
+          if (!e.response)
             this.aMessage =
               'The server cannot be reached at the moment. Check your internet connection and try again later';
-            return;
-          }
-
-          e.error.message
-            ? (this.aMessage = e.error.message)
-            : (this.aMessage = 'Something went wrong. Try again.');
+          else if (e.error.message) this.aMessage = e.error.message;
+          else this.aMessage = 'Something went wrong. Try again';
 
           setTimeout(() => {
             this.error = false;
