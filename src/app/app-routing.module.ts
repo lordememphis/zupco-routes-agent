@@ -35,6 +35,7 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent,
+        data: { title: 'Dashboard' },
         children: [
           { path: '', pathMatch: 'full', redirectTo: 'overview' },
           { path: 'overview', component: OverviewComponent },
@@ -53,6 +54,7 @@ const routes: Routes = [
       {
         path: 'transactions',
         component: TransactionsComponent,
+        data: { title: 'Dashboard' },
         children: [
           { path: 'cash-in', component: CashInComponent },
           { path: 'cash-out', component: CashOutComponent },

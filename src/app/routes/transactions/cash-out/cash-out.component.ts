@@ -6,6 +6,7 @@ import { CashInOutTransaction } from 'src/app/shared/models/transaction';
 import { SubSink } from 'subsink';
 import { TransactionService } from '../transaction.service';
 import * as UUID from 'uuid-int';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-cash-out',
@@ -30,13 +31,15 @@ export class CashOutComponent implements OnInit, OnDestroy {
   constructor(
     private _transactionService: TransactionService,
     private _router: Router,
-    private _auth: AuthService
+    private _auth: AuthService,
+    titleService: Title
   ) {
     this._subs.add(
       this._router.events.subscribe((e: any) => {
         if (e instanceof NavigationEnd) this.ngOnInit();
       })
     );
+    titleService.setTitle('Transactions — Cash Out');
   }
 
   ngOnInit() {

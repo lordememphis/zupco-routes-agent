@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CashInOutTransaction } from 'src/app/shared/models/transaction';
 import { SubSink } from 'subsink';
 import { TransactionService } from '../transaction.service';
 import * as UUID from 'uuid-int';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-cash-in',
@@ -27,13 +28,15 @@ export class CashInComponent implements OnInit, OnDestroy {
   constructor(
     private _transactionService: TransactionService,
     private _router: Router,
-    private _auth: AuthService
+    private _auth: AuthService,
+    titleService: Title
   ) {
     this._subs.add(
       this._router.events.subscribe((e: any) => {
         if (e instanceof NavigationEnd) this.ngOnInit();
       })
     );
+    titleService.setTitle('Transactions — Cash In');
   }
 
   ngOnInit() {

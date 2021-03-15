@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Device } from 'src/app/shared/models/device';
@@ -47,7 +48,8 @@ export class DeviceTransactionsComponent implements OnInit {
     private _router: Router,
     private _auth: AuthService,
     private _deviceService: DeviceService,
-    datePipe: DatePipe
+    datePipe: DatePipe,
+    titleService: Title
   ) {
     const dateFormat = 'yyyy-MM-dd';
     this.startDate = datePipe.transform(
@@ -55,6 +57,7 @@ export class DeviceTransactionsComponent implements OnInit {
       dateFormat
     );
     this.maxDate = this.endDate = datePipe.transform(new Date(), dateFormat);
+    titleService.setTitle('Reports — Operator Transactions');
   }
 
   ngOnInit() {

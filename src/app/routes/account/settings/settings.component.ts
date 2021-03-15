@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/auth/auth.service';
 import { SubSink } from 'subsink';
 import { OperatorService } from '../../dashboard/reps/operators/operator.service';
@@ -23,8 +24,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   constructor(
     private _operatorService: OperatorService,
-    private _auth: AuthService
-  ) {}
+    private _auth: AuthService,
+    titleService: Title
+  ) {
+    titleService.setTitle('Account Settings');
+  }
 
   ngOnInit() {
     this.rauth = this._auth.rauthenticated;

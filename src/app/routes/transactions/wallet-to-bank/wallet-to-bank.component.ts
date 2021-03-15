@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Bank } from 'src/app/shared/models/bank';
@@ -29,13 +30,15 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
   constructor(
     private _transactionService: TransactionService,
     private _router: Router,
-    private _auth: AuthService
+    private _auth: AuthService,
+    titleService: Title
   ) {
     this._subs.add(
       this._router.events.subscribe((e: any) => {
         if (e instanceof NavigationEnd) this.ngOnInit();
       })
     );
+    titleService.setTitle('Transactions — Wallet to Bank Transfer');
   }
 
   ngOnInit() {

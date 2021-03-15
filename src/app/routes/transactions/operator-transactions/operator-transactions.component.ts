@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { TransactionHistory } from 'src/app/shared/models/transaction-history';
@@ -40,7 +41,8 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
     private _ts: TransactionService,
     private _router: Router,
     private _auth: AuthService,
-    datePipe: DatePipe
+    datePipe: DatePipe,
+    titleService: Title
   ) {
     const dateFormat = 'yyyy-MM-dd';
     this.startDate = datePipe.transform(
@@ -48,6 +50,7 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
       dateFormat
     );
     this.maxDate = this.endDate = datePipe.transform(new Date(), dateFormat);
+    titleService.setTitle('Reports — Operator Transactions');
   }
 
   ngOnInit() {

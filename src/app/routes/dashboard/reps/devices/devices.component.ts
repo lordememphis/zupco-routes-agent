@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 import { Device } from 'src/app/shared/models/device';
 import { SubSink } from 'subsink';
@@ -30,12 +31,17 @@ export class DevicesComponent implements OnInit, OnDestroy {
   deletingDevice: boolean;
   fsDialog: boolean;
 
-  constructor(private _deviceService: DeviceService, private _router: Router) {
+  constructor(
+    private _deviceService: DeviceService,
+    private _router: Router,
+    titleService: Title
+  ) {
     this._subs.add(
       this._router.events.subscribe((e: any) => {
         if (e instanceof NavigationEnd) this.ngOnInit();
       })
     );
+    titleService.setTitle('Dashboard — Account Devices');
   }
 
   ngOnInit(): void {

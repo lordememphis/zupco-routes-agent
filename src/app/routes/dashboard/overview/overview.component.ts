@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 import { TransactionService } from '../../transactions/transaction.service';
 import { DatePipe } from '@angular/common';
 import { TransactionHistory } from 'src/app/shared/models/transaction-history';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-overview',
@@ -41,10 +42,12 @@ export class OverviewComponent implements OnInit, OnDestroy {
     private _deviceService: DeviceService,
     private _operatorService: OperatorService,
     private _transactionService: TransactionService,
-    datePipe: DatePipe
+    datePipe: DatePipe,
+    titleService: Title
   ) {
     this.startDate = '2021-01-01';
     this.endDate = datePipe.transform(new Date(), 'yyyy-MM-dd');
+    titleService.setTitle('Dashboard Overview');
   }
 
   ngOnInit(): void {
