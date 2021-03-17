@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Operator } from 'src/app/shared/models/operator';
-import { Device } from 'src/app/shared/models/device';
+import { Operator } from 'src/app/shared/models/operator.model';
+import { Device } from 'src/app/shared/models/device.model';
 import { DeviceService } from '../reps/devices/device.service';
 import { OperatorService } from '../reps/operators/operator.service';
 import { SubSink } from 'subsink';
@@ -8,7 +8,7 @@ import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TransactionService } from '../../transactions/transaction.service';
 import { DatePipe } from '@angular/common';
-import { TransactionHistory } from 'src/app/shared/models/transaction-history';
+import { TransactionHistory } from 'src/app/shared/models/transaction-history.model';
 import { Title } from '@angular/platform-browser';
 
 @Component({

@@ -4,14 +4,14 @@ import { env } from 'process';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Bank } from 'src/app/shared/models/bank';
-import { GetResponse } from 'src/app/shared/models/response';
+import { Bank } from 'src/app/shared/models/bank.model';
+import { GetResponse } from 'src/app/shared/models/response.model';
 import {
   A2ATransaction,
   CashInOutTransaction,
   WTBTransaction,
-} from 'src/app/shared/models/transaction';
-import { TransactionHistory } from 'src/app/shared/models/transaction-history';
+} from 'src/app/shared/models/transaction.model';
+import { TransactionHistory } from 'src/app/shared/models/transaction-history.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

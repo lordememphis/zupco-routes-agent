@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
-import { Operator } from 'src/app/shared/models/operator';
+import { Operator } from 'src/app/shared/models/operator.model';
 import { SubSink } from 'subsink';
 import { OperatorService } from './operator.service';
 

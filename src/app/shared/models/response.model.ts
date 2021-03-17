@@ -1,6 +1,6 @@
-import { Device } from './device';
-import { Operator } from './operator';
-import { TransactionHistory } from './transaction-history';
+import { Device } from './device.model';
+import { Operator } from './operator.model';
+import { TransactionHistory } from './transaction-history.model';
 
 export interface GetResponse {
   content: Operator[] | Device[] | TransactionHistory[];

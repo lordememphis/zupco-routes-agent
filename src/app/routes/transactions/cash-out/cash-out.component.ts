@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
-import { CashInOutTransaction } from 'src/app/shared/models/transaction';
+import { CashInOutTransaction } from 'src/app/shared/models/transaction.model';
 import { SubSink } from 'subsink';
 import { TransactionService } from '../transaction.service';
 import * as UUID from 'uuid-int';

@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
-import { A2ATransaction } from 'src/app/shared/models/transaction';
+import { A2ATransaction } from 'src/app/shared/models/transaction.model';
 import { SubSink } from 'subsink';
 import * as UUID from 'uuid-int';
 import { TransactionService } from '../transaction.service';

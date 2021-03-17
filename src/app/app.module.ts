@@ -16,10 +16,10 @@ import { CashInComponent } from './routes/transactions/cash-in/cash-in.component
 import { CashOutComponent } from './routes/transactions/cash-out/cash-out.component';
 import { SettingsComponent } from './routes/account/settings/settings.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
-import { ErrorModal } from './shared/modal/error';
-import { ProcessingModal } from './shared/modal/processing';
-import { WarningModal } from './shared/modal/warning';
-import { SuccessModal } from './shared/modal/success';
+import { ErrorModal } from './shared/modals/error.modal.config';
+import { ProcessingModal } from './shared/modals/processing.modal.config';
+import { WarningModal } from './shared/modals/warning..modal.config';
+import { SuccessModal } from './shared/modals/success.modal.config';
 import { OperatorTransactionsComponent } from './routes/transactions/operator-transactions/operator-transactions.component';
 import { DatePipe } from '@angular/common';
 import { DeviceTransactionsComponent } from './routes/transactions/device-transactions/device-transactions.component';

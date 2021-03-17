@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
-import { TransactionHistory } from 'src/app/shared/models/transaction-history';
+import { TransactionHistory } from 'src/app/shared/models/transaction-history.model';
 import { SubSink } from 'subsink';
 import { TransactionService } from '../transaction.service';
 
