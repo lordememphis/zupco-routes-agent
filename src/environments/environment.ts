@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  BASE_URL: 'https://api-akupay.jugaad.co.zw/',
+  BASE_URL: '192.168.1.195:8765/',
   OAUTH_SERVICE: function () {
     return `${this.BASE_URL}akupay-oauth-service/api/v1/`;
   },
