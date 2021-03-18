@@ -10,7 +10,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./reset-password.component.scss'],
 })
 export class ResetPasswordComponent implements OnInit, OnDestroy {
-  private _subs = new SubSink();
+  private subs = new SubSink();
 
   sendTokenForm: FormGroup;
   resetPasswordForm: FormGroup;
@@ -25,16 +25,17 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   token: string;
 
   constructor(
-    private _auth: AuthService,
-    private _router: Router,
-    private _route: ActivatedRoute
+    private auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit() {
-    this._subs.add(
-      this._route.queryParams.subscribe((params) => {
-        if (params['token']) {
-          this.token = params['token'];
+  ngOnInit(): void {
+    this.subs.add(
+      this.route.queryParams.subscribe((params) => {
+        const tokenParam = 'token';
+        if (params[tokenParam]) {
+          this.token = params[tokenParam];
           this.resetting = true;
         }
       })
@@ -56,10 +57,10 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSendToken() {
+  onSendToken(): void {
     this.processing = true;
-    this._subs.add(
-      this._auth
+    this.subs.add(
+      this.auth
         .sendResetPasswordToken(this.sendTokenForm.get('email').value)
         .subscribe(
           () => {
@@ -70,18 +71,18 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
           },
           (e) => {
             if (!e.response)
-              this._onReqError(
+              this.onReqError(
                 'The server cannot be reached at the moment. Check your internet connection and try again later'
               );
             e.error.message
-              ? this._onReqError(e.error.message)
-              : this._onReqError('Something went wrong. Try again.');
+              ? this.onReqError(e.error.message)
+              : this.onReqError('Something went wrong. Try again.');
           }
         )
     );
   }
 
-  onSavePassword() {
+  onSavePassword(): void {
     const p = this.resetPasswordForm.get('password').value;
     const mp = this.resetPasswordForm.get('matchingPassword').value;
 
@@ -98,40 +99,40 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     this.processing = true;
 
-    this._subs.add(
-      this._auth.resetPassword(this.token, p).subscribe(
+    this.subs.add(
+      this.auth.resetPassword(this.token, p).subscribe(
         () => {
-          this._onReqSuccess(
+          this.onReqSuccess(
             'Your password has been reset successfully. You now login using your newly set password.'
           );
         },
         (e) => {
           if (!e.response) {
-            this._onReqError(
+            this.onReqError(
               'The server cannot be reached at the moment. Check your internet connection and try again later'
             );
             return;
           }
           e.error.message
-            ? this._onReqError(e.error.message)
-            : this._onReqError('Something went wrong. Try again.');
+            ? this.onReqError(e.error.message)
+            : this.onReqError('Something went wrong. Try again.');
         }
       )
     );
   }
 
-  private _onReqSuccess(message: string) {
+  private onReqSuccess(message: string): void {
     this.processing = false;
     this.success = true;
     this.aMessage = message;
 
     setTimeout(() => {
       this.success = false;
-      this._router.navigate(['login']);
+      this.router.navigate(['login']);
     }, 3000);
   }
 
-  private _onReqError(message: string) {
+  private onReqError(message: string): void {
     this.processing = false;
     this.error = true;
     this.aMessage = message;
@@ -141,7 +142,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     }, 5000);
   }
 
-  ngOnDestroy() {
-    this._subs.unsubscribe();
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

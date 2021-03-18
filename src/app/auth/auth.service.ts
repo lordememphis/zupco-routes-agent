@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private _http: HttpClient, private _router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   get authenticated(): boolean {
     return sessionStorage.getItem('oauth') !== null;
@@ -28,15 +28,15 @@ export class AuthService {
   }
 
   get agentId(): number {
-    return parseInt(sessionStorage.getItem('auid'));
+    return Number(sessionStorage.getItem('auid'));
   }
 
   get userId(): number {
-    return parseInt(sessionStorage.getItem('uuid'));
+    return Number(sessionStorage.getItem('uuid'));
   }
 
   get operatorId(): number {
-    return parseInt(sessionStorage.getItem('ouid'));
+    return Number(sessionStorage.getItem('ouid'));
   }
 
   get agentMobile(): string {
@@ -44,15 +44,15 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<any> {
-    return this._http
+    return this.http
       .post<any>(`${environment.OAUTH_SERVICE()}login`, {
-        username: username,
-        password: password,
+        username,
+        password,
       })
       .pipe(
         map((data) => {
           if (!data.agentId) return false;
-          return this._http
+          return this.http
             .get<any>(
               `${environment.AGENT_SERVICE()}retrieve-agent/${data.agentId}`
             )
@@ -74,13 +74,13 @@ export class AuthService {
       );
   }
 
-  logout() {
+  logout(): void {
     sessionStorage.clear();
-    this._router.navigate(['login']);
+    this.router.navigate(['login']);
   }
 
   sendResetPasswordToken(email: string): Observable<boolean> {
-    return this._http
+    return this.http
       .post(
         `${environment.USER_SERVICE()}user/resetPassword?email=${email}`,
         null
@@ -89,9 +89,9 @@ export class AuthService {
   }
 
   resetPassword(token: string, password: string): Observable<boolean> {
-    return this._http
+    return this.http
       .post(`${environment.USER_SERVICE()}user/savePassword`, {
-        token: token,
+        token,
         newPassword: password,
       })
       .pipe(map(() => true));

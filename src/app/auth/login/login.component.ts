@@ -11,7 +11,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  private _subs = new SubSink();
+  private subs = new SubSink();
 
   form: FormGroup;
 
@@ -21,27 +21,27 @@ export class LoginComponent implements OnInit, OnDestroy {
   processing = false;
   showPassword = false;
 
-  constructor(private _router: Router, private _auth: AuthService) {}
+  constructor(private router: Router, private auth: AuthService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = new FormGroup({
       username: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
     });
   }
 
-  login() {
+  login(): void {
     const u = this.form.get('username').value;
     const p = this.form.get('password').value;
 
     this.processing = true;
 
-    this._subs.add(
-      this._auth.login(u, p).subscribe(
+    this.subs.add(
+      this.auth.login(u, p).subscribe(
         (authenticated) => {
           if (authenticated) {
             setTimeout(() => {
-              this._router.navigate(['dashboard']);
+              this.router.navigate(['dashboard']);
               this.processing = false;
             }, 1000);
           } else {
@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
-    this._subs.unsubscribe();
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

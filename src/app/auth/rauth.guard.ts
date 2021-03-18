@@ -13,7 +13,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class RAuthGuard implements CanActivate {
-  constructor(private _auth: AuthService, private _router: Router) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -23,8 +23,8 @@ export class RAuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const rauth = this._auth.rauthenticated;
-    if (!rauth) this._router.navigate(['dashboard']);
+    const rauth = this.auth.rauthenticated;
+    if (!rauth) this.router.navigate(['dashboard']);
     return rauth;
   }
 }
