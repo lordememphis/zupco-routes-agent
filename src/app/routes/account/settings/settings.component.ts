@@ -10,7 +10,7 @@ import { OperatorService } from '../../dashboard/reps/operators/operator.service
   templateUrl: './settings.component.html',
 })
 export class SettingsComponent implements OnInit, OnDestroy {
-  private _subs = new SubSink();
+  private subs = new SubSink();
 
   changePasswordForm: FormGroup;
   rauth: boolean;
@@ -23,15 +23,15 @@ export class SettingsComponent implements OnInit, OnDestroy {
   showPassword = false;
 
   constructor(
-    private _operatorService: OperatorService,
-    private _auth: AuthService,
+    private operatorService: OperatorService,
+    private auth: AuthService,
     titleService: Title
   ) {
     titleService.setTitle('Account Settings');
   }
 
-  ngOnInit() {
-    this.rauth = this._auth.rauthenticated;
+  ngOnInit(): void {
+    this.rauth = this.auth.rauthenticated;
     this.changePasswordForm = new FormGroup({
       oldPassword: new FormControl(null, Validators.required),
       newPassword: new FormControl(null, Validators.required),
@@ -43,7 +43,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
       this.changePasswordForm.patchValue({ username: 'username' });
   }
 
-  changePassword() {
+  changePassword(): void {
     const o = this.changePasswordForm.get('oldPassword').value;
     const n = this.changePasswordForm.get('newPassword').value;
     const m = this.changePasswordForm.get('matchingPassword').value;
@@ -61,8 +61,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     this.processing = true;
 
-    this._subs.add(
-      this._operatorService.changePassword(o, n, u).subscribe(
+    this.subs.add(
+      this.operatorService.changePassword(o, n, u).subscribe(
         (res) => {
           console.log(res);
           this.processing = false;
@@ -91,7 +91,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
-    this._subs.unsubscribe();
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
