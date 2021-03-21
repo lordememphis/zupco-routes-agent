@@ -70,13 +70,15 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
               'A reset token has been sent to the email you provided. Please check your email and click the link with your password reset token to reset your password.';
           },
           (e) => {
-            if (!e.response)
+            if (!e.error) {
               this.onReqError(
                 'The server cannot be reached at the moment. Check your internet connection and try again later'
               );
-            e.error.message
-              ? this.onReqError(e.error.message)
-              : this.onReqError('Something went wrong. Try again.');
+            } else if (e.error.message) {
+              this.onReqError(e.error.message);
+            } else {
+              this.onReqError('Something went wrong. Try again.');
+            }
           }
         )
     );
@@ -107,15 +109,15 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
           );
         },
         (e) => {
-          if (!e.response) {
+          if (!e.error) {
             this.onReqError(
               'The server cannot be reached at the moment. Check your internet connection and try again later'
             );
-            return;
+          } else if (e.error.message) {
+            this.onReqError(e.error.message);
+          } else {
+            this.onReqError('Something went wrong. Try again.');
           }
-          e.error.message
-            ? this.onReqError(e.error.message)
-            : this.onReqError('Something went wrong. Try again.');
         }
       )
     );

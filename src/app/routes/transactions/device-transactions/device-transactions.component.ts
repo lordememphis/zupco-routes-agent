@@ -91,13 +91,15 @@ export class DeviceTransactionsComponent implements OnInit {
                 );
               },
               (e) => {
-                if (!e.response) {
+                if (!e.error) {
                   this._onReqError(
                     'The server cannot be reached at the moment. Check your internet connection and try again later'
                   );
-                  return;
+                } else if (e.error.message) {
+                  this._onReqError(e.error.message);
+                } else {
+                  this._onReqError('Something went wrong. Try again.');
                 }
-                this._onReqError('Something went wrong. Try again.');
               }
             )
         );
@@ -136,13 +138,15 @@ export class DeviceTransactionsComponent implements OnInit {
             );
           },
           (e) => {
-            if (!e.response) {
+            if (!e.error) {
               this._onReqError(
                 'The server cannot be reached at the moment. Check your internet connection and try again later'
               );
-              return;
+            } else if (e.error.message) {
+              this._onReqError(e.error.message);
+            } else {
+              this._onReqError('Something went wrong. Try again.');
             }
-            this._onReqError('Something went wrong. Try again.');
           }
         )
     );
