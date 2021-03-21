@@ -207,7 +207,7 @@ export class OperatorsComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.success = false;
     }, 2000);
-    this._router.navigate(['operators']);
+    this._router.navigate(['dashboard', 'reps', 'operators']);
   }
 
   private _onReqError(message: string) {

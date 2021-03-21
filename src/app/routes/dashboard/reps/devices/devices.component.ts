@@ -203,7 +203,7 @@ export class DevicesComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.success = false;
     }, 2000);
-    this._router.navigate(['devices']);
+    this._router.navigate(['dashboard', 'reps', 'devices']);
   }
 
   private _onReqError(message: string) {
