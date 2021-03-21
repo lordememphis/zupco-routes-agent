@@ -18,7 +18,7 @@ import { SettingsComponent } from './routes/account/settings/settings.component'
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { ErrorModal } from './shared/modals/error.modal.config';
 import { ProcessingModal } from './shared/modals/processing.modal.config';
-import { WarningModal } from './shared/modals/warning..modal.config';
+import { WarningModal } from './shared/modals/warning.modal.config';
 import { SuccessModal } from './shared/modals/success.modal.config';
 import { OperatorTransactionsComponent } from './routes/transactions/operator-transactions/operator-transactions.component';
 import { DatePipe } from '@angular/common';
