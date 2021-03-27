@@ -68,12 +68,12 @@ import { Component, Input } from '@angular/core';
     </div>
   </div>`,
 })
-export class WarningModal {
-  @Input() open: boolean = false;
-  @Input() title: string = 'Warning';
-  @Input() message: string = 'You did something wrong. Try again';
+export class WarningModalComponent {
+  @Input() open = false;
+  @Input() title = 'Warning';
+  @Input() message = 'You did something wrong. Try again';
 
-  close() {
+  close(): void {
     this.open = false;
   }
 }

@@ -16,10 +16,10 @@ import { CashInComponent } from './routes/transactions/cash-in/cash-in.component
 import { CashOutComponent } from './routes/transactions/cash-out/cash-out.component';
 import { SettingsComponent } from './routes/account/settings/settings.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
-import { ErrorModal } from './shared/modals/error.modal.config';
-import { ProcessingModal } from './shared/modals/processing.modal.config';
-import { WarningModal } from './shared/modals/warning.modal.config';
-import { SuccessModal } from './shared/modals/success.modal.config';
+import { ErrorModalComponent } from './shared/modals/error.modal.config';
+import { ProcessingModalComponent } from './shared/modals/processing.modal.config';
+import { WarningModalComponent } from './shared/modals/warning.modal.config';
+import { SuccessModalComponent } from './shared/modals/success.modal.config';
 import { OperatorTransactionsComponent } from './routes/transactions/operator-transactions/operator-transactions.component';
 import { DatePipe } from '@angular/common';
 import { DeviceTransactionsComponent } from './routes/transactions/device-transactions/device-transactions.component';
@@ -44,10 +44,10 @@ import { TransactionHistoryComponent } from './routes/account/reports/transactio
     CashOutComponent,
     SettingsComponent,
     ResetPasswordComponent,
-    ProcessingModal,
-    ErrorModal,
-    WarningModal,
-    SuccessModal,
+    ProcessingModalComponent,
+    ErrorModalComponent,
+    WarningModalComponent,
+    SuccessModalComponent,
     OperatorTransactionsComponent,
     DeviceTransactionsComponent,
     AgentToAgentComponent,

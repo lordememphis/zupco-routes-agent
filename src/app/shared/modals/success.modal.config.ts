@@ -65,12 +65,12 @@ import { Component, Input } from '@angular/core';
     </div>
   </div>`,
 })
-export class SuccessModal {
-  @Input() open: boolean = false;
-  @Input() title: string = 'Success';
-  @Input() message: string = 'Operation done successfully.';
+export class SuccessModalComponent {
+  @Input() open = false;
+  @Input() title = 'Success';
+  @Input() message = 'Operation done successfully.';
 
-  close() {
+  close(): void {
     this.open = false;
   }
 }

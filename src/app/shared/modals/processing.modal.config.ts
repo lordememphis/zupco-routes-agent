@@ -36,6 +36,6 @@ import { Component, Input } from '@angular/core';
     </div>
   </div>`,
 })
-export class ProcessingModal {
-  @Input() process: boolean = false;
+export class ProcessingModalComponent {
+  @Input() process = false;
 }
