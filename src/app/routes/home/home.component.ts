@@ -10,14 +10,14 @@ export class HomeComponent implements OnInit {
   name: string;
   rauth: boolean;
 
-  constructor(private _auth: AuthService) {}
+  constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
-    this.name = this._auth.name;
-    this.rauth = this._auth.rauthenticated;
+    this.name = this.auth.name;
+    this.rauth = this.auth.rauthenticated;
   }
 
   logout(): void {
-    this._auth.logout();
+    this.auth.logout();
   }
 }
