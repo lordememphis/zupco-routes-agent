@@ -11,14 +11,14 @@ import { AuthService } from '../../../../auth/auth.service';
   providedIn: 'root',
 })
 export class DeviceService {
-  constructor(private _http: HttpClient, private _auth: AuthService) {}
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
-  registerDevice(device: Device): Observable<Object> {
+  registerDevice(device: Device): Observable<boolean> {
     const { id, agent, ...d } = device;
-    return this._http
+    return this.http
       .post(`${environment.AGENT_SERVICE()}device`, {
         ...d,
-        agentId: this._auth.agentId,
+        agentId: this.auth.agentId,
       })
       .pipe(map(() => true));
   }
@@ -28,9 +28,9 @@ export class DeviceService {
     empty: boolean;
     total: number;
   }> {
-    return this._http
+    return this.http
       .get<GetResponse>(
-        `${environment.AGENT_SERVICE()}devices/${this._auth.agentId}/0/999`
+        `${environment.AGENT_SERVICE()}devices/${this.auth.agentId}/0/999`
       )
       .pipe(
         map((data) => {
@@ -43,28 +43,26 @@ export class DeviceService {
       );
   }
 
-  getMinimalDevice(id: number): Observable<Object> {
-    return this._http.get(`${environment.AGENT_SERVICE()}device/${id}`);
+  getMinimalDevice(id: number): Observable<any> {
+    return this.http.get(`${environment.AGENT_SERVICE()}device/${id}`);
   }
 
-  getDetailedDevice(id: number): Observable<Object> {
-    return this._http.get(
-      `${environment.AGENT_SERVICE()}retrieve-device/${id}`
-    );
+  getDetailedDevice(id: number): Observable<any> {
+    return this.http.get(`${environment.AGENT_SERVICE()}retrieve-device/${id}`);
   }
 
-  updateDevice(device: Device): Observable<Object> {
+  updateDevice(device: Device): Observable<boolean> {
     const { agent, ...d } = device;
-    return this._http
+    return this.http
       .put(`${environment.AGENT_SERVICE()}device`, {
         ...d,
-        agentId: this._auth.agentId,
+        agentId: this.auth.agentId,
       })
       .pipe(map(() => true));
   }
 
-  deleteDevice(id: number): Observable<Object> {
-    return this._http
+  deleteDevice(id: number): Observable<boolean> {
+    return this.http
       .delete(`${environment.AGENT_SERVICE()}device/${id}`)
       .pipe(map(() => true));
   }

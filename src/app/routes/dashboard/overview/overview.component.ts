@@ -16,13 +16,13 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './overview.component.html',
 })
 export class OverviewComponent implements OnInit, OnDestroy {
-  private _subs = new SubSink();
+  private subs = new SubSink();
 
   devices: Device[] = [];
   operators: Operator[] = [];
   accountTranscations: TransactionHistory[] = [];
-  accountBalance: number = 0;
-  accountCommission: number = 0;
+  accountBalance = 0;
+  accountCommission = 0;
 
   domDevices: number;
   domOperators: number;
@@ -39,9 +39,9 @@ export class OverviewComponent implements OnInit, OnDestroy {
   endDate: string;
 
   constructor(
-    private _deviceService: DeviceService,
-    private _operatorService: OperatorService,
-    private _transactionService: TransactionService,
+    private deviceService: DeviceService,
+    private operatorService: OperatorService,
+    private transactionService: TransactionService,
     datePipe: DatePipe,
     titleService: Title
   ) {
@@ -51,17 +51,17 @@ export class OverviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._subs.add(
+    this.subs.add(
       forkJoin([
-        this._deviceService.getDevices(),
-        this._operatorService.getOperators(),
-        this._transactionService.getTransactionHistory(
+        this.deviceService.getDevices(),
+        this.operatorService.getOperators(),
+        this.transactionService.getTransactionHistory(
           0,
           9999,
           this.startDate,
           this.endDate
         ),
-        this._transactionService.getBalances(),
+        this.transactionService.getBalances(),
       ])
         .pipe(
           map(([devices, operators, operatorTransactions, balances]) => {
@@ -93,41 +93,41 @@ export class OverviewComponent implements OnInit, OnDestroy {
           },
           (e) => {
             if (!e.error) {
-              this._onReqError(
+              this.onReqError(
                 'The server cannot be reached at the moment. Check your internet connection and try again later'
               );
             } else if (e.error.message) {
-              this._onReqError(e.error.message);
+              this.onReqError(e.error.message);
             } else {
-              this._onReqError('Something went wrong. Try again.');
+              this.onReqError('Something went wrong. Try again.');
             }
           }
         )
     );
   }
 
-  onFilterDevices(e: any) {
+  onFilterDevices(e: any): void {
     this.activeDevices = !this.activeDevices;
     this.domDevices = this.devices.filter(
       (device) => device.status === e.target.value
     ).length;
   }
 
-  onFilterOperators(e: any) {
+  onFilterOperators(e: any): void {
     this.activeOperators = !this.activeOperators;
     this.domOperators = this.operators.filter(
       (operator) => operator.status === e.target.value
     ).length;
   }
 
-  onFilterAccountTransactions(e: any) {
+  onFilterAccountTransactions(e: any): void {
     this.cashInTransactions = !this.cashInTransactions;
     this.domAccountTransactions = this.accountTranscations.filter(
       (transaction) => transaction.transactionType === e.target.value
     ).length;
   }
 
-  private _onReqError(message: string) {
+  private onReqError(message: string): void {
     this.processing = false;
     this.error = true;
     this.aMessage = message;
@@ -137,7 +137,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
     }, 5000);
   }
 
-  ngOnDestroy() {
-    this._subs.unsubscribe();
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

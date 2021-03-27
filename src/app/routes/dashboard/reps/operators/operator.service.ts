@@ -11,14 +11,14 @@ import { AuthService } from '../../../../auth/auth.service';
   providedIn: 'root',
 })
 export class OperatorService {
-  constructor(private _http: HttpClient, private _auth: AuthService) {}
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
-  registerOperator(operator: Operator): Observable<Object> {
+  registerOperator(operator: Operator): Observable<boolean> {
     const { id, agent, ...op } = operator;
-    return this._http
+    return this.http
       .post(`${environment.AGENT_SERVICE()}operator`, {
         ...op,
-        agentId: this._auth.agentId,
+        agentId: this.auth.agentId,
       })
       .pipe(map(() => true));
   }
@@ -28,9 +28,9 @@ export class OperatorService {
     empty: boolean;
     total: number;
   }> {
-    return this._http
+    return this.http
       .get<GetResponse>(
-        `${environment.AGENT_SERVICE()}operators/${this._auth.agentId}/0/10`
+        `${environment.AGENT_SERVICE()}operators/${this.auth.agentId}/0/10`
       )
       .pipe(
         map((data) => {
@@ -43,54 +43,54 @@ export class OperatorService {
       );
   }
 
-  getMinimalOperator(id: number): Observable<Object> {
-    return this._http.get(`${environment.AGENT_SERVICE()}operator/${id}`);
+  getMinimalOperator(id: number): Observable<any> {
+    return this.http.get(`${environment.AGENT_SERVICE()}operator/${id}`);
   }
 
-  getDetailedOperator(id: number): Observable<Object> {
-    return this._http.get(
+  getDetailedOperator(id: number): Observable<any> {
+    return this.http.get(
       `${environment.AGENT_SERVICE()}retrieve-operator/${id}`
     );
   }
 
-  updateOperator(operator: Operator): Observable<Object> {
+  updateOperator(operator: Operator): Observable<boolean> {
     const { agent, ...op } = operator;
-    return this._http
+    return this.http
       .put(`${environment.AGENT_SERVICE()}operator`, {
         ...op,
-        agentId: this._auth.agentId,
+        agentId: this.auth.agentId,
       })
       .pipe(map(() => true));
   }
 
-  deleteOperator(id: number): Observable<Object> {
-    return this._http
+  deleteOperator(id: number): Observable<boolean> {
+    return this.http
       .delete(`${environment.AGENT_SERVICE()}operator/${id}`)
       .pipe(map(() => true));
   }
 
   changePassword(
-    old: string,
+    oldPassword: string,
     newPassword: string,
     username: string
-  ): Observable<Object> {
-    if (this._auth.rauthenticated)
-      return this._http.post(
+  ): Observable<any> {
+    if (this.auth.rauthenticated)
+      return this.http.post(
         `${environment.USER_SERVICE()}user/change-password`,
         {
-          oldPassword: old,
+          oldPassword,
           matchingPassword: newPassword,
-          newPassword: newPassword,
+          newPassword,
         }
       );
-    return this._http.put(
+    return this.http.put(
       `${environment.AGENT_SERVICE()}/operator-change-code`,
       {
-        id: this._auth.userId,
-        username: username,
-        oldPassword: old,
+        id: this.auth.userId,
+        username,
+        oldPassword,
         matchingPassword: newPassword,
-        newPassword: newPassword,
+        newPassword,
       }
     );
   }

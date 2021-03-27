@@ -11,7 +11,7 @@ import { DeviceService } from './device.service';
   templateUrl: './devices.component.html',
 })
 export class DevicesComponent implements OnInit, OnDestroy {
-  private _subs = new SubSink();
+  private subs = new SubSink();
 
   registerDeviceForm: FormGroup;
   editDeviceForm: FormGroup;
@@ -32,12 +32,12 @@ export class DevicesComponent implements OnInit, OnDestroy {
   fsDialog: boolean;
 
   constructor(
-    private _deviceService: DeviceService,
-    private _router: Router,
+    private deviceService: DeviceService,
+    private router: Router,
     titleService: Title
   ) {
-    this._subs.add(
-      this._router.events.subscribe((e: any) => {
+    this.subs.add(
+      this.router.events.subscribe((e: any) => {
         if (e instanceof NavigationEnd) this.ngOnInit();
       })
     );
@@ -51,8 +51,8 @@ export class DevicesComponent implements OnInit, OnDestroy {
     this.deletingDevice = false;
     this.fsDialog = false;
 
-    this._subs.add(
-      this._deviceService.getDevices().subscribe(
+    this.subs.add(
+      this.deviceService.getDevices().subscribe(
         (res) => {
           this.devices = res.devices;
           this.hasDevices = !res.empty;
@@ -61,13 +61,13 @@ export class DevicesComponent implements OnInit, OnDestroy {
         },
         (e) => {
           if (!e.error) {
-            this._onReqError(
+            this.onReqError(
               'The server cannot be reached at the moment. Check your internet connection and try again later'
             );
           } else if (e.error.message) {
-            this._onReqError(e.error.message);
+            this.onReqError(e.error.message);
           } else {
-            this._onReqError('Something went wrong. Try again.');
+            this.onReqError('Something went wrong. Try again.');
           }
         }
       )
@@ -95,20 +95,20 @@ export class DevicesComponent implements OnInit, OnDestroy {
       agent: 7,
     };
 
-    this._subs.add(
-      this._deviceService.registerDevice(device).subscribe(
+    this.subs.add(
+      this.deviceService.registerDevice(device).subscribe(
         () => {
-          this._onReqSuccess('The device has been registered successfully.');
+          this.onReqSuccess('The device has been registered successfully.');
         },
         (e) => {
           if (!e.error) {
-            this._onReqError(
+            this.onReqError(
               'The server cannot be reached at the moment. Check your internet connection and try again later'
             );
           } else if (e.error.message) {
-            this._onReqError(e.error.message);
+            this.onReqError(e.error.message);
           } else {
-            this._onReqError('Something went wrong. Try again.');
+            this.onReqError('Something went wrong. Try again.');
           }
         }
       )
@@ -137,37 +137,38 @@ export class DevicesComponent implements OnInit, OnDestroy {
       agent: null,
     };
 
-    this._subs.add(
-      this._deviceService.updateDevice(d).subscribe(
+    this.subs.add(
+      this.deviceService.updateDevice(d).subscribe(
         () => {
-          this._onReqSuccess('The device has been updated successfully.');
+          this.onReqSuccess('The device has been updated successfully.');
         },
         (e) => {
-          this._onReqError('Something went wrong. Try again.');
+          this.onReqError('Something went wrong. Try again.');
         }
       )
     );
   }
-  changeDeviceStatus(device: Device) {
+
+  changeDeviceStatus(device: Device): void {
     this.processing = true;
     const { ...d } = device;
 
     device.status === 'ACTIVE' ? (d.status = 'BLOCKED') : (d.status = 'ACTIVE');
 
-    this._subs.add(
-      this._deviceService.updateDevice(d).subscribe(
+    this.subs.add(
+      this.deviceService.updateDevice(d).subscribe(
         () => {
-          this._onReqSuccess('Device status changed successfully.');
+          this.onReqSuccess('Device status changed successfully.');
         },
         (e) => {
           if (e.error)
             e.error.message
-              ? this._onReqError(e.error.message)
-              : this._onReqError(
+              ? this.onReqError(e.error.message)
+              : this.onReqError(
                   'Something went wrong. Could not change device status. Try again.'
                 );
           else
-            this._onReqError(
+            this.onReqError(
               'Something went wrong. Could not change device status. Try again.'
             );
         }
@@ -177,13 +178,13 @@ export class DevicesComponent implements OnInit, OnDestroy {
 
   deleteDevice(): void {
     this.processing = true;
-    this._subs.add(
-      this._deviceService.deleteDevice(this.device.id).subscribe(
+    this.subs.add(
+      this.deviceService.deleteDevice(this.device.id).subscribe(
         () => {
-          this._onReqSuccess('The device has been deleted successfully.');
+          this.onReqSuccess('The device has been deleted successfully.');
         },
         (e) => {
-          this._onReqError('Something went wrong. Try again.');
+          this.onReqError('Something went wrong. Try again.');
         }
       )
     );
@@ -195,7 +196,7 @@ export class DevicesComponent implements OnInit, OnDestroy {
     this.deletingDevice = false;
   }
 
-  private _onReqSuccess(message: string) {
+  private onReqSuccess(message: string): void {
     this.processing = false;
     this.success = true;
     this.aMessage = message;
@@ -203,10 +204,10 @@ export class DevicesComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.success = false;
     }, 2000);
-    this._router.navigate(['dashboard', 'reps', 'devices']);
+    this.router.navigate(['dashboard', 'reps', 'devices']);
   }
 
-  private _onReqError(message: string) {
+  private onReqError(message: string): void {
     this.processing = false;
     this.error = true;
     this.aMessage = message;
@@ -217,6 +218,6 @@ export class DevicesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._subs.unsubscribe();
+    this.subs.unsubscribe();
   }
 }

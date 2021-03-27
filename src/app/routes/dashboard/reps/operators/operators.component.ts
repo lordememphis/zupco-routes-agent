@@ -11,7 +11,7 @@ import { OperatorService } from './operator.service';
   templateUrl: './operators.component.html',
 })
 export class OperatorsComponent implements OnInit, OnDestroy {
-  private _subs = new SubSink();
+  private subs = new SubSink();
 
   editOperatorForm: FormGroup;
   registerOperatorForm: FormGroup;
@@ -32,27 +32,27 @@ export class OperatorsComponent implements OnInit, OnDestroy {
   fsDialog: boolean;
 
   constructor(
-    private _operatorService: OperatorService,
-    private _router: Router,
+    private operatorService: OperatorService,
+    private router: Router,
     titleService: Title
   ) {
-    this._subs.add(
-      this._router.events.subscribe((e: any) => {
+    this.subs.add(
+      this.router.events.subscribe((e: any) => {
         if (e instanceof NavigationEnd) this.ngOnInit();
       })
     );
     titleService.setTitle('Dashboard — Account Operators');
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.viewingOperators = true;
     this.registeringOperator = false;
     this.editingOperator = false;
     this.deletingOperator = false;
     this.fsDialog = false;
 
-    this._subs.add(
-      this._operatorService.getOperators().subscribe(
+    this.subs.add(
+      this.operatorService.getOperators().subscribe(
         (res) => {
           this.processing = false;
           this.operators = res.operators;
@@ -61,8 +61,8 @@ export class OperatorsComponent implements OnInit, OnDestroy {
         },
         (e) => {
           e.error.message
-            ? this._onReqError(e.error.message)
-            : this._onReqError('Something went wrong. Try again.');
+            ? this.onReqError(e.error.message)
+            : this.onReqError('Something went wrong. Try again.');
         }
       )
     );
@@ -94,20 +94,20 @@ export class OperatorsComponent implements OnInit, OnDestroy {
       agent: 7,
     };
 
-    this._subs.add(
-      this._operatorService.registerOperator(operator).subscribe(
+    this.subs.add(
+      this.operatorService.registerOperator(operator).subscribe(
         () => {
-          this._onReqSuccess('Operator successfully registered.');
+          this.onReqSuccess('Operator successfully registered.');
         },
         (e) => {
           if (!e.error) {
-            this._onReqError(
+            this.onReqError(
               'The server cannot be reached at the moment. Check your internet connection and try again later'
             );
           } else if (e.error.message) {
-            this._onReqError(e.error.message);
+            this.onReqError(e.error.message);
           } else {
-            this._onReqError('Something went wrong. Try again.');
+            this.onReqError('Something went wrong. Try again.');
           }
         }
       )
@@ -140,21 +140,21 @@ export class OperatorsComponent implements OnInit, OnDestroy {
       agent: null,
     };
 
-    this._subs.add(
-      this._operatorService.updateOperator(op).subscribe(
+    this.subs.add(
+      this.operatorService.updateOperator(op).subscribe(
         () => {
-          this._onReqSuccess('Operator information changed successfully.');
+          this.onReqSuccess('Operator information changed successfully.');
         },
         (e) => {
           e.error.message
-            ? this._onReqError(e.error.message)
-            : this._onReqError('Something went wrong. Try again.');
+            ? this.onReqError(e.error.message)
+            : this.onReqError('Something went wrong. Try again.');
         }
       )
     );
   }
 
-  changeOperatorStatus(operator: Operator) {
+  changeOperatorStatus(operator: Operator): void {
     this.processing = true;
     const { ...op } = operator;
 
@@ -162,20 +162,20 @@ export class OperatorsComponent implements OnInit, OnDestroy {
       ? (op.status = 'BLOCKED')
       : (op.status = 'ACTIVE');
 
-    this._subs.add(
-      this._operatorService.updateOperator(op).subscribe(
+    this.subs.add(
+      this.operatorService.updateOperator(op).subscribe(
         () => {
-          this._onReqSuccess('Operator status changed successfully.');
+          this.onReqSuccess('Operator status changed successfully.');
         },
         (e) => {
           if (e.error)
             e.error.message
-              ? this._onReqError(e.error.message)
-              : this._onReqError(
+              ? this.onReqError(e.error.message)
+              : this.onReqError(
                   'Something went wrong. Could not change operator status. Try again.'
                 );
           else
-            this._onReqError(
+            this.onReqError(
               'Something went wrong. Could not change operator status. Try again.'
             );
         }
@@ -185,21 +185,21 @@ export class OperatorsComponent implements OnInit, OnDestroy {
 
   deleteOperator(): void {
     this.processing = true;
-    this._subs.add(
-      this._operatorService.deleteOperator(this.operator.id).subscribe(
+    this.subs.add(
+      this.operatorService.deleteOperator(this.operator.id).subscribe(
         () => {
-          this._onReqSuccess('Operator successfully deleted.');
+          this.onReqSuccess('Operator successfully deleted.');
         },
         (e) => {
           e.error.message
-            ? this._onReqError(e.error.message)
-            : this._onReqError('Something went wrong. Try again.');
+            ? this.onReqError(e.error.message)
+            : this.onReqError('Something went wrong. Try again.');
         }
       )
     );
   }
 
-  private _onReqSuccess(message: string) {
+  private onReqSuccess(message: string): void {
     this.processing = false;
     this.success = true;
     this.aMessage = message;
@@ -207,10 +207,10 @@ export class OperatorsComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.success = false;
     }, 2000);
-    this._router.navigate(['dashboard', 'reps', 'operators']);
+    this.router.navigate(['dashboard', 'reps', 'operators']);
   }
 
-  private _onReqError(message: string) {
+  private onReqError(message: string): void {
     this.processing = false;
     this.error = true;
     this.aMessage = message;
@@ -227,6 +227,6 @@ export class OperatorsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._subs.unsubscribe();
+    this.subs.unsubscribe();
   }
 }
