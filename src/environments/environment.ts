@@ -5,16 +5,16 @@
 export const environment = {
   production: false,
   BASE_URL: 'https://api-akupay.jugaad.co.zw/',
-  OAUTH_SERVICE: function () {
+  OAUTH_SERVICE(): string {
     return `${this.BASE_URL}akupay-oauth-service/api/v1/`;
   },
-  AGENT_SERVICE: function () {
+  AGENT_SERVICE(): string {
     return `${this.BASE_URL}akupay-agent-service/api/v1/`;
   },
-  TRANSACTION_SERVICE: function () {
+  TRANSACTION_SERVICE(): string {
     return `${this.BASE_URL}akupay-transaction-service/api/v1/`;
   },
-  USER_SERVICE: function () {
+  USER_SERVICE(): string {
     return `${this.BASE_URL}akupay-user-manager/api/v1/`;
   },
 };
