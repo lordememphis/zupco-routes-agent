@@ -1,5 +1,11 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -15,8 +21,8 @@ import { TransactionService } from '../transaction.service';
   templateUrl: './device-transactions.component.html',
   styleUrls: ['./device-transactions.component.scss'],
 })
-export class DeviceTransactionsComponent implements OnInit {
-  private _subs = new SubSink();
+export class DeviceTransactionsComponent implements OnInit, OnDestroy {
+  private subs = new SubSink();
   @ViewChild('device') device: ElementRef;
 
   filterForm: FormGroup;
@@ -44,10 +50,10 @@ export class DeviceTransactionsComponent implements OnInit {
   maxDate: string;
 
   constructor(
-    private _ts: TransactionService,
-    private _router: Router,
-    private _auth: AuthService,
-    private _deviceService: DeviceService,
+    private transactionService: TransactionService,
+    private router: Router,
+    private auth: AuthService,
+    private deviceService: DeviceService,
     datePipe: DatePipe,
     titleService: Title
   ) {
@@ -60,9 +66,9 @@ export class DeviceTransactionsComponent implements OnInit {
     titleService.setTitle('Reports — Operator Transactions');
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.processing = true;
-    this._deviceService
+    this.deviceService
       .getDevices()
       .toPromise()
       .then((data) => {
@@ -73,8 +79,8 @@ export class DeviceTransactionsComponent implements OnInit {
 
         this.hasDevices = !data.empty;
         this.devices = data.devices;
-        this._subs.add(
-          this._ts
+        this.subs.add(
+          this.transactionService
             .getDeviceTransactions(
               this.devices[0].imei,
               0,
@@ -87,18 +93,18 @@ export class DeviceTransactionsComponent implements OnInit {
                 this.hasTransactions = !obs.empty;
                 this.totalTransactions = obs.total;
                 this.transactions = obs.transactions.filter(
-                  (t) => t.agentId === this._auth.agentId
+                  (t) => t.agentId === this.auth.agentId
                 );
               },
               (e) => {
                 if (!e.error) {
-                  this._onReqError(
+                  this.onReqError(
                     'The server cannot be reached at the moment. Check your internet connection and try again later'
                   );
                 } else if (e.error.message) {
-                  this._onReqError(e.error.message);
+                  this.onReqError(e.error.message);
                 } else {
-                  this._onReqError('Something went wrong. Try again.');
+                  this.onReqError('Something went wrong. Try again.');
                 }
               }
             )
@@ -110,18 +116,18 @@ export class DeviceTransactionsComponent implements OnInit {
     });
   }
 
-  addDevices() {
-    this._router.navigate(['devices']);
+  addDevices(): void {
+    this.router.navigate(['devices']);
   }
 
-  filterTransactions(page: number) {
+  filterTransactions(page: number): void {
     this.processing = true;
     this.transactions = [];
     this.startDate = this.filterForm.get('startDate').value;
     this.endDate = this.filterForm.get('endDate').value;
 
-    this._subs.add(
-      this._ts
+    this.subs.add(
+      this.transactionService
         .getDeviceTransactions(
           this.device.nativeElement.value,
           page,
@@ -134,30 +140,30 @@ export class DeviceTransactionsComponent implements OnInit {
             this.hasTransactions = !obs.empty;
             this.totalTransactions = obs.total;
             this.transactions = obs.transactions.filter(
-              (t) => t.agentId === this._auth.agentId
+              (t) => t.agentId === this.auth.agentId
             );
           },
           (e) => {
             if (!e.error) {
-              this._onReqError(
+              this.onReqError(
                 'The server cannot be reached at the moment. Check your internet connection and try again later'
               );
             } else if (e.error.message) {
-              this._onReqError(e.error.message);
+              this.onReqError(e.error.message);
             } else {
-              this._onReqError('Something went wrong. Try again.');
+              this.onReqError('Something went wrong. Try again.');
             }
           }
         )
     );
   }
 
-  changePage(event: any) {
+  changePage(event: any): void {
     this.pageNo = event;
     this.filterTransactions(event - 1);
   }
 
-  private _onReqSuccess(message: string) {
+  private onReqSuccess(message: string): void {
     this.processing = false;
     this.success = true;
     this.aMessage = message;
@@ -165,10 +171,10 @@ export class DeviceTransactionsComponent implements OnInit {
     setTimeout(() => {
       this.success = false;
     }, 2000);
-    this._router.navigate(['reports', 'device-transactions']);
+    this.router.navigate(['reports', 'device-transactions']);
   }
 
-  private _onReqError(message: string) {
+  private onReqError(message: string): void {
     this.processing = false;
     this.error = true;
     this.aMessage = message;
@@ -178,7 +184,7 @@ export class DeviceTransactionsComponent implements OnInit {
     }, 5000);
   }
 
-  ngOnDestroy() {
-    this._subs.unsubscribe();
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

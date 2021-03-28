@@ -14,7 +14,7 @@ import { TransactionService } from '../transaction.service';
   templateUrl: './wallet-to-bank.component.html',
 })
 export class WalletToBankComponent implements OnInit, OnDestroy {
-  private _subs = new SubSink();
+  private subs = new SubSink();
   banks: Bank[] = [];
 
   transactionForm: FormGroup;
@@ -28,26 +28,26 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
   fsDialog = false;
 
   constructor(
-    private _transactionService: TransactionService,
-    private _router: Router,
-    private _auth: AuthService,
+    private transactionService: TransactionService,
+    private router: Router,
+    private auth: AuthService,
     titleService: Title
   ) {
-    this._subs.add(
-      this._router.events.subscribe((e: any) => {
+    this.subs.add(
+      this.router.events.subscribe((e: any) => {
         if (e instanceof NavigationEnd) this.ngOnInit();
       })
     );
     titleService.setTitle('Transactions — Wallet to Bank Transfer');
   }
 
-  ngOnInit() {
-    this._subs.add(
-      this._transactionService
+  ngOnInit(): void {
+    this.subs.add(
+      this.transactionService
         .getBanks()
         .subscribe((banks) => (this.banks = banks))
     );
-    this.transactionCode = this._transactionService.WTB_CODE;
+    this.transactionCode = this.transactionService.WTB_CODE;
     this.transactionForm = new FormGroup({
       reference: new FormControl(
         { value: UUID(0).uuid(), disabled: true },
@@ -64,14 +64,14 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
     });
   }
 
-  walletTransfer() {
+  walletTransfer(): void {
     const transaction: WTBTransaction = {
       originalRef: this.transactionForm.get('reference').value,
-      agentId: this._auth.agentId,
+      agentId: this.auth.agentId,
       bankId: this.transactionForm.get('bankId').value,
       bankAccount: this.transactionForm.get('account').value,
       amount: this.transactionForm.get('amount').value,
-      operatorId: this._auth.operatorId,
+      operatorId: this.auth.operatorId,
       operatorCode: this.authForm.get('code').value,
       channel: 'WEB',
       transactionTypes: this.transactionForm.get('type').value,
@@ -79,28 +79,28 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
 
     this.processing = true;
 
-    this._subs.add(
-      this._transactionService.walletToBank(transaction).subscribe(
+    this.subs.add(
+      this.transactionService.walletToBank(transaction).subscribe(
         () => {
-          this._onReqSuccess('Your wallet to bank transfer was successful.');
+          this.onReqSuccess('Your wallet to bank transfer was successful.');
         },
         (e) => {
           this.authForm.reset();
           if (!e.error) {
-            this._onReqError(
+            this.onReqError(
               'The server cannot be reached at the moment. Check your internet connection and try again later'
             );
           } else if (e.error.message) {
-            this._onReqError(e.error.message);
+            this.onReqError(e.error.message);
           } else {
-            this._onReqError('Something went wrong. Try again.');
+            this.onReqError('Something went wrong. Try again.');
           }
         }
       )
     );
   }
 
-  private _onReqSuccess(message: string) {
+  private onReqSuccess(message: string): void {
     this.processing = false;
     this.fsDialog = false;
     this.success = true;
@@ -109,10 +109,10 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.success = false;
     }, 2000);
-    this._router.navigate(['transactions', 'wallet-to-bank']);
+    this.router.navigate(['transactions', 'wallet-to-bank']);
   }
 
-  private _onReqError(message: string) {
+  private onReqError(message: string): void {
     this.processing = false;
     this.fsDialog = false;
     this.error = true;
@@ -123,7 +123,7 @@ export class WalletToBankComponent implements OnInit, OnDestroy {
     }, 5000);
   }
 
-  ngOnDestroy() {
-    this._subs.unsubscribe();
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

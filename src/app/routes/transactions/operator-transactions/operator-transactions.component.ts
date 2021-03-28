@@ -14,7 +14,7 @@ import { TransactionService } from '../transaction.service';
   styleUrls: ['./operator-transactions.component.scss'],
 })
 export class OperatorTransactionsComponent implements OnInit, OnDestroy {
-  private _subs = new SubSink();
+  private subs = new SubSink();
   filterForm: FormGroup;
 
   transactions: TransactionHistory[];
@@ -38,9 +38,9 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
   maxDate: string;
 
   constructor(
-    private _ts: TransactionService,
-    private _router: Router,
-    private _auth: AuthService,
+    private transactionService: TransactionService,
+    private router: Router,
+    private auth: AuthService,
     datePipe: DatePipe,
     titleService: Title
   ) {
@@ -53,9 +53,9 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
     titleService.setTitle('Reports — Operator Transactions');
   }
 
-  ngOnInit() {
-    this._subs.add(
-      this._ts
+  ngOnInit(): void {
+    this.subs.add(
+      this.transactionService
         .getTransactionHistory(0, this.pageLimit, this.startDate, this.endDate)
         .subscribe(
           (obs) => {
@@ -63,18 +63,18 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
             this.hasTransactions = !obs.empty;
             this.totalTransactions = obs.total;
             this.transactions = obs.transactions.filter(
-              (t) => t.agentId === this._auth.agentId
+              (t) => t.agentId === this.auth.agentId
             );
           },
           (e) => {
             if (!e.error) {
-              this._onReqError(
+              this.onReqError(
                 'The server cannot be reached at the moment. Check your internet connection and try again later'
               );
             } else if (e.error.message) {
-              this._onReqError(e.error.message);
+              this.onReqError(e.error.message);
             } else {
-              this._onReqError('Something went wrong. Try again.');
+              this.onReqError('Something went wrong. Try again.');
             }
           }
         )
@@ -85,14 +85,14 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
     });
   }
 
-  filterTransactions(page: number) {
+  filterTransactions(page: number): void {
     this.processing = true;
     this.transactions = [];
     this.startDate = this.filterForm.get('startDate').value;
     this.endDate = this.filterForm.get('endDate').value;
 
-    this._subs.add(
-      this._ts
+    this.subs.add(
+      this.transactionService
         .getTransactionHistory(
           page,
           this.pageLimit,
@@ -105,30 +105,30 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
             this.hasTransactions = !obs.empty;
             this.totalTransactions = obs.total;
             this.transactions = obs.transactions.filter(
-              (t) => t.agentId === this._auth.agentId
+              (t) => t.agentId === this.auth.agentId
             );
           },
           (e) => {
             if (!e.error) {
-              this._onReqError(
+              this.onReqError(
                 'The server cannot be reached at the moment. Check your internet connection and try again later'
               );
             } else if (e.error.message) {
-              this._onReqError(e.error.message);
+              this.onReqError(e.error.message);
             } else {
-              this._onReqError('Something went wrong. Try again.');
+              this.onReqError('Something went wrong. Try again.');
             }
           }
         )
     );
   }
 
-  changePage(event: any) {
+  changePage(event: any): void {
     this.pageNo = event;
     this.filterTransactions(event - 1);
   }
 
-  private _onReqSuccess(message: string) {
+  private onReqSuccess(message: string): void {
     this.processing = false;
     this.success = true;
     this.aMessage = message;
@@ -136,10 +136,10 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.success = false;
     }, 2000);
-    this._router.navigate(['reports', 'account-transactions']);
+    this.router.navigate(['reports', 'account-transactions']);
   }
 
-  private _onReqError(message: string) {
+  private onReqError(message: string): void {
     this.processing = false;
     this.error = true;
     this.aMessage = message;
@@ -149,7 +149,7 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
     }, 5000);
   }
 
-  ngOnDestroy() {
-    this._subs.unsubscribe();
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

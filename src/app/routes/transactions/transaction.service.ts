@@ -23,7 +23,7 @@ export class TransactionService {
   private _AGENT_TO_AGENT_TRANSACTION_CODE = 'AGENT_TRANSFER';
   private _WALLET_TO_BANK_TRANSACTION_CODE = 'AGENT_WALLET_TO_BANK';
 
-  constructor(private _http: HttpClient, private _auth: AuthService) {}
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
   get CASHIN_CODE(): string {
     return this._CASH_IN_TRANSACTION_CODE;
@@ -42,7 +42,7 @@ export class TransactionService {
   }
 
   cashIn(transaction: CashInOutTransaction): Observable<boolean> {
-    return this._http
+    return this.http
       .post(
         `${environment.TRANSACTION_SERVICE()}transactions/cash-in`,
         transaction
@@ -51,7 +51,7 @@ export class TransactionService {
   }
 
   cashOut(transaction: CashInOutTransaction): Observable<boolean> {
-    return this._http
+    return this.http
       .post(
         `${environment.TRANSACTION_SERVICE()}transactions/cash-out`,
         transaction
@@ -60,7 +60,7 @@ export class TransactionService {
   }
 
   agentToAgent(transaction: A2ATransaction): Observable<boolean> {
-    return this._http
+    return this.http
       .post(
         `${environment.TRANSACTION_SERVICE()}transactions/agent-transfer`,
         transaction
@@ -69,7 +69,7 @@ export class TransactionService {
   }
 
   walletToBank(transaction: WTBTransaction): Observable<boolean> {
-    return this._http
+    return this.http
       .post(
         `${environment.TRANSACTION_SERVICE()}transactions/agent-wallet-to-bank`,
         transaction
@@ -87,11 +87,11 @@ export class TransactionService {
     empty: boolean;
     total: number;
   }> {
-    if (this._auth.rauthenticated)
-      return this._http
+    if (this.auth.rauthenticated)
+      return this.http
         .get<GetResponse>(
           `${environment.TRANSACTION_SERVICE()}transactions/agent/${page}/${limit}?agentId=${
-            this._auth.agentId
+            this.auth.agentId
           }&startDate=${startDate}&endDate=${endDate}`
         )
         .pipe(
@@ -103,10 +103,10 @@ export class TransactionService {
             };
           })
         );
-    return this._http
+    return this.http
       .get<GetResponse>(
         `${environment.TRANSACTION_SERVICE()}transactions/operator/${page}/10?tellerId=${
-          this._auth.operatorId
+          this.auth.operatorId
         }&startDate=${startDate}&endDate=${endDate}`
       )
       .pipe(
@@ -130,7 +130,7 @@ export class TransactionService {
     empty: boolean;
     total: number;
   }> {
-    return this._http
+    return this.http
       .get<GetResponse>(
         `${environment.TRANSACTION_SERVICE()}transactions/device/${page}/10?imei=${imei}&startDate=${startDate}&endDate=${endDate}`
       )
@@ -146,14 +146,14 @@ export class TransactionService {
   }
 
   getBalances(): Observable<{ balance: number; commission: number }> {
-    return this._http
+    return this.http
       .get<{
         accountBalance: number;
         commissionBalance: number;
         totalAmount: number;
       }>(
         `${environment.TRANSACTION_SERVICE()}transactions/agent-balance/${
-          this._auth.agentMobile
+          this.auth.agentMobile
         }`
       )
       .pipe(
@@ -167,7 +167,7 @@ export class TransactionService {
   }
 
   getBanks(): Observable<Bank[]> {
-    return this._http
+    return this.http
       .get<{ content: Bank[] }>(`${environment.AGENT_SERVICE()}bank/0/1000`)
       .pipe(map((data) => data.content));
   }

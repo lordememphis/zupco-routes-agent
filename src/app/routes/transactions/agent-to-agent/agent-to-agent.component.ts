@@ -13,7 +13,7 @@ import { TransactionService } from '../transaction.service';
   templateUrl: './agent-to-agent.component.html',
 })
 export class AgentToAgentComponent implements OnInit, OnDestroy {
-  private _subs = new SubSink();
+  private subs = new SubSink();
 
   transactionForm: FormGroup;
   authForm: FormGroup;
@@ -26,21 +26,21 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
   fsDialog = false;
 
   constructor(
-    private _transactionService: TransactionService,
-    private _router: Router,
-    private _auth: AuthService,
+    private transactionService: TransactionService,
+    private router: Router,
+    private auth: AuthService,
     titleService: Title
   ) {
-    this._subs.add(
-      this._router.events.subscribe((e: any) => {
+    this.subs.add(
+      this.router.events.subscribe((e: any) => {
         if (e instanceof NavigationEnd) this.ngOnInit();
       })
     );
     titleService.setTitle('Transactions — Agent to Agent Transfer');
   }
 
-  ngOnInit() {
-    this.transactionCode = this._transactionService.A2A_CODE;
+  ngOnInit(): void {
+    this.transactionCode = this.transactionService.A2A_CODE;
     this.transactionForm = new FormGroup({
       reference: new FormControl(
         { value: UUID(0).uuid(), disabled: true },
@@ -56,13 +56,13 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
     });
   }
 
-  agentTransfer() {
+  agentTransfer(): void {
     const transaction: A2ATransaction = {
       originalRef: this.transactionForm.get('reference').value,
-      senderAgentId: this._auth.agentId,
+      senderAgentId: this.auth.agentId,
       receiverAgentMobile: this.transactionForm.get('rMobile').value,
       amount: this.transactionForm.get('amount').value,
-      operatorId: this._auth.operatorId,
+      operatorId: this.auth.operatorId,
       operatorCode: this.authForm.get('code').value,
       channel: 'WEB',
       transactionTypes: this.transactionForm.get('type').value,
@@ -70,30 +70,30 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
 
     this.processing = true;
 
-    this._subs.add(
-      this._transactionService.agentToAgent(transaction).subscribe(
+    this.subs.add(
+      this.transactionService.agentToAgent(transaction).subscribe(
         () => {
           this.transactionForm.reset();
           this.authForm.reset();
-          this._onReqSuccess('Your agent to agent transfer was successful.');
+          this.onReqSuccess('Your agent to agent transfer was successful.');
         },
         (e) => {
           this.authForm.reset();
           if (!e.error) {
-            this._onReqError(
+            this.onReqError(
               'The server cannot be reached at the moment. Check your internet connection and try again later'
             );
           } else if (e.error.message) {
-            this._onReqError(e.error.message);
+            this.onReqError(e.error.message);
           } else {
-            this._onReqError('Something went wrong. Try again.');
+            this.onReqError('Something went wrong. Try again.');
           }
         }
       )
     );
   }
 
-  private _onReqSuccess(message: string) {
+  private onReqSuccess(message: string): void {
     this.processing = false;
     this.fsDialog = false;
     this.success = true;
@@ -102,10 +102,10 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.success = false;
     }, 2000);
-    this._router.navigate(['transactions', 'agent-to-agent']);
+    this.router.navigate(['transactions', 'agent-to-agent']);
   }
 
-  private _onReqError(message: string) {
+  private onReqError(message: string): void {
     this.processing = false;
     this.fsDialog = false;
     this.error = true;
@@ -116,7 +116,7 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
     }, 5000);
   }
 
-  ngOnDestroy() {
-    this._subs.unsubscribe();
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

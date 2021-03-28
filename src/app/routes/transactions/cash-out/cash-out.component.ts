@@ -13,7 +13,7 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './cash-out.component.html',
 })
 export class CashOutComponent implements OnInit, OnDestroy {
-  private _subs = new SubSink();
+  private subs = new SubSink();
 
   transactionForm: FormGroup;
   oAuthForm: FormGroup;
@@ -29,21 +29,21 @@ export class CashOutComponent implements OnInit, OnDestroy {
   sAuth = false;
 
   constructor(
-    private _transactionService: TransactionService,
-    private _router: Router,
-    private _auth: AuthService,
+    private transactionService: TransactionService,
+    private router: Router,
+    private auth: AuthService,
     titleService: Title
   ) {
-    this._subs.add(
-      this._router.events.subscribe((e: any) => {
+    this.subs.add(
+      this.router.events.subscribe((e: any) => {
         if (e instanceof NavigationEnd) this.ngOnInit();
       })
     );
     titleService.setTitle('Transactions — Cash Out');
   }
 
-  ngOnInit() {
-    this.transactionCode = this._transactionService.CASHOUT_CODE;
+  ngOnInit(): void {
+    this.transactionCode = this.transactionService.CASHOUT_CODE;
     this.transactionForm = new FormGroup({
       reference: new FormControl(
         { value: UUID(0).uuid(), disabled: true },
@@ -64,14 +64,14 @@ export class CashOutComponent implements OnInit, OnDestroy {
     });
   }
 
-  cashOut() {
+  cashOut(): void {
     const transaction: CashInOutTransaction = {
       originalRef: this.transactionForm.get('reference').value,
-      agentId: this._auth.agentId,
+      agentId: this.auth.agentId,
       subscriberMobile: this.transactionForm.get('sMobile').value,
       pin: this.sAuthForm.get('pin').value,
       amount: this.transactionForm.get('amount').value,
-      operatorId: this._auth.operatorId,
+      operatorId: this.auth.operatorId,
       imei: this.transactionForm.get('imei').value,
       operatorCode: this.oAuthForm.get('code').value,
       channel: 'WEB',
@@ -80,30 +80,30 @@ export class CashOutComponent implements OnInit, OnDestroy {
 
     this.processing = true;
 
-    this._subs.add(
-      this._transactionService.cashOut(transaction).subscribe(
+    this.subs.add(
+      this.transactionService.cashOut(transaction).subscribe(
         () => {
-          this._onReqSuccess('Your cash out transaction was successful.');
+          this.onReqSuccess('Your cash out transaction was successful.');
         },
         (e) => {
           this.oAuthForm.reset();
           this.sAuthForm.reset();
           this.sAuth = false;
           if (!e.error) {
-            this._onReqError(
+            this.onReqError(
               'The server cannot be reached at the moment. Check your internet connection and try again later'
             );
           } else if (e.error.message) {
-            this._onReqError(e.error.message);
+            this.onReqError(e.error.message);
           } else {
-            this._onReqError('Something went wrong. Try again.');
+            this.onReqError('Something went wrong. Try again.');
           }
         }
       )
     );
   }
 
-  private _onReqSuccess(message: string) {
+  private onReqSuccess(message: string): void {
     this.processing = false;
     this.fsDialog = false;
     this.success = true;
@@ -112,10 +112,10 @@ export class CashOutComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.success = false;
     }, 2000);
-    this._router.navigate(['transactions', 'cash-out']);
+    this.router.navigate(['transactions', 'cash-out']);
   }
 
-  private _onReqError(message: string) {
+  private onReqError(message: string): void {
     this.processing = false;
     this.fsDialog = false;
     this.error = true;
@@ -126,7 +126,7 @@ export class CashOutComponent implements OnInit, OnDestroy {
     }, 5000);
   }
 
-  ngOnDestroy() {
-    this._subs.unsubscribe();
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
