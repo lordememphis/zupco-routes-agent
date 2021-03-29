@@ -18,27 +18,22 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class TransactionService {
-  private _CASH_IN_TRANSACTION_CODE = 'CASHIN';
-  private _CASH_OUT_TRANSACTION_CODE = 'CASHOUT';
-  private _AGENT_TO_AGENT_TRANSACTION_CODE = 'AGENT_TRANSFER';
-  private _WALLET_TO_BANK_TRANSACTION_CODE = 'AGENT_WALLET_TO_BANK';
-
   constructor(private http: HttpClient, private auth: AuthService) {}
 
   get CASHIN_CODE(): string {
-    return this._CASH_IN_TRANSACTION_CODE;
+    return environment.CASH_IN_TRANSACTION_CODE;
   }
 
   get CASHOUT_CODE(): string {
-    return this._CASH_OUT_TRANSACTION_CODE;
+    return environment.CASH_OUT_TRANSACTION_CODE;
   }
 
   get A2A_CODE(): string {
-    return this._AGENT_TO_AGENT_TRANSACTION_CODE;
+    return environment.AGENT_TO_AGENT_TRANSACTION_CODE;
   }
 
   get WTB_CODE(): string {
-    return this._WALLET_TO_BANK_TRANSACTION_CODE;
+    return environment.WALLET_TO_BANK_TRANSACTION_CODE;
   }
 
   cashIn(transaction: CashInOutTransaction): Observable<boolean> {
