@@ -130,5 +130,8 @@
       }
     }
   },
-  "defaultProject": "akupay-agent"
+  "defaultProject": "akupay-agent",
+  "cli": {
+    "analytics": "0442cb63-5441-4917-81e5-c6bdce611dc1"
+  }
 }
