@@ -31,6 +31,7 @@ import { RepsComponent } from './routes/dashboard/reps/reps.component';
 import { AccountComponent } from './routes/account/account.component';
 import { ReportsComponent } from './routes/account/reports/reports.component';
 import { TransactionHistoryComponent } from './routes/account/reports/transaction-history/transaction-history.component';
+import { SubscribersComponent } from './routes/account/subscribers/subscribers.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { TransactionHistoryComponent } from './routes/account/reports/transactio
     AccountComponent,
     ReportsComponent,
     TransactionHistoryComponent,
+    SubscribersComponent,
   ],
   imports: [
     BrowserModule,

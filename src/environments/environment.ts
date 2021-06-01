@@ -17,6 +17,9 @@ export const environment = {
   USER_SERVICE(): string {
     return `${this.BASE_URL}akupay-user-manager/api/v1/`;
   },
+  SUBSCRIBER_SERVICE(): string {
+    return `${this.BASE_URL}akupay-system-service/api/v1/`;
+  },
   CASH_IN_TRANSACTION_CODE: 'CASHIN',
   CASH_OUT_TRANSACTION_CODE: 'CASHOUT',
   AGENT_TO_AGENT_TRANSACTION_CODE: 'AGENT_TRANSFER',
