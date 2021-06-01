@@ -1,11 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {
-  ICreateSubscriberProfileDto,
-  SubscriberService,
-} from './subscriber.service';
 import { SubSink } from 'subsink';
 import { Title } from '@angular/platform-browser';
+import { AuthService } from '../../../auth/auth.service';
+import * as UUID from 'uuid-int';
+import { NavigationEnd, Router } from '@angular/router';
+import {
+  ICreateSubscriberProfileDto,
+  TransactionService,
+} from '../../transactions/transaction.service';
 
 @Component({
   selector: 'app-subscriber-registration',
@@ -23,28 +26,49 @@ export class SubscriberRegistrationComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
 
   constructor(
-    private subscriberService: SubscriberService,
+    private transactionService: TransactionService,
+    private authService: AuthService,
+    private router: Router,
     titleService: Title
   ) {
+    this.subs.add(
+      this.router.events.subscribe((e: any) => {
+        if (e instanceof NavigationEnd) this.ngOnInit();
+      })
+    );
     titleService.setTitle('Misc. — Account Subscribers');
   }
 
   ngOnInit(): void {
     this.registerSubscriberForm = new FormGroup({
-      name: new FormControl(null, Validators.required),
-      description: new FormControl(null, Validators.required),
+      mobile: new FormControl(null, Validators.required),
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      firstname: new FormControl(null, Validators.required),
+      lastname: new FormControl(null, Validators.required),
+      idNumber: new FormControl(null, Validators.required),
+      originalRef: new FormControl(
+        { value: UUID(0).uuid(), disabled: true },
+        Validators.required
+      ),
     });
   }
 
   registerSubscriber(): void {
     this.processing = true;
     const dto: ICreateSubscriberProfileDto = {
-      name: this.registerSubscriberForm.get('name').value,
-      description: this.registerSubscriberForm.get('description').value,
+      mobile: this.registerSubscriberForm.get('mobile').value,
+      email: this.registerSubscriberForm.get('email').value,
+      firstname: this.registerSubscriberForm.get('firstname').value,
+      lastname: this.registerSubscriberForm.get('lastname').value,
+      idNumber: this.registerSubscriberForm.get('idNumber').value,
+      subscriberProfile: 1,
+      agentId: this.authService.agentId,
+      originalRef: this.registerSubscriberForm.get('originalRef').value,
+      channel: 'WEB',
     };
 
     this.subs.add(
-      this.subscriberService.registerSubscriber(dto).subscribe(
+      this.transactionService.registerSubscriber(dto).subscribe(
         () => this.onReqSuccess('Subscriber registered successfully'),
         () => this.onReqError('Could not register subscriber')
       )
@@ -63,7 +87,7 @@ export class SubscriberRegistrationComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.success = false;
     }, 2000);
-    this.registerSubscriberForm.reset();
+    this.router.navigate(['account', 'subscriber-registration']).then();
   }
 
   private onReqError(message: string): void {

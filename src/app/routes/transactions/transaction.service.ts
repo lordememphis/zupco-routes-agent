@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { env } from 'process';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -13,6 +12,18 @@ import {
 } from 'src/app/shared/models/transaction.model';
 import { TransactionHistory } from 'src/app/shared/models/transaction-history.model';
 import { environment } from 'src/environments/environment';
+
+export interface ICreateSubscriberProfileDto {
+  mobile: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  idNumber: string;
+  subscriberProfile: number;
+  agentId: number;
+  originalRef: string;
+  channel: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -165,5 +176,14 @@ export class TransactionService {
     return this.http
       .get<{ content: Bank[] }>(`${environment.AGENT_SERVICE()}bank/0/1000`)
       .pipe(map((data) => data.content));
+  }
+
+  registerSubscriber(dto: ICreateSubscriberProfileDto): Observable<any> {
+    return this.http
+      .post(
+        `${environment.TRANSACTION_SERVICE()}transactions/self-registration`,
+        dto
+      )
+      .pipe(map((data) => data));
   }
 }
