@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   ICreateSubscriberProfileDto,
   SubscriberService,
 } from './subscriber.service';
-import { Router } from '@angular/router';
+import { SubSink } from 'subsink';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-subscriber-registration',
-  templateUrl: './subscribers.component.html',
+  templateUrl: './subscriber-registration.component.html',
 })
-export class SubscribersComponent implements OnInit {
-  registrationForm!: FormGroup;
+export class SubscriberRegistrationComponent implements OnInit, OnDestroy {
+  registerSubscriberForm!: FormGroup;
 
   error = false;
   success = false;
@@ -19,46 +20,54 @@ export class SubscribersComponent implements OnInit {
   processing = false;
   fsDialog = false;
 
+  private subs = new SubSink();
+
   constructor(
     private subscriberService: SubscriberService,
-    private router: Router
-  ) {}
+    titleService: Title
+  ) {
+    titleService.setTitle('Misc. — Account Subscribers');
+  }
 
   ngOnInit(): void {
-    this.registrationForm = new FormGroup({
+    this.registerSubscriberForm = new FormGroup({
       name: new FormControl(null, Validators.required),
       description: new FormControl(null, Validators.required),
     });
   }
 
-  onRegisterSubscriber(): void {
+  registerSubscriber(): void {
     this.processing = true;
     const dto: ICreateSubscriberProfileDto = {
-      name: this.registrationForm.get('name').value,
-      description: this.registrationForm.get('description').value,
+      name: this.registerSubscriberForm.get('name').value,
+      description: this.registerSubscriberForm.get('description').value,
     };
 
-    this.subscriberService.registerSubscriber(dto).subscribe(
-      (data) => this.onReqSuccess('Subscriber registered successfully'),
-      () => this.onReqError('Could not register subscriber')
+    this.subs.add(
+      this.subscriberService.registerSubscriber(dto).subscribe(
+        () => this.onReqSuccess('Subscriber registered successfully'),
+        () => this.onReqError('Could not register subscriber')
+      )
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 
   private onReqSuccess(message: string): void {
     this.processing = false;
-    this.fsDialog = false;
     this.success = true;
     this.aMessage = message;
 
     setTimeout(() => {
       this.success = false;
-      this.router.navigate(['account', 'subscribers']);
     }, 2000);
+    this.registerSubscriberForm.reset();
   }
 
   private onReqError(message: string): void {
     this.processing = false;
-    this.fsDialog = false;
     this.error = true;
     this.aMessage = message;
 

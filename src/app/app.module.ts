@@ -31,7 +31,7 @@ import { RepsComponent } from './routes/dashboard/reps/reps.component';
 import { AccountComponent } from './routes/account/account.component';
 import { ReportsComponent } from './routes/account/reports/reports.component';
 import { TransactionHistoryComponent } from './routes/account/reports/transaction-history/transaction-history.component';
-import { SubscribersComponent } from './routes/account/subscribers/subscribers.component';
+import { SubscriberRegistrationComponent } from './routes/account/subscriber-registration/subscriber-registration.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +59,7 @@ import { SubscribersComponent } from './routes/account/subscribers/subscribers.c
     AccountComponent,
     ReportsComponent,
     TransactionHistoryComponent,
-    SubscribersComponent,
+    SubscriberRegistrationComponent,
   ],
   imports: [
     BrowserModule,
