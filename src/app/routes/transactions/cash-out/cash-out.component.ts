@@ -72,7 +72,7 @@ export class CashOutComponent implements OnInit, OnDestroy {
       pin: this.sAuthForm.get('pin').value,
       amount: this.transactionForm.get('amount').value,
       operatorId: this.auth.operatorId,
-      imei: this.transactionForm.get('imei').value,
+      imei: this.transactionForm.get('reference').value,
       operatorCode: this.oAuthForm.get('code').value,
       channel: 'WEB',
       transactionTypes: this.transactionForm.get('type').value,

@@ -64,7 +64,7 @@ export class CashInComponent implements OnInit, OnDestroy {
       subscriberMobile: this.transactionForm.get('sMobile').value,
       amount: this.transactionForm.get('amount').value,
       operatorId: this.auth.operatorId,
-      imei: this.transactionForm.get('imei').value,
+      imei: this.transactionForm.get('reference').value,
       operatorCode: this.authForm.get('code').value,
       channel: 'WEB',
       transactionTypes: this.transactionForm.get('type').value,

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { RAuthGuard } from './auth/rauth.guard';
@@ -46,7 +46,11 @@ const routes: Routes = [
             children: [
               { path: '', pathMatch: 'full', redirectTo: 'operators' },
               { path: 'operators', component: OperatorsComponent },
-              { path: 'devices', component: DevicesComponent },
+              {
+                path: 'devices',
+                component: DevicesComponent,
+                canActivate: [false],
+              },
             ],
             canActivate: [RAuthGuard],
           },
@@ -94,6 +98,7 @@ const routes: Routes = [
                   {
                     path: 'device',
                     component: DeviceTransactionsComponent,
+                    canActivate: [false],
                   },
                 ],
               },
