@@ -83,15 +83,12 @@ export class OperatorService {
           newPassword,
         }
       );
-    return this.http.put(
-      `${environment.AGENT_SERVICE()}/operator-change-code`,
-      {
-        id: this.auth.userId,
-        username,
-        oldPassword,
-        matchingPassword: newPassword,
-        newPassword,
-      }
-    );
+    return this.http.put(`${environment.AGENT_SERVICE()}operator-change-code`, {
+      id: this.auth.userId,
+      username,
+      oldPassword,
+      matchingPassword: newPassword,
+      newPassword,
+    });
   }
 }
