@@ -36,7 +36,7 @@ export class SubscriberRegistrationComponent implements OnInit, OnDestroy {
         if (e instanceof NavigationEnd) this.ngOnInit();
       })
     );
-    titleService.setTitle('Misc. — Account Subscribers');
+    titleService.setTitle('Misc. — Subscriber Registration');
   }
 
   ngOnInit(): void {
