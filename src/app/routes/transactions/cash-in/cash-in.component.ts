@@ -47,7 +47,7 @@ export class CashInComponent implements OnInit, OnDestroy {
         Validators.required
       ),
       sMobile: new FormControl(null, Validators.required),
-      imei: new FormControl(null, Validators.required),
+      imei: new FormControl(null),
       type: new FormControl(this.transactionCode, Validators.required),
       amount: new FormControl(null, Validators.required),
     });

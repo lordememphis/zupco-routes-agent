@@ -50,7 +50,7 @@ export class CashOutComponent implements OnInit, OnDestroy {
         Validators.required
       ),
       sMobile: new FormControl(null, Validators.required),
-      imei: new FormControl(null, Validators.required),
+      imei: new FormControl(null),
       type: new FormControl('CASHOUT', Validators.required),
       amount: new FormControl(null, Validators.required),
     });
