@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -13,17 +13,16 @@ import { TransactionService } from '../transaction.service';
   templateUrl: './agent-to-agent.component.html',
 })
 export class AgentToAgentComponent implements OnInit, OnDestroy {
-  private subs = new SubSink();
-
   transactionForm: FormGroup;
   authForm: FormGroup;
   transactionCode: string;
-
   error = false;
   success = false;
   aMessage: string;
   processing = false;
   fsDialog = false;
+  showOpPin = false;
+  private subs = new SubSink();
 
   constructor(
     private transactionService: TransactionService,
@@ -93,6 +92,10 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
+
   private onReqSuccess(message: string): void {
     this.processing = false;
     this.fsDialog = false;
@@ -114,9 +117,5 @@ export class AgentToAgentComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.error = false;
     }, 5000);
-  }
-
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CashInOutTransaction } from 'src/app/shared/models/transaction.model';
 import { SubSink } from 'subsink';
@@ -13,17 +13,16 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './cash-in.component.html',
 })
 export class CashInComponent implements OnInit, OnDestroy {
-  private subs = new SubSink();
-
   transactionForm: FormGroup;
   authForm: FormGroup;
   transactionCode: string;
-
   error = false;
   success = false;
   aMessage: string;
   processing = false;
   fsDialog = false;
+  showOpPin = false;
+  private subs = new SubSink();
 
   constructor(
     private transactionService: TransactionService,
@@ -93,6 +92,10 @@ export class CashInComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
+
   private onReqSuccess(message: string): void {
     this.processing = false;
     this.fsDialog = false;
@@ -114,9 +117,5 @@ export class CashInComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.error = false;
     }, 5000);
-  }
-
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
   }
 }

@@ -13,20 +13,20 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './cash-out.component.html',
 })
 export class CashOutComponent implements OnInit, OnDestroy {
-  private subs = new SubSink();
-
   transactionForm: FormGroup;
   oAuthForm: FormGroup;
   sAuthForm: FormGroup;
   transactionCode: string;
-
   error = false;
   success = false;
   aMessage: string;
   processing = false;
   fsDialog = false;
+  showOpPin = false;
+  showSubPin = false;
   oAuth = false;
   sAuth = false;
+  private subs = new SubSink();
 
   constructor(
     private transactionService: TransactionService,
@@ -103,6 +103,10 @@ export class CashOutComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
+
   private onReqSuccess(message: string): void {
     this.processing = false;
     this.fsDialog = false;
@@ -124,9 +128,5 @@ export class CashOutComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.error = false;
     }, 5000);
-  }
-
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
   }
 }
