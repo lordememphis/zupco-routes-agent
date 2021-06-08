@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Operator } from 'src/app/shared/models/operator.model';
-import { Device } from 'src/app/shared/models/device.model';
 import { DeviceService } from '../reps/devices/device.service';
 import { OperatorService } from '../reps/operators/operator.service';
 import { SubSink } from 'subsink';
@@ -16,27 +15,21 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './overview.component.html',
 })
 export class OverviewComponent implements OnInit, OnDestroy {
-  private subs = new SubSink();
-
-  devices: Device[] = [];
   operators: Operator[] = [];
-  accountTranscations: TransactionHistory[] = [];
+  accountTransactions: TransactionHistory[] = [];
   accountBalance = 0;
   accountCommission = 0;
-
-  domDevices: number;
   domOperators: number;
   domAccountTransactions: number;
   activeDevices = true;
   activeOperators = true;
   cashInTransactions = true;
-
   processing = true;
   error = false;
   aMessage: string;
-
   startDate: string;
   endDate: string;
+  private subs = new SubSink();
 
   constructor(
     private deviceService: DeviceService,
@@ -53,7 +46,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subs.add(
       forkJoin([
-        this.deviceService.getDevices(),
         this.operatorService.getOperators(),
         this.transactionService.getTransactionHistory(
           0,
@@ -64,25 +56,21 @@ export class OverviewComponent implements OnInit, OnDestroy {
         this.transactionService.getBalances(),
       ])
         .pipe(
-          map(([devices, operators, operatorTransactions, balances]) => {
-            return { devices, operators, operatorTransactions, balances };
+          map(([operators, operatorTransactions, balances]) => {
+            return { operators, operatorTransactions, balances };
           })
         )
         .subscribe(
           (data) => {
-            this.devices = data.devices.devices;
+            console.log(data);
             this.operators = data.operators.operators;
-            this.accountTranscations = data.operatorTransactions.transactions;
-
-            this.domDevices = this.devices.filter(
-              (device) => device.status === 'ACTIVE'
-            ).length;
+            this.accountTransactions = data.operatorTransactions.transactions;
 
             this.domOperators = this.operators.filter(
               (operator) => operator.status === 'ACTIVE'
             ).length;
 
-            this.domAccountTransactions = this.accountTranscations.filter(
+            this.domAccountTransactions = this.accountTransactions.filter(
               (transaction) => transaction.transactionType === 'AGENT_TRANSFER'
             ).length;
 
@@ -106,13 +94,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
     );
   }
 
-  onFilterDevices(e: any): void {
-    this.activeDevices = !this.activeDevices;
-    this.domDevices = this.devices.filter(
-      (device) => device.status === e.target.value
-    ).length;
-  }
-
   onFilterOperators(e: any): void {
     this.activeOperators = !this.activeOperators;
     this.domOperators = this.operators.filter(
@@ -122,9 +103,13 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   onFilterAccountTransactions(e: any): void {
     this.cashInTransactions = !this.cashInTransactions;
-    this.domAccountTransactions = this.accountTranscations.filter(
+    this.domAccountTransactions = this.accountTransactions.filter(
       (transaction) => transaction.transactionType === e.target.value
     ).length;
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 
   private onReqError(message: string): void {
@@ -135,9 +120,5 @@ export class OverviewComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.error = false;
     }, 5000);
-  }
-
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
   }
 }
