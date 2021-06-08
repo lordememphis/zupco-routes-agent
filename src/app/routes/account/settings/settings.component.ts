@@ -20,7 +20,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
   success = false;
   aMessage: string;
   processing = false;
+
   showPassword = false;
+  showNewPassword = false;
+  showMatchingPassword = false;
 
   constructor(
     private operatorService: OperatorService,

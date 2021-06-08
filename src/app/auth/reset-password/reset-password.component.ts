@@ -23,6 +23,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   aMessage: string;
 
   token: string;
+  showNewPassword = false;
+  showMatchingPassword = false;
 
   constructor(
     private auth: AuthService,
