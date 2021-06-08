@@ -42,10 +42,10 @@ export class SubscriberRegistrationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.registerSubscriberForm = new FormGroup({
       mobile: new FormControl(null, Validators.required),
-      email: new FormControl(null, [Validators.required, Validators.email]),
+      email: new FormControl(null, Validators.email),
       firstname: new FormControl(null, Validators.required),
       lastname: new FormControl(null, Validators.required),
-      idNumber: new FormControl(null, Validators.required),
+      idNumber: new FormControl(null),
       originalRef: new FormControl(
         { value: UUID(0).uuid(), disabled: true },
         Validators.required

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Operator } from 'src/app/shared/models/operator.model';
-import { DeviceService } from '../reps/devices/device.service';
 import { OperatorService } from '../reps/operators/operator.service';
 import { SubSink } from 'subsink';
 import { forkJoin } from 'rxjs';
@@ -32,7 +31,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
 
   constructor(
-    private deviceService: DeviceService,
     private operatorService: OperatorService,
     private transactionService: TransactionService,
     datePipe: DatePipe,
@@ -62,7 +60,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
         )
         .subscribe(
           (data) => {
-            console.log(data);
             this.operators = data.operators.operators;
             this.accountTransactions = data.operatorTransactions.transactions;
 
