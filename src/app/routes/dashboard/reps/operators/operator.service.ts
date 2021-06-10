@@ -84,7 +84,7 @@ export class OperatorService {
         }
       );
     return this.http.put(`${environment.AGENT_SERVICE()}operator-change-code`, {
-      id: this.auth.userId,
+      id: this.auth.operatorId,
       username,
       oldPassword,
       matchingPassword: newPassword,
