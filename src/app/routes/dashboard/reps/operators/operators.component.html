@@ -1,7 +1,7 @@
 <section>
   <app-processing-modal [process]="processing"></app-processing-modal>
-  <app-error-modal [open]="error" [message]="aMessage"></app-error-modal>
-  <app-success-modal [open]="success" [message]="aMessage"></app-success-modal>
+  <app-error-modal [message]="aMessage" [open]="error"></app-error-modal>
+  <app-success-modal [message]="aMessage" [open]="success"></app-success-modal>
 </section>
 
 <main>
@@ -23,23 +23,25 @@
                 </p>
               </div>
               <div>
-                <button type="button" (click)="viewingOperators=false; registeringOperator=true"
-                  class="btn py-2  text-white bg-cool-gray-900 shadow hover:shadow-md">
+                <button (click)="viewingOperators=false; registeringOperator=true" class="btn py-2  text-white bg-cool-gray-900 shadow hover:shadow-md"
+                        type="button">
                   New operator
                 </button>
               </div>
             </div>
             <div *ngIf="!hasOperators" class="mt-10">
               <div class="flex flex-col items-center justify-center">
-                <svg class="w-16 h-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                    clip-rule="evenodd" />
+                <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path clip-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                        fill-rule="evenodd"/>
                 </svg>
                 <div>
                   You don't have any operators registered under your account, yet.
                   <button (click)="viewingOperators=false; registeringOperator=true" class="underline">Add an
-                    operator</button> instead
+                    operator
+                  </button>
+                  instead
                 </div>
               </div>
             </div>
@@ -47,14 +49,14 @@
               <form *ngIf="false" class="text-right">
                 <div class="mt-4 max-w-md inline-grid grid-cols-2 grid-flow-row gap-x-1">
                   <div class="relative text-left">
-                    <label for="search-by" class="block text-sm font-medium leading-5 text-gray-700">Search by</label>
+                    <label class="block text-sm font-medium leading-5 text-gray-700" for="search-by">Search by</label>
                     <svg class="w-5 h-5 absolute z-10 right-0 mx-2 my-3 text-gray-500"
-                      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd"
-                        d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                        clip-rule="evenodd" />
+                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path clip-rule="evenodd"
+                            d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                            fill-rule="evenodd"/>
                     </svg>
-                    <select id="search-by" class="mt-1 py-2">
+                    <select class="mt-1 py-2" id="search-by">
                       <option value="firstName">First name</option>
                       <option value="lastName">Last name</option>
                       <option value="username">Username</option>
@@ -64,16 +66,16 @@
                     </select>
                   </div>
                   <div class="text-left">
-                    <label for="search_parameter" class="block text-sm font-medium leading-5 text-gray-700">
+                    <label class="block text-sm font-medium leading-5 text-gray-700" for="search_parameter">
                       Search key</label>
                     <div class="mt-1 relative rounded-sm shadow-sm">
-                      <input id="search_parameter" type="text" class="mt-1 py-2">
+                      <input class="mt-1 py-2" id="search_parameter" type="text">
                       <div class="absolute inset-y-0 right-0 flex items-center">
-                        <button type="submit" class="px-2 focus:outline-none">
-                          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        <button class="px-2 focus:outline-none" type="submit">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round"
+                                  stroke-width="2"/>
                           </svg>
                         </button>
                       </div>
@@ -87,64 +89,68 @@
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-sm">
                       <table class="min-w-full divide-y divide-gray-200">
                         <thead>
-                          <tr>
-                            <th
-                              class="px-6 py-3 bg-cool-gray-900 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
-                              Name
-                            </th>
-                            <th
-                              class="px-6 py-3 bg-cool-gray-900 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
-                              Contact
-                            </th>
-                            <th
-                              class="px-6 py-3 bg-cool-gray-900 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
-                              Status
-                            </th>
-                            <th class="px-6 py-3 bg-cool-gray-900"></th>
-                          </tr>
+                        <tr>
+                          <th
+                            class="px-6 py-3 bg-cool-gray-900 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
+                            Name
+                          </th>
+                          <th
+                            class="px-6 py-3 bg-cool-gray-900 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
+                            Contact
+                          </th>
+                          <th
+                            class="px-6 py-3 bg-cool-gray-900 text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
+                            Status
+                          </th>
+                          <th class="px-6 py-3 bg-cool-gray-900"></th>
+                        </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                          <tr *ngFor="let op of operators">
-                            <td class="px-6 py-4 whitespace-no-wrap">
-                              <div class="flex items-center">
-                                <div
-                                  class="flex-shrink-0 h-10 w-10 flex items-center justify-center overflow-hidden rounded-full">
-                                  <img class="h-10 object-cover"
-                                    src="https://st.depositphotos.com/2218212/2938/i/600/depositphotos_29387653-stock-photo-facebook-profile.jpg"
-                                    [alt]="op.firstname">
-                                </div>
-                                <div class="ml-4">
-                                  <div class="text-sm leading-5 font-medium text-gray-900">
-                                    {{op.firstname}} {{op.lastname}}
-                                  </div>
+                        <tr *ngFor="let op of operators">
+                          <td class="px-6 py-4 whitespace-no-wrap">
+                            <div class="flex items-center">
+                              <div
+                                class="flex-shrink-0 h-10 w-10 flex items-center justify-center overflow-hidden rounded-full">
+                                <img [alt]="op.firstname"
+                                     class="h-10 object-cover"
+                                     src="https://st.depositphotos.com/2218212/2938/i/600/depositphotos_29387653-stock-photo-facebook-profile.jpg">
+                              </div>
+                              <div class="ml-4">
+                                <div class="text-sm leading-5 font-medium text-gray-900">
+                                  {{op.firstname}} {{op.lastname}}
                                 </div>
                               </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                              <div class="text-sm leading-5 text-gray-500">{{op.email}}</div>
-                              <div class="text-sm leading-5 text-gray-500">{{op.mobile}}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-no-wrap">
+                            </div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                            <div class="text-sm leading-5 text-gray-500">{{op.email}}</div>
+                            <div class="text-sm leading-5 text-gray-500">{{op.mobile}}</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-no-wrap">
                               <span *ngIf="op.status.toLowerCase() === 'active'"
-                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                 Active
                               </span>
-                              <span *ngIf="op.status.toLowerCase() !== 'active'"
-                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">
+                            <span *ngIf="op.status.toLowerCase() !== 'active'"
+                                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">
                                 Blocked
                               </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                              <button *ngIf="op.status.toLowerCase() !== 'active'" (click)="changeOperatorStatus(op)"
-                                class="text-green-600 hover:text-green-900">Activate</button>
-                              <button *ngIf="op.status.toLowerCase() === 'active'" (click)="changeOperatorStatus(op)"
-                                class="text-orange-500 hover:text-orange-600">Block</button>
-                              <button (click)="onEditOperator(op)"
-                                class="ml-4 text-cool-gray-800 hover:text-cool-gray-900">Edit</button>
-                              <button (click)="fsDialog=true; deletingOperator=true; operator=op "
-                                class="ml-4 text-red-600 hover:text-red-900">Delete</button>
-                            </td>
-                          </tr>
+                          </td>
+                          <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                            <button (click)="changeOperatorStatus(op)" *ngIf="op.status.toLowerCase() !== 'active'"
+                                    class="text-green-600 hover:text-green-900">Activate
+                            </button>
+                            <button (click)="changeOperatorStatus(op)" *ngIf="op.status.toLowerCase() === 'active'"
+                                    class="text-orange-500 hover:text-orange-600">Block
+                            </button>
+                            <button (click)="onEditOperator(op)"
+                                    class="ml-4 text-cool-gray-800 hover:text-cool-gray-900">Edit
+                            </button>
+                            <button (click)="fsDialog=true; deletingOperator=true; operator=op "
+                                    class="ml-4 text-red-600 hover:text-red-900">Delete
+                            </button>
+                          </td>
+                        </tr>
                         </tbody>
                       </table>
                       <div class="pt-4 flex items-center justify-center">
@@ -167,7 +173,7 @@
                 Register operator
               </h2>
             </div>
-            <form [formGroup]="registerOperatorForm" (ngSubmit)="registerOperator()">
+            <form (ngSubmit)="registerOperator()" [formGroup]="registerOperatorForm">
               <div class="mt-8">
                 <div>
                   <div>
@@ -184,37 +190,41 @@
                         <div class="px-4 py-5 bg-white sm:p-6">
                           <div class="grid grid-cols-6 gap-6">
                             <div class="col-span-6 sm:col-span-3">
-                              <label for="first_name" class="block text-sm font-medium leading-5 text-gray-700">First
+                              <label class="block text-sm font-medium leading-5 text-gray-700" for="first_name">First
                                 name</label>
-                              <input id="first_name" type="text" class="mt-1 py-2" formControlName="firstname" placeholder="John">
+                              <input class="mt-1 py-2" formControlName="firstname" id="first_name" placeholder="John"
+                                     type="text">
                             </div>
                             <div class="col-span-6 sm:col-span-3">
-                              <label for="last_name" class="block text-sm font-medium leading-5 text-gray-700">Last
+                              <label class="block text-sm font-medium leading-5 text-gray-700" for="last_name">Last
                                 name</label>
-                              <input id="last_name" type="text" class="mt-1 py-2" formControlName="lastname" placeholder="Doe">
+                              <input class="mt-1 py-2" formControlName="lastname" id="last_name" placeholder="Doe"
+                                     type="text">
                             </div>
                             <div class="col-span-6 sm:col-span-3">
-                              <label for="email" class="block text-sm font-medium leading-5 text-gray-700">Email</label>
-                              <input id="email" type="email" class="mt-1 py-2" formControlName="email" placeholder="johndoe@email.com">
+                              <label class="block text-sm font-medium leading-5 text-gray-700" for="email">Email</label>
+                              <input class="mt-1 py-2" formControlName="email" id="email" placeholder="johndoe@email.com"
+                                     type="email">
                             </div>
                             <div class="col-span-6 sm:col-span-3">
-                              <label for="mobile"
-                                class="block text-sm font-medium leading-5 text-gray-700">Mobile</label>
-                              <input id="mobile" type="tel" class="mt-1 py-2" formControlName="mobile" placeholder="234880000000">
+                              <label class="block text-sm font-medium leading-5 text-gray-700"
+                                     for="mobile">Mobile</label>
+                              <input class="mt-1 py-2" formControlName="mobile" id="mobile" placeholder="234880000000"
+                                     type="tel">
                             </div>
                           </div>
                         </div>
                         <div class="px-4 py-3 bg-gray-50 flex items-center justify-between sm:px-6">
                           <div>
-                            <button type="button" (click)="registeringOperator=false; viewingOperators=true"
-                              class="btn py-2 bg-white shadow hover:shadow-md">
+                            <button (click)="registeringOperator=false; viewingOperators=true" class="btn py-2 bg-white shadow hover:shadow-md"
+                                    type="button">
                               View operators
                             </button>
                           </div>
                           <div class="text-right">
-                            <button type="submit" [disabled]="!registerOperatorForm.valid"
-                              [class]="{'cursor-not-allowed': !registerOperatorForm.valid}"
-                              class="btn py-2 text-white bg-cool-gray-900 shadow hover:shadow-md">
+                            <button [class]="{'cursor-not-allowed': !registerOperatorForm.valid}" [disabled]="!registerOperatorForm.valid"
+                                    class="btn py-2 text-white bg-cool-gray-900 shadow hover:shadow-md"
+                                    type="submit">
                               Register operator
                             </button>
                           </div>
@@ -236,18 +246,18 @@
       <div class="absolute inset-0 bg-gray-500 opacity-75">
       </div>
       <button (click)="closeFsDialog()"
-        class="absolute mt-20 mr-8 right-0 top-0 p-2 bg-white rounded-full cursor-pointer focus:outline-none">
-        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              class="absolute mt-20 mr-8 right-0 top-0 p-2 bg-white rounded-full cursor-pointer focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
         </svg>
       </button>
     </div>
     <div class="h-full flex items-center justify-center">
       <div
-        class="w-full max-w-screen-md bg-white rounded-sm text-left overflow-hidden shadow-xl transform transition-all sm:my-8"
-        role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+        aria-labelledby="modal-headline"
+        aria-modal="true" class="w-full max-w-screen-md bg-white rounded-sm text-left overflow-hidden shadow-xl transform transition-all sm:my-8" role="dialog">
         <section *ngIf="editingOperator">
-          <form [formGroup]="editOperatorForm" (ngSubmit)="updateOperator()" class="w-full">
+          <form (ngSubmit)="updateOperator()" [formGroup]="editOperatorForm" class="w-full">
             <div>
               <div>
                 <div class="px-4 pt-4 sm:px-6 sm:pt-6">
@@ -263,34 +273,36 @@
                     <div class="px-4 py-5 bg-white sm:p-6">
                       <div class="grid grid-cols-6 gap-6">
                         <div class="col-span-6 sm:col-span-3">
-                          <label for="edit_first_name" class="block text-sm font-medium leading-5 text-gray-700">First
+                          <label class="block text-sm font-medium leading-5 text-gray-700" for="edit_first_name">First
                             name</label>
-                          <input id="edit_first_name" type="text" class="mt-1 py-2" formControlName="firstname">
+                          <input class="mt-1 py-2" formControlName="firstname" id="edit_first_name" type="text">
                         </div>
                         <div class="col-span-6 sm:col-span-3">
-                          <label for="edit_last_name" class="block text-sm font-medium leading-5 text-gray-700">Last
+                          <label class="block text-sm font-medium leading-5 text-gray-700" for="edit_last_name">Last
                             name</label>
-                          <input id="edit_last_name" type="text" class="mt-1 py-2" formControlName="lastname">
+                          <input class="mt-1 py-2" formControlName="lastname" id="edit_last_name" type="text">
                         </div>
                         <div class="col-span-6 sm:col-span-3">
-                          <label for="edit_email" class="block text-sm font-medium leading-5 text-gray-700">Email</label>
-                          <input id="edit_email" type="email" class="mt-1 py-2" formControlName="email">
+                          <label class="block text-sm font-medium leading-5 text-gray-700"
+                                 for="edit_email">Email</label>
+                          <input class="mt-1 py-2" formControlName="email" id="edit_email" type="email">
                         </div>
                         <div class="col-span-6 sm:col-span-3">
-                          <label for="edit_mobile" class="block text-sm font-medium leading-5 text-gray-700">Mobile</label>
-                          <input id="edit_mobile" type="tel" class="mt-1 py-2" formControlName="mobile">
+                          <label class="block text-sm font-medium leading-5 text-gray-700"
+                                 for="edit_mobile">Mobile</label>
+                          <input class="mt-1 py-2" formControlName="mobile" id="edit_mobile" type="tel">
                         </div>
                       </div>
                     </div>
                     <div class="px-4 py-3 bg-gray-50 flex items-center justify-between sm:px-6">
                       <div>
-                        <button type="button" (click)="closeFsDialog()"
-                          class="btn py-2 text-cool-gray-500 bg-white shadow hover:shadow-md">
+                        <button (click)="closeFsDialog()" class="btn py-2 text-cool-gray-500 bg-white shadow hover:shadow-md"
+                                type="button">
                           Cancel
                         </button>
                       </div>
                       <div class="text-right">
-                        <button type="submit" class="btn py-2 text-white bg-cool-gray-900 shadow hover:shadow-md">
+                        <button class="btn py-2 text-white bg-cool-gray-900 shadow hover:shadow-md" type="submit">
                           Save changes
                         </button>
                       </div>
@@ -305,10 +317,10 @@
           <div class="px-4 pt-4 flex flex-start sm:px-6 sm:pt-6">
             <div
               class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-              <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              <svg aria-hidden="true" class="h-6 w-6 text-red-600" fill="none" stroke="currentColor"
+                   viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2"/>
               </svg>
             </div>
             <div class="ml-4">
@@ -323,14 +335,14 @@
             <div class="overflow-hidden sm:rounded-sm">
               <div class="px-4 py-3 bg-gray-50 flex items-center justify-between sm:px-6">
                 <div>
-                  <button type="button" (click)="closeFsDialog()"
-                    class="btn py-2 text-cool-gray-500 bg-white shadow hover:shadow-md">
+                  <button (click)="closeFsDialog()" class="btn py-2 text-cool-gray-500 bg-white shadow hover:shadow-md"
+                          type="button">
                     Cancel
                   </button>
                 </div>
                 <div class="text-right">
-                  <button type="button" (click)="deleteOperator()"
-                    class="btn py-2 text-white bg-red-600 shadow hover:shadow-md">
+                  <button (click)="deleteOperator()" class="btn py-2 text-white bg-red-600 shadow hover:shadow-md"
+                          type="button">
                     Delete
                   </button>
                 </div>

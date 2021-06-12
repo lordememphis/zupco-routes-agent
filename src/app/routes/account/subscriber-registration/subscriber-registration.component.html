@@ -1,7 +1,7 @@
 <section>
   <app-processing-modal [process]="processing"></app-processing-modal>
-  <app-error-modal [open]="error" [message]="aMessage"></app-error-modal>
-  <app-success-modal [open]="success" [message]="aMessage"></app-success-modal>
+  <app-error-modal [message]="aMessage" [open]="error"></app-error-modal>
+  <app-success-modal [message]="aMessage" [open]="success"></app-success-modal>
 </section>
 
 <main>
@@ -18,7 +18,7 @@
                 Register subscriber
               </h2>
             </div>
-            <form [formGroup]="registerSubscriberForm" (ngSubmit)="registerSubscriber()">
+            <form (ngSubmit)="registerSubscriber()" [formGroup]="registerSubscriberForm">
               <div class="mt-8">
                 <div class="px-4 sm:px-0">
                   <h3 class="text-lg font-medium leading-6 text-gray-900">Subscriber Profile</h3>
@@ -33,42 +33,49 @@
                     <div class="px-4 py-5 bg-white sm:p-6">
                       <div class="grid grid-cols-6 gap-6">
                         <div class="col-span-6 sm:col-span-2">
-                          <label for="reference"
-                                 class="block text-sm font-medium leading-5 text-gray-700">Reference</label>
-                          <input id="reference" type="text" class="mt-1 py-2" formControlName="originalRef">
+                          <label class="block text-sm font-medium leading-5 text-gray-700"
+                                 for="reference">Reference</label>
+                          <input class="mt-1 py-2" formControlName="originalRef" id="reference" type="text">
                         </div>
                         <div class="col-span-6 sm:col-span-2">
-                          <label for="firstname"
-                                 class="block text-sm font-medium leading-5 text-gray-700">First name</label>
-                          <input id="firstname" type="text" class="mt-1 py-2" formControlName="firstname" placeholder="John">
+                          <label class="block text-sm font-medium leading-5 text-gray-700"
+                                 for="firstname">First name</label>
+                          <input class="mt-1 py-2" formControlName="firstname" id="firstname" placeholder="John"
+                                 type="text">
                         </div>
                         <div class="col-span-6 sm:col-span-2">
-                          <label for="lastname"
-                                 class="block text-sm font-medium leading-5 text-gray-700">Last name</label>
-                          <input id="lastname" type="text" class="mt-1 py-2" formControlName="lastname" placeholder="Doe">
+                          <label class="block text-sm font-medium leading-5 text-gray-700"
+                                 for="lastname">Last name</label>
+                          <input class="mt-1 py-2" formControlName="lastname" id="lastname" placeholder="Doe"
+                                 type="text">
                         </div>
                         <div class="col-span-6 sm:col-span-2">
-                          <label for="mobile"
-                                 class="block text-sm font-medium leading-5 text-gray-700">Mobile</label>
-                          <input id="mobile" type="tel" placeholder="2348153353131" class="mt-1 py-2" formControlName="mobile">
+                          <label class="block text-sm font-medium leading-5 text-gray-700"
+                                 for="mobile">Mobile</label>
+                          <input class="mt-1 py-2" formControlName="mobile" id="mobile" placeholder="2348153353131"
+                                 type="tel">
                         </div>
                         <div class="col-span-6 sm:col-span-2">
-                          <label for="email"
-                                 class="block text-sm font-medium leading-5 text-gray-700">Email <span class="text-gray-500">(optional)</span></label>
-                          <input id="email" type="email" class="mt-1 py-2" formControlName="email" placeholder="johndoe@email.com">
+                          <label class="block text-sm font-medium leading-5 text-gray-700"
+                                 for="email">Email <span
+                            class="text-gray-500">(optional)</span></label>
+                          <input class="mt-1 py-2" formControlName="email" id="email" placeholder="johndoe@email.com"
+                                 type="email">
                         </div>
                         <div class="col-span-6 sm:col-span-2">
-                          <label for="identity"
-                                 class="block text-sm font-medium leading-5 text-gray-700">ID number <span class="text-gray-500">(optional)</span></label>
-                          <input id="identity" type="text" class="mt-1 py-2" formControlName="idNumber" placeholder="5394267842450618">
+                          <label class="block text-sm font-medium leading-5 text-gray-700"
+                                 for="identity">ID number <span
+                            class="text-gray-500">(optional)</span></label>
+                          <input class="mt-1 py-2" formControlName="idNumber" id="identity" placeholder="5394267842450618"
+                                 type="text">
                         </div>
                       </div>
                     </div>
                     <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
                       <div class="inline-flex">
-                        <button type="submit" [disabled]="!registerSubscriberForm.valid"
-                                [class]="{'cursor-not-allowed': !registerSubscriberForm.valid}"
-                                class="btn py-2 text-white bg-cool-gray-900 shadow hover:shadow-md">
+                        <button [class]="{'cursor-not-allowed': !registerSubscriberForm.valid}" [disabled]="!registerSubscriberForm.valid"
+                                class="btn py-2 text-white bg-cool-gray-900 shadow hover:shadow-md"
+                                type="submit">
                           Register subscriber
                         </button>
                       </div>

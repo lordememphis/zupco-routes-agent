@@ -14,9 +14,7 @@ import { TransactionService } from '../transaction.service';
   styleUrls: ['./operator-transactions.component.scss'],
 })
 export class OperatorTransactionsComponent implements OnInit, OnDestroy {
-  private subs = new SubSink();
   filterForm: FormGroup;
-
   transactions: TransactionHistory[];
   transaction: TransactionHistory;
   hasTransactions = false;
@@ -25,17 +23,16 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
   viewTransaction = false;
   pageNo = 1;
   pageLimit = 10;
-
   error = false;
   warning = false;
   success = false;
   processing = true;
   aMessage: string;
   fsDialog = false;
-
   startDate: string;
   endDate: string;
   maxDate: string;
+  private subs = new SubSink();
 
   constructor(
     private transactionService: TransactionService,
@@ -128,6 +125,10 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
     this.filterTransactions(event - 1);
   }
 
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
+
   private onReqSuccess(message: string): void {
     this.processing = false;
     this.success = true;
@@ -147,9 +148,5 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.error = false;
     }, 5000);
-  }
-
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
   }
 }

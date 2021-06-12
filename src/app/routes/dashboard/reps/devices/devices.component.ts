@@ -11,16 +11,12 @@ import { DeviceService } from './device.service';
   templateUrl: './devices.component.html',
 })
 export class DevicesComponent implements OnInit, OnDestroy {
-  private subs = new SubSink();
-
   registerDeviceForm: FormGroup;
   editDeviceForm: FormGroup;
-
   devices: Device[] = [];
   device: Device;
   hasDevices: boolean;
   totalDevices: number;
-
   error = false;
   success = false;
   aMessage: string;
@@ -30,6 +26,7 @@ export class DevicesComponent implements OnInit, OnDestroy {
   editingDevice: boolean;
   deletingDevice: boolean;
   fsDialog: boolean;
+  private subs = new SubSink();
 
   constructor(
     private deviceService: DeviceService,
@@ -196,6 +193,10 @@ export class DevicesComponent implements OnInit, OnDestroy {
     this.deletingDevice = false;
   }
 
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
+
   private onReqSuccess(message: string): void {
     this.processing = false;
     this.success = true;
@@ -215,9 +216,5 @@ export class DevicesComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.error = false;
     }, 5000);
-  }
-
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
   }
 }

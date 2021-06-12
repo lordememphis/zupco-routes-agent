@@ -10,15 +10,13 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  private subs = new SubSink();
-
   form: FormGroup;
-
   error = false;
   aMessage: string;
   aTitle = 'Login failed';
   processing = false;
   showPassword = false;
+  private subs = new SubSink();
 
   constructor(private router: Router, private auth: AuthService) {}
 

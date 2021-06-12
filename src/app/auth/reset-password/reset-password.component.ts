@@ -10,21 +10,18 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./reset-password.component.scss'],
 })
 export class ResetPasswordComponent implements OnInit, OnDestroy {
-  private subs = new SubSink();
-
   sendTokenForm: FormGroup;
   resetPasswordForm: FormGroup;
-
   error = false;
   warning = false;
   success = false;
   processing = false;
   resetting = false;
   aMessage: string;
-
   token: string;
   showNewPassword = false;
   showMatchingPassword = false;
+  private subs = new SubSink();
 
   constructor(
     private auth: AuthService,
@@ -125,6 +122,10 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
+
   private onReqSuccess(message: string): void {
     this.processing = false;
     this.success = true;
@@ -144,9 +145,5 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.error = false;
     }, 5000);
-  }
-
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
   }
 }

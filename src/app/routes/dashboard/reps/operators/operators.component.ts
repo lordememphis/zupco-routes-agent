@@ -11,16 +11,12 @@ import { OperatorService } from './operator.service';
   templateUrl: './operators.component.html',
 })
 export class OperatorsComponent implements OnInit, OnDestroy {
-  private subs = new SubSink();
-
   editOperatorForm: FormGroup;
   registerOperatorForm: FormGroup;
-
   operators: Operator[] = [];
   operator: Operator;
   hasOperators: boolean;
   totalOperators: number;
-
   error = false;
   success = false;
   aMessage: string;
@@ -30,6 +26,7 @@ export class OperatorsComponent implements OnInit, OnDestroy {
   editingOperator: boolean;
   deletingOperator: boolean;
   fsDialog: boolean;
+  private subs = new SubSink();
 
   constructor(
     private operatorService: OperatorService,
@@ -199,6 +196,16 @@ export class OperatorsComponent implements OnInit, OnDestroy {
     );
   }
 
+  closeFsDialog(): void {
+    this.fsDialog = false;
+    this.editingOperator = false;
+    this.deletingOperator = false;
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
+
   private onReqSuccess(message: string): void {
     this.processing = false;
     this.success = true;
@@ -218,15 +225,5 @@ export class OperatorsComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.error = false;
     }, 5000);
-  }
-
-  closeFsDialog(): void {
-    this.fsDialog = false;
-    this.editingOperator = false;
-    this.deletingOperator = false;
-  }
-
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
   }
 }

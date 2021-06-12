@@ -10,20 +10,17 @@ import { OperatorService } from '../../dashboard/reps/operators/operator.service
   templateUrl: './settings.component.html',
 })
 export class SettingsComponent implements OnInit, OnDestroy {
-  private subs = new SubSink();
-
   changePasswordForm: FormGroup;
   rauth: boolean;
-
   error = false;
   warning = false;
   success = false;
   aMessage: string;
   processing = false;
-
   showPassword = false;
   showNewPassword = false;
   showMatchingPassword = false;
+  private subs = new SubSink();
 
   constructor(
     private operatorService: OperatorService,

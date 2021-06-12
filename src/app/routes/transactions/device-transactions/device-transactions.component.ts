@@ -22,11 +22,8 @@ import { TransactionService } from '../transaction.service';
   styleUrls: ['./device-transactions.component.scss'],
 })
 export class DeviceTransactionsComponent implements OnInit, OnDestroy {
-  private subs = new SubSink();
   @ViewChild('device') device: ElementRef;
-
   filterForm: FormGroup;
-
   transactions: TransactionHistory[];
   transaction: TransactionHistory;
   devices: Device[];
@@ -36,7 +33,6 @@ export class DeviceTransactionsComponent implements OnInit, OnDestroy {
   viewingTransactions = true;
   viewTransaction = false;
   pageNo = 1;
-
   error = false;
   warning = false;
   success = false;
@@ -44,10 +40,10 @@ export class DeviceTransactionsComponent implements OnInit, OnDestroy {
   aMessage: string;
   aTitle: string;
   fsDialog = false;
-
   startDate: string;
   endDate: string;
   maxDate: string;
+  private subs = new SubSink();
 
   constructor(
     private transactionService: TransactionService,
@@ -163,6 +159,10 @@ export class DeviceTransactionsComponent implements OnInit, OnDestroy {
     this.filterTransactions(event - 1);
   }
 
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
+
   private onReqSuccess(message: string): void {
     this.processing = false;
     this.success = true;
@@ -182,9 +182,5 @@ export class DeviceTransactionsComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.error = false;
     }, 5000);
-  }
-
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
   }
 }
