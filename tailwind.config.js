@@ -1,5 +1,5 @@
 require("dotenv").config();
-const enablePurge = process.env.ENABLE_PURGE || false;
+const enablePurge = !process.env.ENABLE_PURGE;
 
 module.exports = {
   purge: { enabled: enablePurge, content: ["./src/**/*.{html,ts,scss}"] },
