@@ -171,4 +171,16 @@ export class TransactionService {
       .get<{ content: Bank[] }>(`${environment.AGENT_SERVICE()}bank/0/1000`)
       .pipe(map((data) => data.content));
   }
+
+  generateMerchantTransactionsReport(
+    format: string,
+    startDate: string,
+    endDate: string
+  ): Observable<any> {
+    return this._http.get<GetResponse>(
+      `${environment.AUDIT_TRAIL_SERVICE()}audits/generate-merchant-transactions-report?reportFormat=${format}&merchantId=${
+        this._auth.agentId
+      }&startDate=${startDate}&endDate=${endDate}`
+    );
+  }
 }

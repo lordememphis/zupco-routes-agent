@@ -4,18 +4,21 @@
 
 export const environment = {
   production: false,
-  BASE_URL: '192.168.1.195:8765/',
-  OAUTH_SERVICE: function () {
+  BASE_URL: 'https://api.cashmet.co.zw/',
+  OAUTH_SERVICE(): string {
     return `${this.BASE_URL}akupay-oauth-service/api/v1/`;
   },
-  AGENT_SERVICE: function () {
+  AGENT_SERVICE(): string {
     return `${this.BASE_URL}akupay-agent-service/api/v1/`;
   },
-  TRANSACTION_SERVICE: function () {
+  TRANSACTION_SERVICE(): string {
     return `${this.BASE_URL}akupay-transaction-service/api/v1/`;
   },
-  USER_SERVICE: function () {
+  USER_SERVICE(): string {
     return `${this.BASE_URL}akupay-user-manager/api/v1/`;
+  },
+  AUDIT_TRAIL_SERVICE(): string {
+    return `${this.BASE_URL}akupay-audit-trail-service/api/v1/`;
   },
 };
 

@@ -12,7 +12,7 @@
       <div class="px-4 py-6 sm:px-0">
         <div class="w-full max-w-screen-xl">
           <div class="flex flex-col">
-            <div class="py-6 w-full">
+            <div *ngIf="false" class="py-6 w-full">
               <div>
                 <h2 class="uppercase font-semibold leading-6 text-lg text-remit-blue-900">
                   Balances
@@ -29,7 +29,7 @@
                     </h3>
                   </div>
                   <div class="mt-4">
-                    <p class="text-4xl text-white">{{accountBalance | currency:'NGN ':'symbol':'1.2-2'}}</p>
+                    <p class="text-4xl text-white">{{accountBalance | currency:'ZWL ':'symbol':'1.2-2'}}</p>
                   </div>
                 </div>
                 <div class="p-4 rounded-sm shadow bg-cool-gray-900">
@@ -39,7 +39,7 @@
                     </h3>
                   </div>
                   <div class="mt-4">
-                    <p class="text-4xl text-white">{{accountCommission | currency:'NGN ':'symbol':'1.2-2'}}</p>
+                    <p class="text-4xl text-white">{{accountCommission | currency:'ZWL ':'symbol':'1.2-2'}}</p>
                   </div>
                 </div>
               </div>
@@ -50,11 +50,11 @@
                   Statistics
                 </h2>
                 <p class="mt-1 text-sm leading-5 text-gray-600">
-                  Account devices, operators and transactions statistics
+                  Account transactions statistics
                 </p>
               </div>
               <div *ngIf="!processing" class="mt-8 grid grid-cols-3 gap-8">
-                <div class="p-4 rounded-sm shadow bg-cool-gray-900">
+                <div *ngIf="false" class="p-4 rounded-sm shadow bg-cool-gray-900">
                   <div>
                     <h3 class="font-semibold leading-6 text-xl text-white">
                       Devices
@@ -83,7 +83,7 @@
                       class="ml-2 px-3 inline-flex text-sm leading-5 font-semibold rounded-full bg-cool-gray-800 text-red-600">Blocked</span>
                   </div>
                 </div>
-                <div class="p-4 rounded-sm shadow bg-cool-gray-900">
+                <div *ngIf="false" class="p-4 rounded-sm shadow bg-cool-gray-900">
                   <div>
                     <h3 class="font-semibold leading-6 text-xl text-white">
                       Operators
@@ -128,7 +128,7 @@
                       </svg>
                       <select id="view-by" class="mt-1 py-2 border-cool-gray-600 text-cool-gray-400" #transactionType
                         (change)="onFilterAccountTransactions($event)">
-                        <option value="AGENT_TRANSFER">Agent to Agent</option>
+                        <option value="AGENT_TRANSFER">Merchant to Merchant</option>
                         <option value="CASHIN">Cash in</option>
                         <option value="CASHOUT">Cash out</option>
                         <option value="AGENT_WALLET_TO_BANK">Wallet to Bank</option>

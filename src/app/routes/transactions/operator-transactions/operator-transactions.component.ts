@@ -119,6 +119,17 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
     );
   }
 
+  downloadTransactionReport(format: string): void {
+    this.processing = true;
+
+    this._ts
+      .generateMerchantTransactionsReport(format, this.startDate, this.endDate)
+      .subscribe(
+        () => (this.processing = false),
+        () => this._onReqError('Could not generate report. Please try again')
+      );
+  }
+
   changePage(event: any) {
     this.pageNo = event;
     this.filterTransactions(event - 1);

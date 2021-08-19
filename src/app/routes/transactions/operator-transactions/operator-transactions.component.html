@@ -21,18 +21,28 @@
           </div>
           <div>
             <form [formGroup]="filterForm" class="text-right">
-              <div class="mt-4 w-full max-w-lg inline-grid grid-cols-2 gap-2">
-                <div class="text-left">
-                  <label for="search_parameter" class="block text-sm font-medium leading-5 text-gray-700">
-                    Start date</label>
-                  <input id="search_parameter" type="date" [max]="maxDate > endDate ? endDate : maxDate"
-                    (change)="filterTransactions(0)" class="mt-1 py-2" formControlName="startDate">
+              <div class="mt-4 w-full max-w-2xl inline-grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-2 gap-2">
+                  <div class="text-left">
+                    <label for="search_parameter" class="block text-sm font-medium leading-5 text-gray-700">
+                      Start date</label>
+                    <input id="search_parameter" type="date" [max]="maxDate > endDate ? endDate : maxDate"
+                           (change)="filterTransactions(0)" class="mt-1 py-2" formControlName="startDate">
+                  </div>
+                  <div class="text-left">
+                    <label for="search_parameter" class="block text-sm font-medium leading-5 text-gray-700">
+                      End date</label>
+                    <input id="search_parameter" type="date" [min]="startDate" [max]="maxDate"
+                           (change)="filterTransactions(0)" class="mt-1 py-2" formControlName="endDate">
+                  </div>
                 </div>
-                <div class="text-left">
-                  <label for="search_parameter" class="block text-sm font-medium leading-5 text-gray-700">
-                    End date</label>
-                  <input id="search_parameter" type="date" [min]="startDate" [max]="maxDate"
-                    (change)="filterTransactions(0)" class="mt-1 py-2" formControlName="endDate">
+                <div class="grid grid-cols-2 gap-2">
+                  <button (click)="downloadTransactionReport('PDF')" type="button" class="btn items-center py-2 text-white bg-cool-gray-900 shadow hover:shadow-md">
+                    Download PDF
+                  </button>
+                  <button (click)="downloadTransactionReport('CSV')" type="button" class="btn items-center py-2 text-white bg-cool-gray-900 shadow hover:shadow-md">
+                    Download CSV
+                  </button>
                 </div>
                 <!-- <div class="relative text-left">
                       <label for="search-by" class="block text-sm font-medium leading-5 text-gray-700">Search by</label>
@@ -153,7 +163,7 @@
                           </td>
                           <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                             <div class="text-sm leading-5 text-gray-500">
-                              {{t.transactionAmount | currency:'NGN ':'symbol':'1.2-2'}}
+                              {{t.transactionAmount | currency:'ZWL ':'symbol':'1.2-2'}}
                             </div>
                           </td>
                           <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
@@ -265,7 +275,7 @@
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
                       <span *ngIf="!transaction.transactionAmount">N/A</span>
                       <span *ngIf="transaction.transactionAmount">
-                        {{transaction.transactionAmount | currency:'NGN ':'symbol':'1.2-2'}}
+                        {{transaction.transactionAmount | currency:'ZWL ':'symbol':'1.2-2'}}
                       </span>
                     </dd>
                   </div>
@@ -285,7 +295,7 @@
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
                       <span *ngIf="!transaction.commission">N/A</span>
                       <span *ngIf="transaction.commission">
-                        {{transaction.commission | currency:'NGN ':'symbol':'1.2-2'}}
+                        {{transaction.commission | currency:'ZWL ':'symbol':'1.2-2'}}
                       </span>
                     </dd>
                   </div>
@@ -363,7 +373,7 @@
                     <dd class="ml-4 text-sm leading-5 text-gray-900 sm:mt-0">
                       <span *ngIf="!transaction.fee">N/A</span>
                       <span *ngIf="transaction.fee">
-                        {{transaction.fee | currency:'NGN ':'symbol':'1.2-2'}}
+                        {{transaction.fee | currency:'ZWL ':'symbol':'1.2-2'}}
                       </span>
                     </dd>
                   </div>
