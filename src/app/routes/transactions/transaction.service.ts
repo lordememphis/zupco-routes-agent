@@ -172,6 +172,33 @@ export class TransactionService {
       .pipe(map((data) => data.content));
   }
 
+  getMerchantTransactionHistory(
+    page: number,
+    limit: number,
+    startDate: string,
+    endDate: string
+  ): Observable<{
+    transactions: TransactionHistory[] | any[];
+    empty: boolean;
+    total: number;
+  }> {
+    return this._http
+      .get<GetResponse>(
+        `${environment.TRANSACTION_SERVICE()}transactions/agent/${page}/${limit}?agentId=${
+          this._auth.agentId
+        }&startDate=${startDate}&endDate=${endDate}`
+      )
+      .pipe(
+        map((data) => {
+          return {
+            transactions: data.content,
+            empty: data.empty,
+            total: data.totalElements,
+          };
+        })
+      );
+  }
+
   generateMerchantTransactionsReport(
     format: string,
     startDate: string,

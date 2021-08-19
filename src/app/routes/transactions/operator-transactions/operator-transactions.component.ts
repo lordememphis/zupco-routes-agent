@@ -56,7 +56,12 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._subs.add(
       this._ts
-        .getTransactionHistory(0, this.pageLimit, this.startDate, this.endDate)
+        .getMerchantTransactionHistory(
+          0,
+          this.pageLimit,
+          this.startDate,
+          this.endDate
+        )
         .subscribe(
           (obs) => {
             this.processing = false;
@@ -91,7 +96,7 @@ export class OperatorTransactionsComponent implements OnInit, OnDestroy {
 
     this._subs.add(
       this._ts
-        .getTransactionHistory(
+        .getMerchantTransactionHistory(
           page,
           this.pageLimit,
           this.startDate,

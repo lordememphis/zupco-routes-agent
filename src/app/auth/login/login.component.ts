@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         (authenticated) => {
           if (authenticated) {
             setTimeout(() => {
-              this._router.navigate(['dashboard']);
+              this._router.navigate(['/']);
               this.processing = false;
             }, 1000);
           } else {

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
-  CanActivate,
   ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
   RouterStateSnapshot,
   UrlTree,
-  Router,
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -24,7 +24,7 @@ export class RAuthGuard implements CanActivate {
     | boolean
     | UrlTree {
     const rauth = this._auth.rauthenticated;
-    if (!rauth) this._router.navigate(['dashboard']);
+    if (!rauth) this._router.navigate(['/']);
     return rauth;
   }
 }
