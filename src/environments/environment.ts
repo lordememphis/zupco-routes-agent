@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  BASE_URL: 'https://api.cashmet.co.zw/',
+  BASE_URL: 'https://api.metremit.co.zw/',
   OAUTH_SERVICE(): string {
     return `${this.BASE_URL}akupay-oauth-service/api/v1/`;
   },

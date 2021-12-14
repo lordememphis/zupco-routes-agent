@@ -2,13 +2,13 @@
   <div class="flex-1 flex overflow-hidden">
     <aside
       class="px-2 py-4 min-w-max-content w-72 bg-cool-gray-900 z-30 fixed inset-y-0 left-0 border-r overflow-y-auto sm:static sm:block sm:translate-x-0 sm:transition-none -translate-x-full ease-in transition-medium">
-      <div class="h-16 px-4 -mx-2">
-        <img src="../../../assets/images/metbank-logo.png" style="width: 85%;" alt="Logo">
+      <div class="h-20 px-4 -mx-2 -mt-4 bg-white border-r border-white">
+        <img src="assets/images/logo.png" class="h-full py-2" alt="Logo">
       </div>
       <div class="mt-4 flex flex-col">
         <div class="flex flex-col space-y-4">
           <div *ngIf="false" class="space-y-1">
-            <h6 class="text-xs text-cool-gray-500 font-bold uppercase tracking-wider">Dashboard</h6>
+            <h6 class="text-xs text-cool-gray-300 font-bold uppercase tracking-wider">Dashboard</h6>
             <a [routerLink]="['dashboard', 'overview']" routerLinkActive="active-route" class="route">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path
@@ -35,7 +35,7 @@
             </a>
           </div>
           <div *ngIf="false" class="space-y-1">
-            <h6 class="text-xs text-cool-gray-500 font-bold uppercase tracking-wider">Transactions</h6>
+            <h6 class="text-xs text-cool-gray-300 font-bold uppercase tracking-wider">Transactions</h6>
             <a [routerLink]="['transactions', 'cash-in']" routerLinkActive="active-route" class="route">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd"
@@ -69,7 +69,7 @@
             </a>
           </div>
           <div class="space-y-1">
-            <h6 class="text-xs text-cool-gray-500 font-bold uppercase tracking-wider">Reports</h6>
+            <h6 class="text-xs text-cool-gray-300 font-bold uppercase tracking-wider">Reports</h6>
             <a [routerLink]="['account', 'reports', 'transactions', 'merchant']" routerLinkActive="active-route"
               class="route">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
